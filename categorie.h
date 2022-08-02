@@ -7,7 +7,7 @@
 
 class Categorie {
 public:
-    explicit Categorie();
+    explicit Categorie(char n);
 
 
 private:

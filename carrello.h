@@ -7,7 +7,7 @@
 
 class Carrello {
 public:
-    explicit Carrello();
+    explicit Carrello(int max_p);
 
 
 private:

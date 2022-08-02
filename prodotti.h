@@ -4,10 +4,12 @@
 
 #ifndef INGR_ONLINE_PRODOTTI_H
 #define INGR_ONLINE_PRODOTTI_H
+#include "categorie.h"
 
-class Prodotti {
+
+class Prodotti : public Categorie{
 public:
-    explicit Prodotti();
+    explicit Prodotti(char nome, char desc, char n_c);
 
 
 private:

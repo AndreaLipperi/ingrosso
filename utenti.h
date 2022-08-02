@@ -8,7 +8,8 @@
 
 class Utenti {
 public:
-    explicit Utenti();
+    explicit Utenti(char tipo, char rag_soc, char citta, char via,
+                     char num_civ, char email, char psw, char nome_utente);
 
 
 private:

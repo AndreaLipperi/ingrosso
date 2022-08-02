@@ -4,10 +4,13 @@
 
 #ifndef INGR_ONLINE_CLIENTI_H
 #define INGR_ONLINE_CLIENTI_H
+#include "utenti.h"
 
-class Clienti {
+
+class Clienti:public Utenti{
 public:
-
+    explicit Clienti (char t, char rag_s, char citta, char via,
+                     char n_civ, char email, char psw, char n_ut);
 
 private:
 

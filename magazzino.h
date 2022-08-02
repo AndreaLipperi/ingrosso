@@ -7,7 +7,7 @@
 
 class Magazzino {
 public:
-    explicit Magazzino();
+    explicit Magazzino(int disp_p, int pr);
 
 
 private:
