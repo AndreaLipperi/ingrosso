@@ -4,7 +4,7 @@
 
 #ifndef INGR_ONLINE_FORNITORI_H
 #define INGR_ONLINE_FORNITORI_H
-#include "utenti.h"
+#include "users.h"
 
 class Fornitori: public Utenti {
 public:

@@ -3,7 +3,7 @@
 //
 
 #include "fornitori.h"
-#include "utenti.h"
+#include "users.h"
 
 
 Fornitori::Fornitori(char cat, char iban, char t, char rag_s, char citta, char via,
