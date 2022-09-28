@@ -5,14 +5,14 @@
 #ifndef INGR_ONLINE_MAGAZZINO_H
 #define INGR_ONLINE_MAGAZZINO_H
 
-class Magazzino {
+class Warehouse {
 public:
-    explicit Magazzino(int disp_p, int pr);
+    explicit Warehouse(int p_av, int pr);
 
 
 private:
-    int disp_prod;
-    int prezzo;
+    int product_availability;
+    int price;
 
 };
 

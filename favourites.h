@@ -5,9 +5,9 @@
 #ifndef INGR_ONLINE_CARRELLO_H
 #define INGR_ONLINE_CARRELLO_H
 
-class Carrello {
+class Favourites {
 public:
-    explicit Carrello(int max_p);
+    explicit Favourites(int max_p);
 
 
 private:

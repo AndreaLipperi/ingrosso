@@ -5,13 +5,13 @@
 #ifndef INGR_ONLINE_CATEGORIE_H
 #define INGR_ONLINE_CATEGORIE_H
 
-class Categorie {
+class Categories {
 public:
-    explicit Categorie(char n);
+    explicit Categories(char n);
 
 
 private:
-    char nome;
+    char name;
 
 };
 

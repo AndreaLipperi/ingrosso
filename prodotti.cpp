@@ -3,7 +3,7 @@
 //
 
 #include "prodotti.h"
-#include "categorie.h"
+#include "categories.h"
 
 
 Prodotti::Prodotti(char nome, char desc, char n_c) : Categorie(n_c), nome(nome), desc(desc)  {
