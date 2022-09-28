@@ -12,7 +12,7 @@ public:
     explicit Customers (char t, char b_name, char city, char address,
                      char email, char psw, char u_name);
 
-private:
+
 
 };
 

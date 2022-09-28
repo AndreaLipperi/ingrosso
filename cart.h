@@ -5,9 +5,9 @@
 #ifndef INGR_ONLINE_MAGAZZINO_H
 #define INGR_ONLINE_MAGAZZINO_H
 
-class Warehouse {
+class Cart {
 public:
-    explicit Warehouse(int p_av, int pr);
+    explicit Cart(int p_av, int pr);
 
 
 private:

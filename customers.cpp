@@ -7,6 +7,6 @@
 #include "users.h"
 
 
-Customers::Customers(char t, char b_name, char city, char address,
+Customers::Customers(char t, char b_name, char c, char a,
                   char email, char psw, char u_name) : Users(t,b_name,c,a,email,psw,u_name)  {
 }
