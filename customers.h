@@ -5,13 +5,14 @@
 #ifndef INGR_ONLINE_CLIENTI_H
 #define INGR_ONLINE_CLIENTI_H
 #include "users.h"
-
+#include <string>
+using namespace std;
 
 class Customers:public Users{
 public:
-    explicit Customers (char t, char b_name, char city, char address,
-                     char email, char psw, char u_name);
-
+   /* explicit Customers (string t, string b_name, string city, string address,
+                     string email, string psw, string u_name);
+*/
 
 
 };

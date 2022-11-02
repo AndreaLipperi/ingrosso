@@ -4,16 +4,17 @@
 
 #ifndef INGR_ONLINE_UTENTI_H
 #define INGR_ONLINE_UTENTI_H
-
+#include <string>
+using namespace std;
 
 class Users {
 public:
-    explicit Users(char t, char b_name, char c, char a,
-                   char email, char psw, char u_name);
+    explicit Users(string t, string b_name, string c, string a,
+                 string email, string psw, string u_name);
 
 
 private:
-    char type,business_name, city, address,
+    string type,business_name, city, address,
             email, psw, user_name;
 
 };

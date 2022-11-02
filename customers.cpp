@@ -2,11 +2,14 @@
 // Created by Matilde Tarchi on 02/08/22.
 //
 
-
 #include "customers.h"
+#include <iostream>
+#include <string>
+#include <sqlite3.h>
 #include "users.h"
 
-
-Customers::Customers(char t, char b_name, char c, char a,
-                  char email, char psw, char u_name) : Users(t,b_name,c,a,email,psw,u_name)  {
+using namespace std;
+/*Customers::Customers(string t, string b_name, string c, string a,
+                     string email, string psw, string u_name)  {
 }
+*/

@@ -5,16 +5,17 @@
 #ifndef INGR_ONLINE_FORNITORI_H
 #define INGR_ONLINE_FORNITORI_H
 #include "users.h"
-
+#include <string>
+using namespace std;
 class Providers: public Users {
 public:
-    explicit Providers(char cat, char iban, char t, char b_name,
-                       char c, char a, char email,
-                       char psw, char u_name);
+    /*explicit Providers(char cat, char iban, string t, string b_name,
+                     string c, string a, string email,
+                     string psw, string u_name);*/
 
 
 private:
-    char categories, iban;
+  char categories, iban;
 
 };
 

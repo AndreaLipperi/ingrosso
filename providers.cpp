@@ -4,10 +4,9 @@
 
 #include "providers.h"
 #include "users.h"
+#include <string>
 
-
-Providers::Providers (char cat, char iban, char t, char b_name, char c, char a,
-                  char email, char psw, char u_name) :
-                 Users(t,b_name,c,a,
-                        email,psw,u_name), categories(cat),iban(iban)  {
-}
+/*Providers::Providers (string cat, string iban, string t, string b_name, string c, string a,
+                     string email, string psw, string u_name) :
+                   categories(cat),iban(iban)  {
+}*/
