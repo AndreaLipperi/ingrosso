@@ -2,14 +2,15 @@
 #include <string>
 #include <sqlite3.h>
 #include "users.h"
+#include "categories.h"
 using namespace std;
 
 int main() {
 
-  Users* user;
-  string type,business_name, city, address,
-      email, psw, user_name;
-  cout <<"inserire dati utente\n";
+ string type,business_name, city, address,
+      email, psw, user_name, nameCat;
+ int CatID;
+ /* cout <<"inserire dati utente\n";
   cout << "Tipo: \n";
   cin >> type;
   cout << "Business Name: \n";
@@ -24,6 +25,13 @@ int main() {
   cin >> psw;
   cout << "User Name: \n";
   cin >> user_name;
-  user = new Users(type,business_name,city,address,email,psw,user_name);
-    return 0;
+  Users::add_Users(type,business_name,city,address,email,psw,user_name);
+  */
+ cout << "Id categoria da modificare: \n";
+ cin >> CatID;
+  cout << "nuovo Nome categoria: \n";
+  cin >> nameCat;
+  Categories::update_Categories(CatID,nameCat);
+  Categories::select_categories();
+  return 0;
 }

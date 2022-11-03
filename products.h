@@ -7,14 +7,8 @@
 #include "categories.h"
 
 
-class Products : public Categories{
+class Products {
 public:
-    explicit Products(char n, char desc, char c_n);
-
-
-private:
-    char name;
-    char desc;
 
 };
 

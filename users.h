@@ -9,13 +9,9 @@ using namespace std;
 
 class Users {
 public:
-    explicit Users(string t, string b_name, string c, string a,
-                 string email, string psw, string u_name);
+  static int add_Users(string type, string business_name, string city, string address,
+                 string email, string psw, string user_name);
 
-
-private:
-    string type,business_name, city, address,
-            email, psw, user_name;
 
 };
 
