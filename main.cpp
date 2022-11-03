@@ -27,11 +27,10 @@ int main() {
   cin >> user_name;
   Users::add_Users(type,business_name,city,address,email,psw,user_name);
   */
- cout << "Id categoria da modificare: \n";
+ cout << "Id categoria da cancellare: \n";
  cin >> CatID;
-  cout << "nuovo Nome categoria: \n";
-  cin >> nameCat;
-  Categories::update_Categories(CatID,nameCat);
-  Categories::select_categories();
+
+  Categories::delete_Categories(CatID);
+  Categories::select_Categories();
   return 0;
 }
