@@ -24,7 +24,7 @@ Users::Users(string t, string b_name, string c, string a,
   string sql;
 
   // Save the result of opening the file
-  rc = sqlite3_open("/Users/andrealipperi/CLionProjects/ingrosso_online/ingrosso_db.db", &db);
+  rc = sqlite3_open("/Users/matildetarchi/CLionProjects/ingrosso_online/ingrosso_db.db", &db);
 
   if( rc ){
     // Show an error message
