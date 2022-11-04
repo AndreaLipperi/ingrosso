@@ -33,6 +33,6 @@ int main() {
   cin >> CatID;
   Categories::delete_Categories(CatID);
   Categories::select_Categories();*/
-
+  Products::select_Product(3);
   return 0;
 }

@@ -64,15 +64,18 @@ int Products::select_Product(int IDcat) {
   function->open(&db,&zErrMsg);
 
 
+  sql = "SELECT count(*) AS 'Numero Prodotti disponibili' FROM 'Product'";
+  rc =sqlite3_exec(db, sql.c_str(), Products::callback, 0, &zErrMsg);
   // select sql data
   if (IDcat==0){
     sql = "SELECT Product.IDproduct, Product.Name, Product.Description, Categories.Name FROM 'Product', 'Categories' WHERE IDcat=CatID;";
   } else {
-    sql = "SELECT Product.IDproduct, Product.Name, Product.Description, Categories.Name FROM 'Product', 'Categories' WHERE IDcat = "+ to_string(IDcat)+" AND IDcat=CatID;;";
+
+    sql = "SELECT   Product.IDproduct, Product.Name, Product.Description, Categories.Name FROM 'Product', 'Categories' WHERE IDcat = "+ to_string(IDcat)+" AND IDcat=CatID;;";
   }
   // Run the SQL (convert the string to a C-String with c_str() )
 
-  rc = sqlite3_exec(db, sql.c_str(), Categories::callback, 0, &zErrMsg);
+  rc = sqlite3_exec(db, sql.c_str(), Products::callback, 0, &zErrMsg);
 
   // Close the SQL connection
   sqlite3_close(db);

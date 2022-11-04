@@ -11,7 +11,8 @@ class Users {
 public:
   static int add_Users(string type, string business_name, string city, string address,
                  string email, string psw, string user_name);
-
+  static int update_Password(string business_name, string psw);
+  static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 
 };
 
