@@ -9,9 +9,7 @@
 
 using namespace std;
 
-/*Users::Users(string t, string b_name, string c, string a,
-             string email, string psw, string u_name): type(t), business_name(b_name), city(c), address(a), email(email), psw(psw), user_name(u_name)   {
-*/
+
 int Users::add_Users(std::string type, std::string business_name, std::string city, std::string address, std::string email, std::string psw, std::string user_name) {
   // Pointer to SQLite connection
   sqlite3 *db;
