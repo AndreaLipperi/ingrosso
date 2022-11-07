@@ -7,11 +7,8 @@
 
 class Favourites {
 public:
-    explicit Favourites(int max_p);
 
 
-private:
-    const int max_prod;
 
 };
 

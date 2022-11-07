@@ -43,7 +43,7 @@ int Categories::add_Categories(std::string name) {
   return 0;
 }
 
-int Categories::select_Categories() {
+int Categories::select_all_Categories() {
   // Pointer to SQLite connection
   sqlite3 *db;
 
@@ -123,6 +123,35 @@ int Categories::delete_Categories(int CatID) {
   //query to upadate categories name
   sql="Delete from Categories WHERE CatID = "+ to_string(CatID)+";";
 
+  // Run the SQL (convert the string to a C-String with c_str() )
+
+  rc = sqlite3_exec(db, sql.c_str(), Categories::callback, 0, &zErrMsg);
+
+  // Close the SQL connection
+  sqlite3_close(db);
+
+  return 0;
+}
+int Categories::select_one_Categories(int CatID) {
+  // Pointer to SQLite connection
+  sqlite3 *db;
+
+  // Save any error messages
+  char *zErrMsg = 0;
+
+  // Save the result of opening the file
+  int rc;
+
+  // Save any SQL
+  string sql;
+
+  function_db *function;
+  function->open(&db,&zErrMsg);
+
+
+  // select sql data
+
+  sql = "SELECT * FROM 'Categories' WHERE CatID = "+ to_string(CatID)+";";
   // Run the SQL (convert the string to a C-String with c_str() )
 
   rc = sqlite3_exec(db, sql.c_str(), Categories::callback, 0, &zErrMsg);

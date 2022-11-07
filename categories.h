@@ -9,10 +9,11 @@ using namespace std;
 class Categories {
 public:
   static int add_Categories(string name);
-  static int select_Categories();
+  static int select_all_Categories();
   static int callback(void *NotUsed, int argc, char **argv, char **azColName);
   static int update_Categories(int CatID, string name);
   static int delete_Categories(int CatID);
+  static int select_one_Categories(int CatID);
 };
 
 

@@ -13,7 +13,8 @@ public:
                  string email, string psw, string user_name);
   static int update_Password(string business_name, string psw);
   static int callback(void *NotUsed, int argc, char **argv, char **azColName);
-
+  static int delete_Users(string business_name);
+  static int access_Users(string email, string psw);
 };
 
 

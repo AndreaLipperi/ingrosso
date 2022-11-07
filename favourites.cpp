@@ -4,6 +4,3 @@
 
 #include "favourites.h"
 
-
-Favourites::Favourites(int max_p) :  max_prod(max_p) {
-}

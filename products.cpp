@@ -47,7 +47,7 @@ int Products::add_Product(std::string name, std::string description, int IDCat) 
   return 0;
 }
 
-int Products::select_Product(int IDcat) {
+int Products::select_all_Product(int IDcat) {
   // Pointer to SQLite connection
   sqlite3 *db;
 
@@ -64,15 +64,11 @@ int Products::select_Product(int IDcat) {
   function->open(&db,&zErrMsg);
 
 
-  sql = "SELECT count(*) AS 'Numero Prodotti disponibili' FROM 'Product'";
+  sql = "SELECT count(*) AS 'Numero Prodotti disponibili' FROM 'Products'";
   rc =sqlite3_exec(db, sql.c_str(), Products::callback, 0, &zErrMsg);
   // select sql data
-  if (IDcat==0){
-    sql = "SELECT Product.IDproduct, Product.Name, Product.Description, Categories.Name FROM 'Product', 'Categories' WHERE IDcat=CatID;";
-  } else {
+  sql = "SELECT   Products.IDproduct, Products.Name, Products.Description, Categories.Name FROM 'Products', 'Categories' WHERE IDcat = "+ to_string(IDcat)+" AND IDcat=CatID;;";
 
-    sql = "SELECT   Product.IDproduct, Product.Name, Product.Description, Categories.Name FROM 'Product', 'Categories' WHERE IDcat = "+ to_string(IDcat)+" AND IDcat=CatID;;";
-  }
   // Run the SQL (convert the string to a C-String with c_str() )
 
   rc = sqlite3_exec(db, sql.c_str(), Products::callback, 0, &zErrMsg);
@@ -101,7 +97,7 @@ int Products::update_Product(int prodID, std::string name, std::string descripti
 
   //query to upadate categories name
   sql="UPDATE Products SET Name = '"+name+"', Description = '"+description+"', IDcat = "+ to_string(IDcat)+" WHERE IDproduct = "+ to_string(prodID)+";";
-
+  cout << sql;
   // Run the SQL (convert the string to a C-String with c_str() )
 
   rc = sqlite3_exec(db, sql.c_str(), Categories::callback, 0, &zErrMsg);
@@ -134,6 +130,35 @@ int Products::delete_Product(int prodID) {
   // Run the SQL (convert the string to a C-String with c_str() )
 
   rc = sqlite3_exec(db, sql.c_str(), Categories::callback, 0, &zErrMsg);
+
+  // Close the SQL connection
+  sqlite3_close(db);
+
+  return 0;
+}
+int Products::select_one_Product(int prodID) {
+  // Pointer to SQLite connection
+  sqlite3 *db;
+
+  // Save any error messages
+  char *zErrMsg = 0;
+
+  // Save the result of opening the file
+  int rc;
+
+  // Save any SQL
+  string sql;
+
+  function_db *function;
+  function->open(&db,&zErrMsg);
+
+
+  // select sql data
+  sql = "SELECT   Products.IDproduct, Products.Name, Products.Description, Categories.Name FROM 'Products', 'Categories' WHERE IDproduct = "+ to_string(prodID)+"  AND IDcat=CatID;;";
+
+  // Run the SQL (convert the string to a C-String with c_str() )
+
+  rc = sqlite3_exec(db, sql.c_str(), Products::callback, 0, &zErrMsg);
 
   // Close the SQL connection
   sqlite3_close(db);
