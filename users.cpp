@@ -1,141 +1,60 @@
 //
-// Created by Matilde Tarchi on 02/08/22.
+// Created by Andrea Lipperi on 14/11/22.
 //
-#include <iostream>
+
 #include "users.h"
-#include "function_db.h"
 #include <string>
-#include <sqlite3.h>
-
+#include <iostream>
 using namespace std;
-int num_result;
-//funzione per stampare le select
-int Users::callback(void *NotUsed, int argc, char **argv, char **azColName) {
-  function_db *callback;
-  callback->callback(&NotUsed,argc,*&argv,*&azColName);
-  string num = *argv;
-  num_result =  stoi(num);
-  return 0;
+
+Users::Users() {}
+
+Users::Users(std::string new_type, string new_bus_name, std::string new_city, std::string new_address, std::string new_email, std::string new_pass, std::string new_username) {
+  type = new_type;
+  business_name= new_bus_name;
+  address = new_address;
+  city = new_city;
+  email = new_email;
+  psw = new_pass;
+  username = new_username;
 }
 
-int Users::add_Users(std::string type, std::string business_name, std::string city, std::string address, std::string email, std::string psw, std::string user_name) {
-  // Pointer to SQLite connection
-  sqlite3 *db;
-
-  // Save any error messages
-  char *zErrMsg = 0;
-
-  // Save the result of opening the file
-  int rc;
-
-  function_db *open;
-  open->open(&db,&zErrMsg);
-
-  // Save any SQL
-  string sql;
-  //query per vedere se l'utente già esiste
-  sql ="Select count(*) AS 'Numero Utenti' FROM 'Users' WHERE Business_Name='"+business_name+"' OR Email='"+email+"'";
-
-  rc = sqlite3_exec(db, sql.c_str(), Users::callback, 0, &zErrMsg);
-  if (num_result>0){
-    cout << "utente esistente, email o business name già utilizzati;\n";
+void Users::output(ostream& outs) {
+  if (&outs == &cout) {
+    outs << "Type: " << type << endl;
+    outs << "Business Name: " << business_name << endl;
+    outs << "Address: " << address << endl;
+    outs << "City: " << city << endl;
+    outs << "email: " << email << endl;
+    outs << "username: " << username << endl;
   } else {
-    cout << "registrazione effettuata\n";
-
-    sql = "INSERT INTO Users ('Type', 'Business_Name', 'City', 'Address', 'Email', 'Psw', 'Username') VALUES ('" +
-          type + "','" + business_name + "', '" + city + "', '" + address +
-          "', '" + email + "', '" + psw + "', '" + user_name + "');";
-
-    // Run the SQL (convert the string to a C-String with c_str() )
-    rc = sqlite3_exec(db, sql.c_str(), 0, 0, &zErrMsg);
+    outs <<  type << endl;
+    outs <<  business_name << endl;
+    outs <<  address << endl;
+    outs <<  city << endl;
+    outs <<  email << endl;
+    outs <<  username << endl;
   }
-  sqlite3_close(db);
-  return 0;
 }
-int Users::update_Password(std::string business_name, std::string psw) {
-  // Pointer to SQLite connection
-  sqlite3 *db;
-
-  // Save any error messages
-  char *zErrMsg = 0;
-
-  // Save the result of opening the file
-  int rc;
-
-  function_db *open;
-  open->open(&db,&zErrMsg);
-
-  // Save any SQL
-  string sql;
-
-  sql = "SELECT count(*) AS 'Numero Utenti' FROM 'Users' WHERE Business_Name='"+business_name+"';";
-  rc = sqlite3_exec(db, sql.c_str(), Users::callback, 0, &zErrMsg);
-  if (num_result==0){
-    cout << "utente non esistente, forse business name sbagliato;\n";
-  } else {
-    sql = "UPDATE Users SET Psw = '"+psw+"' WHERE Business_name = '"+business_name+"';";
-    rc = sqlite3_exec(db, sql.c_str(), Users::callback, 0, &zErrMsg);
-    cout << "password modificata con successo";
+void Users::input(istream& ins) {
+  if (&ins == &cin) {
+    if (ins.peek() == '\n')ins.ignore();
+    cout << "Type: ";
+    getline(ins,type);
+    if (ins.peek() == '\n')ins.ignore();
+    cout << "Enter business name: ";
+    getline(ins,business_name);
+    cout << "Enter Address: ";
+    if (ins.peek() == '\n')ins.ignore();
+    getline(ins,address);
+    cout << "Enter email: ";
+    if (ins.peek() == '\n')ins.ignore();
+    getline(ins,email);
+    cout << "Enter password: ";
+    if (ins.peek() == '\n')ins.ignore();
+    getline(ins,psw);
+    cout << "Enter username: ";
+    if (ins.peek() == '\n')ins.ignore();
+    getline(ins,username);
   }
-
-  sqlite3_close(db);
-  return 0;
-}
-int Users::delete_Users(std::string business_name) {
-  // Pointer to SQLite connection
-  sqlite3 *db;
-
-  // Save any error messages
-  char *zErrMsg = 0;
-
-  // Save the result of opening the file
-  int rc;
-
-  // Save any SQL
-  string sql;
-
-  function_db *function;
-  function->open(&db,&zErrMsg);
-
-  //query to upadate categories name
-  sql="Delete from Users WHERE Business_Name = '"+business_name+"';";
-
-  // Run the SQL (convert the string to a C-String with c_str() )
-
-  rc = sqlite3_exec(db, sql.c_str(), Users::callback, 0, &zErrMsg);
-
-  // Close the SQL connection
-  sqlite3_close(db);
-
-  return 0;
-}
-int Users::access_Users(std::string email, std::string psw) {
-  // Pointer to SQLite connection
-  sqlite3 *db;
-
-  // Save any error messages
-  char *zErrMsg = 0;
-
-  // Save the result of opening the file
-  int rc;
-
-  function_db *open;
-  open->open(&db,&zErrMsg);
-
-  // Save any SQL
-  string sql;
-
-  sql = "SELECT count(*) AS 'Numero Utenti' FROM 'Users' WHERE Email='"+email+"' AND Psw = '"+psw+"';";
-
-  rc = sqlite3_exec(db, sql.c_str(), Users::callback, 0, &zErrMsg);
-
-  sqlite3_close(db);
-  if (num_result==0){
-    cout << "utente non esistente, forse email o password sbagliate;\n";
-    return 0;
-  } else {
-    cout << "accesso effettuato\n";
-    return 1;
-  }
-
 }

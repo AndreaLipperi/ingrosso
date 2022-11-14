@@ -8,8 +8,9 @@ find_package(wxWidgets REQUIRED net gl core base media)
 find_package(SQLite3 REQUIRED net gl core base media)
 include(${wxWidgets_USE_FILE})
 
-add_executable(ingrosso_online main.cpp users.h customers.h providers.h cart.h favourites.h products.h categories.h users.cpp customers.cpp providers.cpp cart.cpp favourites.cpp products.cpp categories.cpp function_db.cpp function_db.h)
 
+add_executable(ingrosso_online main.cpp users.h customers.h providers.h cart.h favourites.h products.h categories.h users.cpp customers.cpp providers.cpp cart.cpp favourites.cpp products.cpp categories.cpp database.h database.cpp)
 
 target_link_libraries(ingrosso_online ${wxWidgets_LIBRARIES})
 target_link_libraries(ingrosso_online ${SQLite3_LIBRARIES})
+

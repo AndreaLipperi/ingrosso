@@ -4,19 +4,53 @@
 
 #ifndef INGR_ONLINE_UTENTI_H
 #define INGR_ONLINE_UTENTI_H
+
 #include <string>
 using namespace std;
-
 class Users {
 public:
-  static int add_Users(string type, string business_name, string city, string address,
-                 string email, string psw, string user_name);
-  static int update_Password(string business_name, string psw);
-  static int callback(void *NotUsed, int argc, char **argv, char **azColName);
-  static int delete_Users(string business_name);
-  static int access_Users(string email, string psw);
+  Users();
+  Users(std::string new_type, string new_bus_name, std::string new_city, string new_address, string new_email, string new_pass, string new_username);
+  string get_type() {
+    return type;
+  }
+  string get_bus_name() {
+    return business_name;
+  }
+  string get_address() {
+    return address;
+  }
+  string get_city() {
+    return city;
+  }
+  string get_email() {
+    return email;
+  }
+  string get_psw() {
+    return psw;
+  }
+  string get_username() {
+    return username;
+  }
+  void output(ostream& outs);
+  void input(istream& ins);
+  friend ostream& operator<<(ostream& outs, Users& tmp) {
+    tmp.output(outs);
+    return outs;
+  }
+  friend istream& operator>>(istream& ins, Users& tmp) {
+    tmp.input(ins);
+    return ins;
+  }
+private:
+  std::string type;
+  string business_name;
+  std::string address;
+  std::string city;
+  std::string email;
+  std::string psw;
+  std::string username;
 };
-
 
 
 #endif //INGR_ONLINE_UTENTI_H
