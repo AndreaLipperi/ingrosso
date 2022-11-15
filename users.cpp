@@ -3,9 +3,9 @@
 //
 
 #include "users.h"
-#include "tableUsersDB.h"
-#include <string>
+#include "tableUsers.h"
 #include <iostream>
+#include <string>
 using namespace std;
 
 Users::Users() {}

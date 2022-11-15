@@ -2,8 +2,8 @@
 // Created by Andrea Lipperi on 14/11/22.
 //
 
-#ifndef INGROSSO_DB_DB_TABLEUSERSDB_H
-#define INGROSSO_DB_DB_TABLEUSERSDB_H
+#ifndef INGROSSO_DB_DB_TABLEUSERS_H
+#define INGROSSO_DB_DB_TABLEUSERS_H
 
 #include <string>
 #include "users.h"
@@ -33,4 +33,4 @@ private:
 
 
 
-#endif // INGROSSO_DB_DB_TABLEUSERSDB_H
+#endif // INGROSSO_DB_DB_TABLEUSERS_H
