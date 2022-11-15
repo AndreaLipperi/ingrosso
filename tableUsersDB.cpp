@@ -2,28 +2,30 @@
 // Created by Andrea Lipperi on 14/11/22.
 //
 
-#include "database.h"
-#include <string>
+#include "tableUsersDB.h"
 #include <fstream>
 #include <iostream>
+#include <string>
+#define accesso 0
+#define registrazione 1
 using namespace std;
 
-Database::Database() {
-  used =0;
+TableUsers::TableUsers() {
+  used = 0;
   capacity = 5;
   data = new Users[capacity];
 }
-Database::Database(const Database &other) {
+TableUsers::TableUsers(const TableUsers &other) {
   used = other.used;
   capacity = other.capacity;
-  data = data = new Users[capacity];
+  data = new Users[capacity];
   copy(other.data, other.data+used, data);
 }
-Database::~Database() {
+TableUsers::~TableUsers() {
   delete []data;
 }
 
-void Database::operator=(const Database &other) {
+void TableUsers::operator=(const TableUsers &other) {
   if (&other == this) {
     return;
   }
@@ -33,7 +35,7 @@ void Database::operator=(const Database &other) {
   data = new Users[capacity];
   copy(other.data, other.data+used, data);
 }
-void Database::make_bigger() {
+void TableUsers::make_bigger() {
   Users *tmp;
   tmp = new Users[capacity + 5];
   copy(data, data+used,tmp);
@@ -41,20 +43,35 @@ void Database::make_bigger() {
   data = tmp;
   capacity +=5;
 }
-void Database::search(string email) {
+int TableUsers::access(string email, string psw, int control) {
+  //control =0 accesso normale
+  //control = 1 per controllo se utente già esistente in caso di registrazione
   int num_found =0;
-  for (int i=0; i<used; i++) {
-    if (data[i].get_email() == email) {
-      cout << "found!" << endl;
-      data[i].output(cout);
-      num_found++;
+  if (control==accesso) {
+    for (int i = 0; i < used; i++) {
+      if (data[i].get_email() == email && data[i].get_psw() == psw) {
+        cout << "utente esistente!" << endl;
+        num_found++;
+      }
+    }
+    if (num_found == 0) {
+      cout << "No user found" << endl;
+    }
+  } else if(control==registrazione){
+    for (int i = 0; i < used; i++) {
+      if (data[i].get_email() == email) {
+        num_found++;
+      }
+    }
+    if (num_found == 0) {
+      return 0;
+    } else {
+      return 1;
     }
   }
-  if (num_found == 0) {
-    cout << "No employee found" << endl;
-  }
+  return 0;
 }
-void Database::search_bus_name(string business_name) {
+/*void Database::search_bus_name(string business_name) {
   int num_found =0;
   for (int i=0; i<used; i++) {
     if (data[i].get_bus_name() == business_name) {
@@ -66,20 +83,15 @@ void Database::search_bus_name(string business_name) {
   if (num_found == 0) {
     cout << "No employee found" << endl;
   }
-}
-void Database::add(const Users& emp) {
+}*/
+void TableUsers::add(const Users& emp) {
   if (used>=capacity) {
     make_bigger();
   }
   data[used]= emp;
   used++;
 }
-void Database::display_all() {
-  for (int i=0; i<used; i++) {
-    data[i].output(cout);
-  }
-}
-void Database::remove(string business_name) {
+void TableUsers::remove(string business_name) {
   for (int i=0; i<used; i++) {
     if (data[i].get_bus_name() == business_name) {
       data[i] = data[used-1];
@@ -87,13 +99,13 @@ void Database::remove(string business_name) {
     }
   }
 }
-void Database::save(ostream &outs) {
+void TableUsers::save(ostream &outs) {
   sort_email();
   for (int i=0; i<used; i++) {
     outs << data[i];
   }
 }
-void Database::load(istream &ins) {
+void TableUsers::load(istream &ins) {
   Users tmp;
   while (ins >> tmp) {
     if (used>=capacity) {
@@ -103,7 +115,7 @@ void Database::load(istream &ins) {
     used++;
   }
 }
-void Database::sort_email() {
+void TableUsers::sort_email() {
   bool done = false;
   Users tmp;
   while(!done) {
@@ -118,7 +130,7 @@ void Database::sort_email() {
     }
   }
 }
-void Database::sort_bus_name() {
+void TableUsers::sort_bus_name() {
   bool done = false;
   Users tmp;
   while(!done) {
@@ -131,5 +143,24 @@ void Database::sort_bus_name() {
         data[i+1] = tmp;
       }
     }
+  }
+}
+void TableUsers::changePsw(string email) {
+  int num_result = 0;
+  int save;
+  for (int i=0; i<used; i++) {
+    if (data[i].get_email() == email) {
+      cout << "Employee found!" << endl;
+      data[i].output(cout);
+      num_result++;
+      save=i;
+      i=used;
+    }
+  }
+  if (num_result>0) {
+    string new_psw;
+    cout << "Enter new password: ";
+    cin >> new_psw;
+    data[save].set_psw(new_psw);
   }
 }

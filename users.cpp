@@ -3,6 +3,7 @@
 //
 
 #include "users.h"
+#include "tableUsersDB.h"
 #include <string>
 #include <iostream>
 using namespace std;

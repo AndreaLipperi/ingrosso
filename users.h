@@ -42,6 +42,9 @@ public:
     tmp.input(ins);
     return ins;
   }
+  void set_psw(string new_psw){
+    Users::psw=new_psw;
+  }
 private:
   std::string type;
   string business_name;
