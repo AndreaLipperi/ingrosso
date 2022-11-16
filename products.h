@@ -7,7 +7,7 @@
 #include <string>
 #include "tableCategories.h"
 using namespace std;
-class Products : public TabelCategories {
+class Products : public TableCategories {
 public:
   Products();
   Products(int new_id,std::string new_name, string new_description, int new_id_cat);
@@ -25,7 +25,7 @@ public:
   }
 
   string get_cat_name(int id_cat){
-    return TabelCategories::select_name(id_cat);
+    return TableCategories::select_name(id_cat);
   }
   void output(ostream& outs);
   void input(istream& ins);

@@ -152,3 +152,15 @@ void TableProducts::changeData(int id) {
     data[save].set_IDcat(new_id_cat);
   }
 }
+string TableProducts::select_name(int id_prod) {
+  int num_result = 0;
+  int save;
+  for (int i=0; i<used; i++) {
+    if (data[i].get_id() == id_prod) {
+      num_result++;
+      save=i;
+      i=used;
+    }
+  }
+  return data[save].get_name();
+}

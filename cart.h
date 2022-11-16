@@ -5,16 +5,65 @@
 #ifndef INGR_ONLINE_MAGAZZINO_H
 #define INGR_ONLINE_MAGAZZINO_H
 
-class Cart {
+#include <string>
+#include "tableProducts.h"
+#include "tableUsers.h"
+using namespace std;
+class Cart : public TableUsers, public TableProducts{
 public:
-    explicit Cart(int p_av, int pr);
-
+  Cart();
+  Cart(int new_id, int new_quantity, int new_id_prod, string new_id_user, string new_id_prov);
+  int get_id() {
+    return ID;
+  }
+  int get_quantity() {
+    return quantity;
+  }
+  int get_id_prod(){
+    return IDprod;
+  }
+  string get_id_user(){
+    return IDuser;
+  }
+  string get_id_prov(){
+    return IDprovider;
+  }
+  string get_prod_name(int id_prod){
+    return TableProducts::select_name(id_prod);
+  }
+  string get_prov_name(string id_prov) {
+    return TableUsers::select_username(id_prov);
+  }
+  void output(ostream& outs);
+  void input(istream& ins);
+  void set_name(int new_quantity){
+    Cart::quantity=new_quantity;
+  }
+  void set_IDprod(int new_id_prod){
+    Cart::IDprod=new_id_prod;
+  }
+  void set_IDuser(string new_id_user){
+    Cart::IDuser=new_id_user;
+  }
+void set_IDprov(string new_id_prov){
+  Cart::IDprovider=new_id_prov;
+}
 
 private:
-    int product_availability;
-    int price;
-
+    int ID;
+    int quantity;
+    int IDprod;
+    string IDuser;
+    string IDprovider;
 };
 
+ostream& operator<<(ostream& outs, Cart& tmp) {
+  tmp.output(outs);
+  return outs;
+}
+istream& operator>>(istream& ins, Cart& tmp) {
+  tmp.input(ins);
+  return ins;
+}
 
 #endif //INGR_ONLINE_MAGAZZINO_H

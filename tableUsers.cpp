@@ -43,7 +43,7 @@ void TableUsers::make_bigger() {
   data = tmp;
   capacity +=5;
 }
-int TableUsers::access(string email, string psw, int control) {
+int TableUsers::access_reg(string email, string psw, int control) {
   //control =0 accesso normale
   //control = 1 per controllo se utente già esistente in caso di registrazione
   int num_found =0;
@@ -71,19 +71,6 @@ int TableUsers::access(string email, string psw, int control) {
   }
   return 0;
 }
-/*void Database::search_bus_name(string business_name) {
-  int num_found =0;
-  for (int i=0; i<used; i++) {
-    if (data[i].get_bus_name() == business_name) {
-      cout << "Employee found!" << endl;
-      data[i].output(cout);
-      num_found++;
-    }
-  }
-  if (num_found == 0) {
-    cout << "No employee found" << endl;
-  }
-}*/
 void TableUsers::add(const Users& emp) {
   if (used>=capacity) {
     make_bigger();
@@ -162,4 +149,15 @@ void TableUsers::changePsw(string email) {
     cin >> new_psw;
     data[save].set_psw(new_psw);
   }
+}
+string TableUsers::select_username(std::string business_name) {
+  int save;
+  for (int i=0; i<used; i++) {
+    if (data[i].get_bus_name() == business_name) {
+      cout << data[i].get_username()<< endl;
+      save=i;
+      i=used;
+    }
+  }
+  return data[save].get_username();
 }

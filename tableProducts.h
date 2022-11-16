@@ -15,6 +15,7 @@ public :
   void operator =(const TableProducts& other);
   void display(int id_cat);
   void add(const Products& prod);
+  string select_name(int id_prod);
   void remove(int id);
   void changeData(int id);
   void save(ostream& outs);
