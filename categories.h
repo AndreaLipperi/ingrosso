@@ -21,6 +21,9 @@ class Categories {
     void set_name(string new_name){
       Categories::name=new_name;
     }
+    void set_id(int new_id) {
+      Categories::ID=new_id;
+    }
   private:
     int ID;
     string name;
