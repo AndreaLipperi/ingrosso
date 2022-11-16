@@ -2,8 +2,8 @@
 // Created by Andrea Lipperi on 16/11/22.
 //
 
-#ifndef INGROSSO_DB_DB_TABLEPRODUCTS_H
-#define INGROSSO_DB_DB_TABLEPRODUCTS_H
+#ifndef INGROSSO_DB_DB_PRODUCTSMETHODS_H
+#define INGROSSO_DB_DB_PRODUCTSMETHODS_H
 
 #include <string>
 #include "products.h"
@@ -30,4 +30,4 @@ private:
   int used;
 };
 
-#endif // INGROSSO_DB_DB_TABLEPRODUCTS_H
+#endif // INGROSSO_DB_DB_PRODUCTSMETHODS_H

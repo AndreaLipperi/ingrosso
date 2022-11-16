@@ -2,7 +2,7 @@
 // Created by Andrea Lipperi on 14/11/22.
 //
 
-#include "tableCategories.h"
+#include "categoriesMethods.h"
 #include <fstream>
 #include <iostream>
 #include <string>

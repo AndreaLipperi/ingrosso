@@ -2,7 +2,7 @@
 // Created by Andrea Lipperi on 16/11/22.
 //
 
-#include "tableFavourites.h"
+#include "favouritesMethods.h"
 #include <fstream>
 #include <iostream>
 #include <string>

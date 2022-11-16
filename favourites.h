@@ -5,9 +5,9 @@
 #ifndef INGR_ONLINE_CARRELLO_H
 #define INGR_ONLINE_CARRELLO_H
 
+#include "productsMethods.h"
+#include "usersMethods.h"
 #include <string>
-#include "tableProducts.h"
-#include "tableUsers.h"
 using namespace std;
 class Favourites : public TableUsers, public TableProducts{
 public:

@@ -5,9 +5,9 @@
 #ifndef INGR_ONLINE_MAGAZZINO_H
 #define INGR_ONLINE_MAGAZZINO_H
 
+#include "productsMethods.h"
+#include "usersMethods.h"
 #include <string>
-#include "tableProducts.h"
-#include "tableUsers.h"
 using namespace std;
 class Cart : public TableUsers, public TableProducts{
 public:

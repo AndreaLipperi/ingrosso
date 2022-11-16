@@ -4,8 +4,8 @@
 
 #ifndef INGR_ONLINE_PRODOTTI_H
 #define INGR_ONLINE_PRODOTTI_H
+#include "categoriesMethods.h"
 #include <string>
-#include "tableCategories.h"
 using namespace std;
 class Products : public TableCategories {
 public:
