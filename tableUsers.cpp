@@ -151,7 +151,6 @@ void TableUsers::changePsw(string email) {
   for (int i=0; i<used; i++) {
     if (data[i].get_email() == email) {
       cout << "Employee found!" << endl;
-      data[i].output(cout);
       num_result++;
       save=i;
       i=used;
