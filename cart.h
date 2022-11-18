@@ -36,7 +36,7 @@ public:
   }
   void output(ostream& outs);
   void input(istream& ins);
-  void set_name(int new_quantity){
+  void set_quantity(int new_quantity){
     Cart::quantity=new_quantity;
   }
   void set_IDprod(int new_id_prod){
