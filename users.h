@@ -32,8 +32,6 @@ public:
   string get_username() {
     return username;
   }
-  void output(ostream& outs);
-  void input(istream& ins);
 
   void set_psw(string new_psw){
     Users::psw=new_psw;
@@ -47,13 +45,5 @@ private:
   std::string psw;
   std::string username;
 };
-ostream& operator<<(ostream& outs, Users& tmp) {
-  tmp.output(outs);
-  return outs;
-}
-istream& operator>>(istream& ins, Users& tmp) {
-  tmp.input(ins);
-  return ins;
-}
 
 #endif //INGR_ONLINE_UTENTI_H

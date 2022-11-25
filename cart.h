@@ -5,7 +5,7 @@
 #ifndef INGR_ONLINE_MAGAZZINO_H
 #define INGR_ONLINE_MAGAZZINO_H
 
-#include "productsMethods.h"
+#include "subcategoriesMethods.h"
 #include "usersMethods.h"
 #include <string>
 using namespace std;
@@ -34,8 +34,6 @@ public:
   string get_prov_name(string id_prov) {
     return TableUsers::select_username(id_prov);
   }
-  void output(ostream& outs);
-  void input(istream& ins);
   void set_quantity(int new_quantity){
     Cart::quantity=new_quantity;
   }
@@ -56,14 +54,5 @@ private:
     string IDuser;
     string IDprovider;
 };
-
-ostream& operator<<(ostream& outs, Cart& tmp) {
-  tmp.output(outs);
-  return outs;
-}
-istream& operator>>(istream& ins, Cart& tmp) {
-  tmp.input(ins);
-  return ins;
-}
 
 #endif //INGR_ONLINE_MAGAZZINO_H

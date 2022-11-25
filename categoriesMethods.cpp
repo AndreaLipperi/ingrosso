@@ -41,11 +41,6 @@ void TableCategories::make_bigger() {
   data = tmp;
   capacity +=5;
 }
-void TableCategories::display() {
-    for (int i=0; i<used; i++) {
-      data[i].output(cout);
-    }
-}
 void TableCategories::add(const Categories& cat) {
   if (used>=capacity) {
     make_bigger();
@@ -59,22 +54,6 @@ void TableCategories::remove(int id) {
       data[i] = data[used-1];
       used++;
     }
-  }
-}
-void TableCategories::save(ostream &outs) {
-  sort_id();
-  for (int i=0; i<used; i++) {
-    outs << data[i];
-  }
-}
-void TableCategories::load(istream &ins) {
-  Categories tmp;
-  while (ins >> tmp) {
-    if (used>=capacity) {
-      make_bigger();
-    }
-    data[used] = tmp;
-    used++;
   }
 }
 void TableCategories::sort_id() {

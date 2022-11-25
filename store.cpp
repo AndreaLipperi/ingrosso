@@ -22,23 +22,3 @@ Store::Store(int new_id,int new_quantity, int new_id_prod, int new_price, string
   description_prod=new_desc;
   IDprovider=new_id_prov;
 }
-
-void Store::output(ostream& outs) {
-  /*if (&outs == &cout) {
-    outs << "ID: " << ID << endl;
-    outs << "quantity: " << name << endl;
-  } else {
-    outs <<  ID << endl;
-    outs <<  name << endl;
-  }*/
-}
-void Store::input(istream& ins) {
-  /*if (&ins == &cin) {
-    if (ins.peek() == '\n')ins.ignore();
-    cout << "ID: ";
-    ins >> ID;
-    if (ins.peek() == '\n')ins.ignore();
-    cout << "Name: ";
-    getline(ins,name);
-  }*/
-}

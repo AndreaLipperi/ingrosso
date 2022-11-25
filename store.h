@@ -4,7 +4,7 @@
 
 #ifndef INGROSSO_DB_DB_STORE_H
 #define INGROSSO_DB_DB_STORE_H
-#include "productsMethods.h"
+#include "subcategoriesMethods.h"
 #include "usersMethods.h"
 #include <string>
 using namespace std;
@@ -38,8 +38,6 @@ public:
   string get_prov_name(string id_prov) {
     return TableUsers::select_username(id_prov);
   }
-  void output(ostream& outs);
-  void input(istream& ins);
   void set_quantity(int new_quantity){
     Store::available_quantity=new_quantity;
   }
@@ -59,13 +57,5 @@ private:
   string description_prod;
   string IDprovider;
 };
-ostream& operator<<(ostream& outs, Store& tmp) {
-  tmp.output(outs);
-  return outs;
-}
-istream& operator>>(istream& ins, Store& tmp) {
-  tmp.input(ins);
-  return ins;
-}
 
 #endif // INGROSSO_DB_DB_STORE_H

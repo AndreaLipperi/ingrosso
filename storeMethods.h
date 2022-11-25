@@ -15,7 +15,6 @@ public :
   ~TableStore();
   TableStore(const TableStore& other);
   void operator =(const TableStore& other);
-  void display(int id_prod);
   void add(const Store& store);
   void remove(int id);
   void changeQuantity(int id_prod, string id_prov);

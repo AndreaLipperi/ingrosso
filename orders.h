@@ -5,7 +5,7 @@
 #ifndef INGROSSO_DB_DB_ORDERS_H
 #define INGROSSO_DB_DB_ORDERS_H
 
-#include "productsMethods.h"
+#include "subcategoriesMethods.h"
 #include "usersMethods.h"
 #include <string>
 using namespace std;
@@ -43,8 +43,6 @@ public:
   string get_prov_name(string id_prov) {
     return TableUsers::select_username(id_prov);
   }
-  void output(ostream& outs);
-  void input(istream& ins);
   void set_status(string new_status){
     Orders::status=new_status;
   }
@@ -59,12 +57,4 @@ private:
   string IDprovider;
 };
 
-ostream& operator<<(ostream& outs, Orders& tmp) {
-  tmp.output(outs);
-  return outs;
-}
-istream& operator>>(istream& ins, Orders& tmp) {
-  tmp.input(ins);
-  return ins;
-}
 #endif // INGROSSO_DB_DB_ORDERS_H

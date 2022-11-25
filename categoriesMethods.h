@@ -14,13 +14,10 @@ public :
   ~TableCategories();
   TableCategories(const TableCategories& other);
   void operator =(const TableCategories& other);
-  void display();
   void add(const Categories& cat);
   void remove(int id);
   string select_name(int id);
   void changeName(int id);
-  void save(ostream& outs);
-  void load(istream& ins);
   void sort_id();
   void sort_name();
 private:

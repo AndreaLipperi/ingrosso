@@ -24,8 +24,6 @@ public:
   string get_cat_name(int id_cat){
     return TableCategories::select_name(id_cat);
   }
-  void output(ostream& outs);
-  void input(istream& ins);
   void set_name(string new_name){
     Products::name=new_name;
   }
@@ -37,14 +35,5 @@ private:
   string name;
   int IDcat;
 };
-ostream& operator<<(ostream& outs, Products& tmp) {
-  tmp.output(outs);
-  return outs;
-}
-istream& operator>>(istream& ins, Products& tmp) {
-  tmp.input(ins);
-  return ins;
-}
-
 
 #endif //INGR_ONLINE_PRODOTTI_H

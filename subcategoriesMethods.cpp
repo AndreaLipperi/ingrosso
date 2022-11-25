@@ -2,7 +2,7 @@
 // Created by Andrea Lipperi on 14/11/22.
 //
 
-#include "productsMethods.h"
+#include "subcategoriesMethods.h"
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -41,13 +41,6 @@ void TableProducts::make_bigger() {
   data = tmp;
   capacity +=5;
 }
-void TableProducts::display(int id_cat) {
-  for (int i=0; i<used; i++) {
-    if (data[i].get_id_cat()==id_cat) {
-      data[i].output(cout);
-    }
-  }
-}
 void TableProducts::add(const Products& prod) {
   if (used>=capacity) {
     make_bigger();
@@ -61,22 +54,6 @@ void TableProducts::remove(int id) {
       data[i] = data[used-1];
       used++;
     }
-  }
-}
-void TableProducts::save(ostream &outs) {
-  sort_id();
-  for (int i=0; i<used; i++) {
-    outs << data[i];
-  }
-}
-void TableProducts::load(istream &ins) {
-  Products tmp;
-  while (ins >> tmp) {
-    if (used>=capacity) {
-      make_bigger();
-    }
-    data[used] = tmp;
-    used++;
   }
 }
 void TableProducts::sort_id() {
@@ -144,9 +121,6 @@ void TableProducts::changeData(int id) {
     cout << "Enter new name: " << endl;
     cin >> new_name;
     data[save].set_name(new_name);
-    cout << "Enter new description: " << endl;
-    cin >> new_descriprion;
-    data[save].set_description(new_descriprion);
     cout << "Enter new id category: " << endl;
     cin >> new_id_cat;
     data[save].set_IDcat(new_id_cat);
