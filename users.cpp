@@ -3,7 +3,7 @@
 //
 
 #include "users.h"
-#include "tableUsers.h"
+#include "usersMethods.h"
 #include <iostream>
 #include <string>
 using namespace std;

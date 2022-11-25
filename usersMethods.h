@@ -2,8 +2,8 @@
 // Created by Andrea Lipperi on 14/11/22.
 //
 
-#ifndef INGROSSO_DB_DB_TABLEUSERS_H
-#define INGROSSO_DB_DB_TABLEUSERS_H
+#ifndef INGROSSO_DB_DB_USERSMETHODS_H
+#define INGROSSO_DB_DB_USERSMETHODS_H
 
 #include <string>
 #include "users.h"
@@ -14,12 +14,11 @@ public :
   ~TableUsers();
   TableUsers(const TableUsers& other);
   void operator =(const TableUsers& other);
-  int access(string email, string psw, int control);
-  //void search_bus_name(string business_name);
+  int access_reg(string email, string psw, int control);
   void add(const Users& emp);
-  //void display_all();
   void remove(string business_name);
   void changePsw(string psw);
+  string select_username(string business_name);
   void save(ostream& outs);
   void load(istream& ins);
   void sort_email();
@@ -33,4 +32,4 @@ private:
 
 
 
-#endif // INGROSSO_DB_DB_TABLEUSERS_H
+#endif // INGROSSO_DB_DB_USERSMETHODS_H

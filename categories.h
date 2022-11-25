@@ -7,7 +7,7 @@
 #include <string>
 using namespace std;
 class Categories {
-
+public:
   Categories();
     Categories(int new_id,std::string new_name);
     int get_id() {
@@ -25,6 +25,14 @@ class Categories {
     int ID;
     string name;
 };
+ostream& operator<<(ostream& outs, Categories& tmp) {
+  tmp.output(outs);
+  return outs;
+}
+istream& operator>>(istream& ins, Categories& tmp) {
+  tmp.input(ins);
+  return ins;
+}
 
 
 #endif //INGR_ONLINE_CATEGORIE_H
