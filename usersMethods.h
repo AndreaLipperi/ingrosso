@@ -19,8 +19,6 @@ public :
   void remove(string business_name);
   void changePsw(string psw);
   string select_username(string business_name);
-  void save(ostream& outs);
-  void load(istream& ins);
   void sort_email();
   void sort_bus_name();
 private:

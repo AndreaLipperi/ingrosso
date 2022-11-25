@@ -86,22 +86,6 @@ void TableUsers::remove(string business_name) {
     }
   }
 }
-void TableUsers::save(ostream &outs) {
-  sort_email();
-  for (int i=0; i<used; i++) {
-    outs << data[i];
-  }
-}
-void TableUsers::load(istream &ins) {
-  Users tmp;
-  while (ins >> tmp) {
-    if (used>=capacity) {
-      make_bigger();
-    }
-    data[used] = tmp;
-    used++;
-  }
-}
 void TableUsers::sort_email() {
   bool done = false;
   Users tmp;

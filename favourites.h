@@ -5,7 +5,7 @@
 #ifndef INGR_ONLINE_CARRELLO_H
 #define INGR_ONLINE_CARRELLO_H
 
-#include "productsMethods.h"
+#include "subcategoriesMethods.h"
 #include "usersMethods.h"
 #include <string>
 using namespace std;
@@ -35,8 +35,6 @@ public:
   string get_prov_name(string id_prov) {
     return TableUsers::select_username(id_prov);
   }
-  void output(ostream& outs);
-  void input(istream& ins);
   void set_name(int new_quantity){
     Favourites::quantity=new_quantity;
   }
@@ -58,14 +56,5 @@ private :
   string IDprovider;
 
 };
-
-ostream& operator<<(ostream& outs, Favourites& tmp) {
-  tmp.output(outs);
-  return outs;
-}
-istream& operator>>(istream& ins, Favourites& tmp) {
-  tmp.input(ins);
-  return ins;
-}
 
 #endif //INGR_ONLINE_CARRELLO_H

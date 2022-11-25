@@ -2,16 +2,18 @@
 // Created by Andrea Lipperi on 14/11/22.
 //
 
-#include "categories.h"
+#include "subcategories.h"
 #include <iostream>
 #include <string>
 using namespace std;
 
-Categories::Categories() {
+Products::Products() {
   ID=0;
+  IDcat=0;
 }
 
-Categories::Categories(int new_id,std::string new_name) {
+Products::Products(int new_id, std::string new_name, int new_id_cat) {
   ID = new_id;
   name= new_name;
+  IDcat=new_id_cat;
 }

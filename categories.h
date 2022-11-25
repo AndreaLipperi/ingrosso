@@ -16,8 +16,6 @@ public:
     string get_name() {
       return name;
     }
-    void output(ostream& outs);
-    void input(istream& ins);
     void set_name(string new_name){
       Categories::name=new_name;
     }
@@ -25,14 +23,6 @@ public:
     int ID;
     string name;
 };
-ostream& operator<<(ostream& outs, Categories& tmp) {
-  tmp.output(outs);
-  return outs;
-}
-istream& operator>>(istream& ins, Categories& tmp) {
-  tmp.input(ins);
-  return ins;
-}
 
 
 #endif //INGR_ONLINE_CATEGORIE_H

@@ -14,11 +14,8 @@ public :
   ~TableOrders();
   TableOrders(const TableOrders& other);
   void operator =(const TableOrders& other);
-  void display(string IDuser, int control);
   void add(const Orders& ord);
   void changeStatus(string IDcust, string IDprov);
-  void save(ostream& outs);
-  void load(istream& ins);
 private:
   void make_bigger();
   int capacity;

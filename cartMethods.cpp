@@ -41,13 +41,6 @@ void TableCart::make_bigger() {
   data = tmp;
   capacity +=5;
 }
-void TableCart::display(string IDuser) {
-  for (int i=0; i<used; i++) {
-    if(data[i].get_id_user()==IDuser){
-      data[i].output(cout);
-    }
-  }
-}
 void TableCart::add(const Cart& cart) {
   if (used>=capacity) {
     make_bigger();
@@ -69,22 +62,6 @@ void TableCart::remove_prod(int IDprod, string IDuser) {
       data[i] = data[used-1];
       used++;
     }
-  }
-}
-void TableCart::save(ostream &outs) {
-  sort_id_prod();
-  for (int i=0; i<used; i++) {
-    outs << data[i];
-  }
-}
-void TableCart::load(istream &ins) {
-  Cart tmp;
-  while (ins >> tmp) {
-    if (used>=capacity) {
-      make_bigger();
-    }
-    data[used] = tmp;
-    used++;
   }
 }
 void TableCart::sort_id_prod() {
@@ -132,7 +109,7 @@ void TableCart::changeData(string IDuser, int IDprod) {
     string new_provider;
     cout << "Enter new quantity: ";
     cin >> new_quantity;
-    data[save].set_name(new_quantity);
+    data[save].set_quantity(new_quantity);
     cout << "enter provider business name: ";
     cin >> new_provider;
     data[save].set_IDprov(new_provider);

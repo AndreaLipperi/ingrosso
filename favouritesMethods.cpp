@@ -41,13 +41,6 @@ void TableFavourites::make_bigger() {
   data = tmp;
   capacity +=5;
 }
-void TableFavourites::display(string IDcust) {
-  for (int i=0; i<used; i++) {
-    if(data[i].get_id_cust()==IDcust){
-      data[i].output(cout);
-    }
-  }
-}
 void TableFavourites::add(const Favourites& fav) {
   if (used>=capacity) {
     make_bigger();
@@ -61,22 +54,6 @@ void TableFavourites::remove_prod(int IDprod, string IDcust) {
       data[i] = data[used-1];
       used++;
     }
-  }
-}
-void TableFavourites::save(ostream &outs) {
-  sort_id_prod();
-  for (int i=0; i<used; i++) {
-    outs << data[i];
-  }
-}
-void TableFavourites::load(istream &ins) {
-  Favourites tmp;
-  while (ins >> tmp) {
-    if (used>=capacity) {
-      make_bigger();
-    }
-    data[used] = tmp;
-    used++;
   }
 }
 void TableFavourites::sort_id_provider() {

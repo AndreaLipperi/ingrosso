@@ -43,30 +43,12 @@ void TableOrders::make_bigger() {
   data = tmp;
   capacity +=5;
 }
-void TableOrders::display(string IDuser, int control) {
-
-}
 void TableOrders::add(const Orders& ord) {
   if (used>=capacity) {
     make_bigger();
   }
   data[used]= ord;
   used++;
-}
-void TableOrders::save(ostream &outs) {
-  for (int i=0; i<used; i++) {
-    outs << data[i];
-  }
-}
-void TableOrders::load(istream &ins) {
-  Orders tmp;
-  while (ins >> tmp) {
-    if (used>=capacity) {
-      make_bigger();
-    }
-    data[used] = tmp;
-    used++;
-  }
 }
 void TableOrders::changeStatus(std::string IDcust, std::string IDprov){
   int num_result = 0;

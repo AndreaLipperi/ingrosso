@@ -14,13 +14,10 @@ public :
   ~TableCart();
   TableCart(const TableCart& other);
   void operator =(const TableCart& other);
-  void display(string IDuser);
   void add(const Cart& cart);
   void remove_all(string IDuser);
   void remove_prod(int IDprod, string IDuser);
   void changeData(string IDuser, int IDprod);
-  void save(ostream& outs);
-  void load(istream& ins);
   void sort_id_prod();
   void sort_id_provider();
 private:

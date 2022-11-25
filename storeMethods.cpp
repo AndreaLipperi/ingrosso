@@ -40,13 +40,6 @@ void TableStore::make_bigger() {
   data = tmp;
   capacity +=5;
 }
-void TableStore::display(int id_prod) {
-  for (int i=0; i<used; i++) {
-    if (data[i].get_id_prod() == id_prod) {
-      data[i].output(cout);
-    }
-  }
-}
 void TableStore::add(const Store& store) {
   if (used>=capacity) {
     make_bigger();
@@ -60,21 +53,6 @@ void TableStore::remove(int id) {
       data[i] = data[used-1];
       used++;
     }
-  }
-}
-void TableStore::save(ostream &outs) {
-  for (int i=0; i<used; i++) {
-    outs << data[i];
-  }
-}
-void TableStore::load(istream &ins) {
-  Store tmp;
-  while (ins >> tmp) {
-    if (used>=capacity) {
-      make_bigger();
-    }
-    data[used] = tmp;
-    used++;
   }
 }
 void TableStore::changeQuantity(int id_prod, std::string id_prov){

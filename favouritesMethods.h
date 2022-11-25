@@ -12,12 +12,9 @@ class TableFavourites {
   ~TableFavourites();
   TableFavourites(const TableFavourites& other);
   void operator =(const TableFavourites& other);
-  void display(string IDcust);
   void add(const Favourites& fav);
   void remove_prod(int IDprod, string IDcust);
   void changeData(string IDcust, int IDprod);
-  void save(ostream& outs);
-  void load(istream& ins);
   void sort_id_prod();
   void sort_id_provider();
 private:
