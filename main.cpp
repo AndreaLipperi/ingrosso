@@ -4,11 +4,9 @@
 #include <sqlite3.h>
 #include "users.h"
 #include "categories.h"
-
 #include "products.h"
 using namespace std;
 
 int main() {
 
- return 0;
 }
