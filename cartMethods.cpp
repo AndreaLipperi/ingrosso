@@ -41,6 +41,7 @@ void TableCart::make_bigger() {
   data = tmp;
   capacity +=5;
 }
+
 void TableCart::add(const Cart& cart) {
   if (used>=capacity) {
     make_bigger();
@@ -64,6 +65,7 @@ void TableCart::remove_prod(int IDprod, string IDuser) {
     }
   }
 }
+
 void TableCart::sort_id_prod() {
   bool done = false;
   Cart tmp;

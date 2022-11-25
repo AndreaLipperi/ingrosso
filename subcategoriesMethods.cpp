@@ -71,43 +71,15 @@ void TableProducts::sort_id() {
     }
   }
 }
-void TableProducts::sort_name() {
-  bool done = false;
-  Products tmp;
-  while(!done) {
-    done = true;
-    for(int i=0; i<used; i++) {
-      if (data[i].get_name() > data[i+1].get_name()) {
-        done = false;
-        tmp = data[i];
-        data[i] = data[i+1];
-        data[i+1] = tmp;
-      }
-    }
-  }
-}
-void TableProducts::sort_id_cat() {
-  bool done = false;
-  Products tmp;
-  while(!done) {
-    done = true;
-    for(int i=0; i<used; i++) {
-      if (data[i].get_id_cat() > data[i+1].get_id_cat()) {
-        done = false;
-        tmp = data[i];
-        data[i] = data[i+1];
-        data[i+1] = tmp;
-      }
-    }
-  }
-}
+
+
 void TableProducts::changeData(int id) {
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
     if (data[i].get_id() == id) {
       cout << "Products found!" << endl;
-      data[i].output(cout);
+
       cout << "Name category" << data[i].get_cat_name(data[i].get_id()) << endl;
       num_result++;
       save=i;
