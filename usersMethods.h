@@ -21,6 +21,7 @@ public :
   string select_username(string business_name);
   void sort_email();
   void sort_bus_name();
+  string select_type(const string &email);
 private:
   void make_bigger();
   int capacity;

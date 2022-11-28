@@ -12,7 +12,7 @@ using namespace std;
 class Cart : public TableUsers, public TableProducts{
 public:
   Cart();
-  Cart(int new_id, int new_quantity, int new_id_prod, string new_id_user, string new_id_prov);
+  Cart(int new_id, int new_quantity, int new_id_prod, const string &new_id_user, string new_id_prov);
   int get_id() {
     return ID;
   }

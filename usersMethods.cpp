@@ -50,12 +50,13 @@ int TableUsers::access_reg(string email, string psw, int control) {
   if (control==accesso) {
     for (int i = 0; i < used; i++) {
       if (data[i].get_email() == email && data[i].get_psw() == psw) {
-        cout << "utente esistente!" << endl;
         num_found++;
       }
     }
     if (num_found == 0) {
-      cout << "No user found" << endl;
+      return 0;
+    } else {
+      return 1;
     }
   } else if(control==registrazione){
     for (int i = 0; i < used; i++) {
@@ -69,7 +70,6 @@ int TableUsers::access_reg(string email, string psw, int control) {
       return 1;
     }
   }
-  return 0;
 }
 void TableUsers::add(const Users& emp) {
   if (used>=capacity) {
@@ -144,4 +144,14 @@ string TableUsers::select_username(std::string business_name) {
     }
   }
   return data[save].get_username();
+}
+string TableUsers::select_type(const std::string &email) {
+  int save;
+  for (int i=0; i<used; i++) {
+    if (data[i].get_email() == email) {
+      save=i;
+      i=used;
+    }
+  }
+  return data[save].get_type();
 }
