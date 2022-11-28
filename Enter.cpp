@@ -7,6 +7,7 @@
 #include "Enter.h"
 #include "MyApp.h"
 #include "Menu.h"
+#include "usersMethods.h"
 
 
 wxTextCtrl *password;
@@ -18,7 +19,8 @@ BEGIN_EVENT_TABLE (Enter, wxFrame)
 END_EVENT_TABLE() // The button is pressed
 
 
-
+std::string e;
+std::string p;
 Enter::Enter(const wxString &title)
         : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(365, 250)){
 
@@ -43,8 +45,8 @@ Enter::Enter(const wxString &title)
 
 
 
-    wxTextCtrl *tc1 = new wxTextCtrl(panel, -1);
-    wxTextCtrl *m_passwordText = new wxTextCtrl(panel, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+    tc1 = new wxTextCtrl(panel, -1);
+    m_passwordText = new wxTextCtrl(panel, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
 
 
     fgs->Add(thetitle);
@@ -64,13 +66,25 @@ Enter::Enter(const wxString &title)
     //this->SetSizer(MainBox);
 
     Centre();
-    std::string e = tc1->GetValue().ToStdString();
-    std::string p = m_passwordText->GetValue().ToStdString();
+
 
 
 }
 
 void Enter::Access(wxCommandEvent &event) {
-    int x;
+
+    e = tc1->GetValue().ToStdString();
+    p = m_passwordText->GetValue().ToStdString();
+    int result;
+    TableUsers table;
+    result = table.access_reg(e, p, 0);
+    if (result == 0) {
+        //TODO messaggio di errore
+    } else{
+        Users user;
+        std::string TypeUser;
+        TypeUser=user.
+        if()
+    }
 
 }

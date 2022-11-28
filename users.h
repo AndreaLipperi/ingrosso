@@ -32,6 +32,12 @@ public:
   string get_username() {
     return username;
   }
+  friend ostream& operator<<(ostream& outs, Users& tmp){
+        return outs;
+    }
+    friend istream& operator>>(istream& ins, Users& tmp){
+        return ins;
+    }
 
   void set_psw(string new_psw){
     Users::psw=new_psw;
@@ -45,5 +51,6 @@ private:
   std::string psw;
   std::string username;
 };
+
 
 #endif //INGR_ONLINE_UTENTI_H

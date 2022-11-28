@@ -16,6 +16,4 @@
 IMPLEMENT_APP(MyApp)
 using namespace std;
 
-int main() {
 
-}

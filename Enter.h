@@ -17,6 +17,8 @@ class Enter : public wxFrame{
     private:
      void Access(wxCommandEvent& event);
       wxButton *Confirm;
+    wxTextCtrl *m_passwordText;
+    wxTextCtrl *tc1;
 };
 
 

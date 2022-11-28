@@ -4,6 +4,15 @@
 
 #include "RegisterFrame.h"
 
+std::string t;
+std::string b_n;
+std::string a;
+std::string c;
+std::string em;
+std::string psw;
+std::string u;
+
+
 const long RegisterFrame::IdButtonConfirm =::wxNewId();
 
 BEGIN_EVENT_TABLE (RegisterFrame, wxFrame)
@@ -20,7 +29,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
     wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
 
-    wxFlexGridSizer *fgs = new wxFlexGridSizer(7, 2, 12, -5);
+    wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
 
     //wxBoxSizer *MainBox=new wxBoxSizer(wxHORIZONTAL);
 
@@ -29,30 +38,34 @@ RegisterFrame::RegisterFrame(const wxString &title):
     wxStaticText *address = new wxStaticText(panel, -1, wxT("Address"));
     wxStaticText *city = new wxStaticText(panel, -1, wxT("City"));
     wxStaticText *password = new wxStaticText(panel, -1, wxT("Password"));
-    wxStaticText *username = new wxStaticText(panel, -1, wxT("Email"));
+    wxStaticText *username = new wxStaticText(panel, -1, wxT("Username"));
+    wxStaticText *email=new wxStaticText(panel, -1, wxT("Email"));
 
     Confirm=new wxButton (panel,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
 
 
 
-    wxTextCtrl *tc1 = new wxTextCtrl(panel, -1);
-    wxTextCtrl *tc2 = new wxTextCtrl(panel, -1);
-    wxTextCtrl *tc3 = new wxTextCtrl(panel, -1);
-    wxTextCtrl *tc4 = new wxTextCtrl(panel, -1);
-    wxTextCtrl *tc5= new wxTextCtrl(panel, -1);
-    wxTextCtrl *m_passwordText = new wxTextCtrl(panel, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+    tcT = new wxTextCtrl(panel, -1);
+    tcB_n = new wxTextCtrl(panel, -1);
+    tcA = new wxTextCtrl(panel, -1);
+    tcC = new wxTextCtrl(panel, -1);
+    tcU= new wxTextCtrl(panel, -1);
+    tcEm=new wxTextCtrl(panel, -1);
+    m_passwordText = new wxTextCtrl(panel, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
 
 
     fgs->Add(type);
-    fgs->Add(tc1, 1, wxEXPAND);
+    fgs->Add(tcT, 1, wxEXPAND);
     fgs->Add(business_name);
-    fgs->Add(tc2,1, wxEXPAND);
+    fgs->Add(tcB_n,1, wxEXPAND);
     fgs->Add(address);
-    fgs->Add(tc3, 1, wxEXPAND);
+    fgs->Add(tcA, 1, wxEXPAND);
     fgs->Add(city);
-    fgs->Add(tc4, 1);
+    fgs->Add(tcC, 1);
     fgs->Add(username);
-    fgs->Add(tc5, 1, wxEXPAND);
+    fgs->Add(tcU, 1, wxEXPAND);
+    fgs->Add(email);
+    fgs->Add(tcEm, 1, wxEXPAND);
     fgs->Add(password);
     fgs->Add(m_passwordText, 1);
     fgs->Add(Confirm,0,wxLeft,100);
@@ -63,12 +76,13 @@ RegisterFrame::RegisterFrame(const wxString &title):
 
     hbox->Add(fgs, 1, wxALL, 10);
 
-    std::string t=tc1->GetValue().ToStdString();
-    std::string b_n=tc2->GetValue().ToStdString();
-    std::string a=tc3->GetValue().ToStdString();
-    std::string c=tc4->GetValue().ToStdString();
-    std::string u=tc5->GetValue().ToStdString();
-    std::string p=m_passwordText->GetValue().ToStdString();
+     t=tcT->GetValue().ToStdString();
+     b_n=tcB_n->GetValue().ToStdString();
+     a=tcA->GetValue().ToStdString();
+     c=tcC->GetValue().ToStdString();
+     u=tcU->GetValue().ToStdString();
+     em=tcEm->GetValue().ToStdString();
+     psw=m_passwordText->GetValue().ToStdString();
 
 
     panel->SetSizer(hbox);
@@ -78,5 +92,23 @@ RegisterFrame::RegisterFrame(const wxString &title):
 }
 
 void RegisterFrame::Register(wxCommandEvent &event) {
-
+    t=tcT->GetValue().ToStdString();
+    b_n=tcB_n->GetValue().ToStdString();
+    a=tcA->GetValue().ToStdString();
+    c=tcC->GetValue().ToStdString();
+    u=tcU->GetValue().ToStdString();
+    em=tcEm->GetValue().ToStdString();
+    psw=m_passwordText->GetValue().ToStdString();
+   TableUsers table;
+   int numResult;
+   Users *user;
+     if(numResult==0){
+         cout<<a<<endl;
+         user = new Users(t,b_n,c,a,em,psw,u);
+         table.add(*user);
+         Close(true);
+     } else{
+      //TODO scrivere messaggio di errore
+     }
 }
+
