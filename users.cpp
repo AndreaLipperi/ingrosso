@@ -10,7 +10,7 @@ using namespace std;
 
 Users::Users() {}
 
-Users::Users(std::string new_type, string new_bus_name, std::string new_city, std::string new_address, std::string new_email, std::string new_pass, std::string new_username) {
+Users::Users(const std::string &new_type, const std::string &new_bus_name, const std::string &new_city, const std::string &new_address, const std::string &new_email, const std::string &new_pass, const std::string &new_username){
   type = new_type;
   business_name= new_bus_name;
   address = new_address;

@@ -48,9 +48,9 @@ void TableProducts::add(const Products& prod) {
   data[used]= prod;
   used++;
 }
-void TableProducts::remove(int id) {
+void TableProducts::remove(const string &name) {
   for (int i=0; i<used; i++) {
-    if (data[i].get_id() == id) {
+    if (data[i].get_name() == name) {
       data[i] = data[used-1];
       used++;
     }
@@ -62,7 +62,7 @@ void TableProducts::sort_id() {
   while(!done) {
     done = true;
     for(int i=0; i<used; i++) {
-      if (data[i].get_id() > data[i+1].get_id()) {
+      if (data[i].get_name() > data[i+1].get_name()) {
         done = false;
         tmp = data[i];
         data[i] = data[i+1];
@@ -71,13 +71,11 @@ void TableProducts::sort_id() {
     }
   }
 }
-void TableProducts::changeData(int id) {
+void TableProducts::changeData(const string &name) {
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
-    if (data[i].get_id() == id) {
-      cout << "Products found!" << endl;
-      cout << "Name category" << data[i].get_cat_name(data[i].get_id()) << endl;
+    if (data[i].get_name() == name) {
       num_result++;
       save=i;
       i=used;
@@ -86,20 +84,16 @@ void TableProducts::changeData(int id) {
   if (num_result>0) {
     string new_name;
     string new_descriprion;
-    int new_id_cat;
-    cout << "Enter new name: " << endl;
-    cin >> new_name;
+    Categories *new_cat;
     data[save].set_name(new_name);
-    cout << "Enter new id category: " << endl;
-    cin >> new_id_cat;
-    data[save].set_IDcat(new_id_cat);
+    data[save].set_cat(new_cat);
   }
 }
-string TableProducts::select_name(int id_prod) {
+string TableProducts::select_name(const string &name) {
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
-    if (data[i].get_id() == id_prod) {
+    if (data[i].get_name() == name) {
       num_result++;
       save=i;
       i=used;

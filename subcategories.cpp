@@ -6,14 +6,6 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
-Products::Products() {
-  ID=0;
-  IDcat=0;
-}
-
-Products::Products(int new_id, std::string new_name, int new_id_cat) {
-  ID = new_id;
+Products::Products(const std::string &new_name, Categories *new_cat) : cat(new_cat) {
   name= new_name;
-  IDcat=new_id_cat;
 }

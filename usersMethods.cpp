@@ -43,7 +43,7 @@ void TableUsers::make_bigger() {
   data = tmp;
   capacity +=5;
 }
-int TableUsers::access_reg(string email, string psw, int control) {
+int TableUsers::access_reg(const string &email, const string &psw, int control) {
   //control =0 accesso normale
   //control = 1 per controllo se utente già esistente in caso di registrazione
   int num_found =0;
@@ -78,7 +78,7 @@ void TableUsers::add(const Users& emp) {
   data[used]= emp;
   used++;
 }
-void TableUsers::remove(string business_name) {
+void TableUsers::remove(const string &business_name) {
   for (int i=0; i<used; i++) {
     if (data[i].get_bus_name() == business_name) {
       data[i] = data[used-1];
@@ -116,7 +116,7 @@ void TableUsers::sort_bus_name() {
     }
   }
 }
-void TableUsers::changePsw(string email) {
+void TableUsers::changePsw(const string &email) {
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
@@ -134,7 +134,7 @@ void TableUsers::changePsw(string email) {
     data[save].set_psw(new_psw);
   }
 }
-string TableUsers::select_username(std::string business_name) {
+string TableUsers::select_username(const string &business_name) {
   int save;
   for (int i=0; i<used; i++) {
     if (data[i].get_bus_name() == business_name) {

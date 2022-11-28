@@ -13,15 +13,15 @@ class Favourites : public TableUsers, public TableProducts{
 public:
 
   Favourites();
-  Favourites(int new_id, int new_quantity, int new_id_prod, string new_id_cust, string new_id_prov);
+  Favourites(int new_id, int new_quantity, Products *new_prod, const string &new_id_cust, const string &new_id_prov);
   int get_id() {
     return ID;
   }
   int get_quantity() {
     return quantity;
   }
-  int get_id_prod(){
-    return IDprod;
+  Products* get_prod(){
+    return prod;
   }
   string get_id_cust(){
     return IDcustomer;
@@ -38,8 +38,8 @@ public:
   void set_name(int new_quantity){
     Favourites::quantity=new_quantity;
   }
-  void set_IDprod(int new_id_prod){
-    Favourites::IDprod=new_id_prod;
+  void set_prod(Products *new_prod){
+    Favourites::prod=new_prod;
   }
   void set_IDuser(string new_id_cust){
     Favourites::IDcustomer=new_id_cust;
@@ -51,7 +51,7 @@ public:
 private :
   int ID;
   int quantity;
-  int IDprod;
+  Products *prod;
   string IDcustomer;
   string IDprovider;
 

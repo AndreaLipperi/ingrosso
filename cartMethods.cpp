@@ -48,7 +48,7 @@ void TableCart::add(const Cart& cart) {
   data[used]= cart;
   used++;
 }
-void TableCart::remove_all(string IDuser) {
+void TableCart::remove_all(const string &IDuser) {
   for (int i=0; i<used; i++) {
     if (data[i].get_id_user() == IDuser) {
       data[i] = data[used-1];
@@ -56,9 +56,9 @@ void TableCart::remove_all(string IDuser) {
     }
   }
 }
-void TableCart::remove_prod(int IDprod, string IDuser) {
+void TableCart::remove_prod(Products &prod,const string &IDuser) {
   for (int i=0; i<used; i++) {
-    if (data[i].get_id_prod() == IDprod && data[i].get_id_user()==IDuser) {
+    if (data[i].get_prod() == &prod && data[i].get_id_user()==IDuser) {
       data[i] = data[used-1];
       used++;
     }
@@ -70,7 +70,7 @@ void TableCart::sort_id_prod() {
   while(!done) {
     done = true;
     for(int i=0; i<used; i++) {
-      if (data[i].get_id_prod() > data[i+1].get_id_prod()) {
+      if (data[i].get_prod() > data[i+1].get_prod()) {
         done = false;
         tmp = data[i];
         data[i] = data[i+1];
@@ -94,11 +94,11 @@ void TableCart::sort_id_provider() {
     }
   }
 }
-void TableCart::changeData(string IDuser, int IDprod) {
+void TableCart::changeData(string IDuser, Products &prod) {
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
-    if (data[i].get_id_prod() == IDprod && data[i].get_id_user()==IDuser) {
+    if (data[i].get_prod() == &prod && data[i].get_id_user()==IDuser) {
       num_result++;
       save=i;
       i=used;

@@ -55,11 +55,11 @@ void TableStore::remove(int id) {
     }
   }
 }
-void TableStore::changeQuantity(int id_prod, std::string id_prov){
+void TableStore::changeQuantity(Products *prod, const string &id_prov){
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
-    if (data[i].get_id_prod() == id_prod && data[i].get_id_prov()==id_prov) {
+    if (data[i].get_prod() == prod && data[i].get_id_prov()==id_prov) {
       num_result++;
       save=i;
       i=used;
@@ -73,11 +73,11 @@ void TableStore::changeQuantity(int id_prod, std::string id_prov){
   }
 }
 
-void TableStore::changeDesc(int id_prod, std::string id_prov){
+void TableStore::changeDesc(Products *prod, const string &id_prov){
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
-    if (data[i].get_id_prod() == id_prod && data[i].get_id_prov()==id_prov) {
+    if (data[i].get_prod() == prod && data[i].get_id_prov()==id_prov) {
       num_result++;
       save=i;
       i=used;

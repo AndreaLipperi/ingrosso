@@ -48,26 +48,11 @@ void TableCategories::add(const Categories& cat) {
   data[used]= cat;
   used++;
 }
-void TableCategories::remove(int id) {
+void TableCategories::remove(const string &name) {
   for (int i=0; i<used; i++) {
-    if (data[i].get_id() == id) {
+    if (data[i].get_name() == name) {
       data[i] = data[used-1];
       used++;
-    }
-  }
-}
-void TableCategories::sort_id() {
-  bool done = false;
-  Categories tmp;
-  while(!done) {
-    done = true;
-    for(int i=0; i<used; i++) {
-      if (data[i].get_id() > data[i+1].get_id()) {
-        done = false;
-        tmp = data[i];
-        data[i] = data[i+1];
-        data[i+1] = tmp;
-      }
     }
   }
 }
@@ -86,13 +71,11 @@ void TableCategories::sort_name() {
     }
   }
 }
-void TableCategories::changeName(int id) {
+void TableCategories::changeName(const string &name) {
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
-    if (data[i].get_id() == id) {
-      cout << "Category found!" << endl;
-      cout << data[i].get_name();
+    if (data[i].get_name() == name) {
       num_result++;
       save=i;
       i=used;
@@ -105,11 +88,11 @@ void TableCategories::changeName(int id) {
     data[save].set_name(new_name);
   }
 }
-string TableCategories::select_name(int id) {
+string TableCategories::select_name(const string &name) {
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
-    if (data[i].get_id() == id) {
+    if (data[i].get_name() == name) {
       num_result++;
       save=i;
       i=used;

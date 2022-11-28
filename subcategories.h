@@ -10,30 +10,23 @@ using namespace std;
 class Products : public TableCategories {
 public:
   Products();
-  Products(int new_id,std::string new_name, int new_id_cat);
-  int get_id() {
-    return ID;
-  }
+  Products(const std::string &new_name, Categories *new_cat);
   string get_name() {
     return name;
   }
-  int get_id_cat(){
-    return IDcat;
+  Categories* get_cat(){
+    return cat;
   }
 
-  string get_cat_name(int id_cat){
-    return TableCategories::select_name(id_cat);
-  }
-  void set_name(string new_name){
+  void set_name(const string &new_name){
     Products::name=new_name;
   }
-  void set_IDcat(int new_id_cat){
-    Products::IDcat=new_id_cat;
+  void set_cat(Categories *new_cat){
+    Products::cat=new_cat;
   }
 private:
-  int ID;
   string name;
-  int IDcat;
+  Categories *cat;
 };
 
 #endif //INGR_ONLINE_PRODOTTI_H

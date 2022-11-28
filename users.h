@@ -10,7 +10,7 @@ using namespace std;
 class Users {
 public:
   Users();
-  Users(std::string new_type, string new_bus_name, std::string new_city, string new_address, string new_email, string new_pass, string new_username);
+  Users(const std::string &new_type, const std::string &new_bus_name, const std::string &new_city, const std::string &new_address, const std::string &new_email, const std::string &new_pass, const std::string &new_username);
   string get_type() {
     return type;
   }
@@ -33,7 +33,7 @@ public:
     return username;
   }
 
-  void set_psw(string new_psw){
+  void set_psw(const std::string &new_psw){
     Users::psw=new_psw;
   }
 private:

@@ -11,15 +11,15 @@ using namespace std;
 class Store : public TableProducts, TableUsers {
 public:
   Store();
-  Store(int new_id,int new_quantity, int new_id_prod, int new_price,string new_desc, string new_id_prov);
+  Store(int new_id,int new_quantity, Products *new_prod, int new_price,const string &new_desc, const string &new_id_prov);
   int get_id() {
     return ID;
   }
   int get_quantity() {
     return available_quantity;
   }
-  int get_id_prod() {
-    return IDproduct;
+  Products* get_prod() {
+    return product;
   }
 
   int get_price() {
@@ -31,9 +31,6 @@ public:
   }
   string get_id_prov() {
     return IDprovider;
-  }
-  string get_prod_name(int id_prod){
-    return TableProducts::select_name(id_prod);
   }
   string get_prov_name(string id_prov) {
     return TableUsers::select_username(id_prov);
@@ -52,7 +49,7 @@ public:
 private:
   int ID;
   int available_quantity;
-  int IDproduct;
+  Products *product;
   double price_product;
   string description_prod;
   string IDprovider;

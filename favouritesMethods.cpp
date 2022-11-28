@@ -48,9 +48,9 @@ void TableFavourites::add(const Favourites& fav) {
   data[used]= fav;
   used++;
 }
-void TableFavourites::remove_prod(int IDprod, string IDcust) {
+void TableFavourites::remove_prod(Products *prod, const string &IDcust) {
   for (int i=0; i<used; i++) {
-    if (data[i].get_id_prod() == IDprod && data[i].get_id_cust()==IDcust) {
+    if (data[i].get_prod() == prod && data[i].get_id_cust()==IDcust) {
       data[i] = data[used-1];
       used++;
     }
@@ -71,11 +71,11 @@ void TableFavourites::sort_id_provider() {
     }
   }
 }
-void TableFavourites::changeData(string IDcust, int IDprod) {
+void TableFavourites::changeData(const string &IDcust, Products *prod) {
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
-    if (data[i].get_id_prod() == IDprod && data[i].get_id_cust()==IDcust) {
+    if (data[i].get_prod() == prod && data[i].get_id_cust()==IDcust) {
       num_result++;
       save=i;
       i=used;

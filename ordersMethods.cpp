@@ -50,7 +50,7 @@ void TableOrders::add(const Orders& ord) {
   data[used]= ord;
   used++;
 }
-void TableOrders::changeStatus(std::string IDcust, std::string IDprov){
+void TableOrders::changeStatus(const string &IDcust, const string &IDprov){
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {

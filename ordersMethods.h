@@ -15,7 +15,7 @@ public :
   TableOrders(const TableOrders& other);
   void operator =(const TableOrders& other);
   void add(const Orders& ord);
-  void changeStatus(string IDcust, string IDprov);
+  void changeStatus(const string &IDcust, const string &IDprov);
 private:
   void make_bigger();
   int capacity;

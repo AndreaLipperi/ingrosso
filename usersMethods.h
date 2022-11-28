@@ -14,11 +14,11 @@ public :
   ~TableUsers();
   TableUsers(const TableUsers& other);
   void operator =(const TableUsers& other);
-  int access_reg(string email, string psw, int control);
+  int access_reg(const string &email, const string &psw, int control);
   void add(const Users& emp);
-  void remove(string business_name);
-  void changePsw(string psw);
-  string select_username(string business_name);
+  void remove(const string &business_name);
+  void changePsw(const string &psw);
+  string select_username(const string &business_name);
   void sort_email();
   void sort_bus_name();
   string select_type(const string &email);

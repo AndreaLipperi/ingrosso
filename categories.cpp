@@ -7,11 +7,7 @@
 #include <string>
 using namespace std;
 
-Categories::Categories() {
-  ID=0;
-}
 
-Categories::Categories(int new_id,std::string new_name) {
-  ID = new_id;
+Categories::Categories(const std::string &new_name) {
   name= new_name;
 }

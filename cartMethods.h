@@ -7,6 +7,7 @@
 
 #include <string>
 #include "cart.h"
+#include "subcategories.h"
 using namespace std;
 class TableCart {
 public :
@@ -15,9 +16,9 @@ public :
   TableCart(const TableCart& other);
   void operator =(const TableCart& other);
   void add(const Cart& cart);
-  void remove_all(string IDuser);
-  void remove_prod(int IDprod, string IDuser);
-  void changeData(string IDuser, int IDprod);
+  void remove_all(const string &IDuser);
+  void remove_prod(Products &prod, const string &IDuser);
+  void changeData(const string &IDuser, Products &prod);
   void sort_id_prod();
   void sort_id_provider();
 private:

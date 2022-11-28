@@ -14,9 +14,9 @@ public :
   TableProducts(const TableProducts& other);
   void operator =(const TableProducts& other);
   void add(const Products& prod);
-  string select_name(int id_prod);
-  void remove(int id);
-  void changeData(int id);
+  string select_name(const string &name);
+  void remove(const string &name);
+  void changeData(const string &name);
   void sort_id();
 private:
   void make_bigger();

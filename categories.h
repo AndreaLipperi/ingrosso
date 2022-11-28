@@ -9,18 +9,14 @@ using namespace std;
 class Categories {
 public:
   Categories();
-    Categories(int new_id,std::string new_name);
-    int get_id() {
-      return ID;
-    }
+    Categories(const std::string &new_name);
     string get_name() {
       return name;
     }
-    void set_name(string new_name){
+    void set_name(const string &new_name){
       Categories::name=new_name;
     }
   private:
-    int ID;
     string name;
 };
 
