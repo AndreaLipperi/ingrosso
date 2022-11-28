@@ -80,11 +80,15 @@ void Enter::Access(wxCommandEvent &event) {
     result = table.access_reg(e, p, 0);
     if (result == 0) {
         //TODO messaggio di errore
-    } else{
-        Users user;
+    } else {
+        TableUsers user;
         std::string TypeUser;
-        TypeUser=user.
-        if()
-    }
+        TypeUser = user.select_type(e);
+        if (TypeUser == "f") {
+            //TODO crea menu fornitore
+        } else {
+            //TODO menu clienti
+        }
 
+    }
 }

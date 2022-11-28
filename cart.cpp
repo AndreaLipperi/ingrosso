@@ -13,7 +13,7 @@ Cart::Cart() {
   IDprod=0;
 }
 
-Cart::Cart(int new_id, int new_quantity, int new_id_prod, string new_id_user, string new_id_prov) {
+Cart::Cart(int new_id, int new_quantity, int new_id_prod, std::string new_id_user, std::string new_id_prov) {
   ID = new_id;
   quantity= new_quantity;
   IDprod=new_id_prod;

@@ -19,6 +19,7 @@ public :
   void remove(string business_name);
   void changePsw(string psw);
   string select_username(string business_name);
+  string  select_type(const std::string &email);
   void sort_email();
   void sort_bus_name();
 private:

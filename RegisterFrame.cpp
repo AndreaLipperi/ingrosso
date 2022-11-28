@@ -103,12 +103,12 @@ void RegisterFrame::Register(wxCommandEvent &event) {
    int numResult;
    Users *user;
      if(numResult==0){
-         cout<<a<<endl;
          user = new Users(t,b_n,c,a,em,psw,u);
          table.add(*user);
-         Close(true);
+
      } else{
       //TODO scrivere messaggio di errore
      }
+    Close(true);
 }
 
