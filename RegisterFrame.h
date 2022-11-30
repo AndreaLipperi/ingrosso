@@ -23,15 +23,20 @@
 class RegisterFrame : public wxFrame{
 public:
     RegisterFrame(const wxString& title);
-    static const long IdButtonConfirm;
 
+    static const long IdButtonConfirm;
+    static const long IdButtonStockist;
+    static const long IdButtonClient;
     DECLARE_EVENT_TABLE()
 
 
 private:
     void Register(wxCommandEvent& event);
+     void IsStockist(wxCommandEvent& event);
+     void IsClient(wxCommandEvent& event);
     wxButton *Confirm;
-    wxTextCtrl *tcT;
+    wxButton *Stockist;
+    wxButton *Client;
     wxTextCtrl *tcB_n;
     wxTextCtrl *tcA;
     wxTextCtrl *tcC;

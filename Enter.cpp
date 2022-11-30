@@ -8,6 +8,8 @@
 #include "MyApp.h"
 #include "Menu.h"
 #include "usersMethods.h"
+#include "ClientFrame.h"
+#include "StockistFrame.h"
 
 
 wxTextCtrl *password;
@@ -79,15 +81,17 @@ void Enter::Access(wxCommandEvent &event) {
     TableUsers table;
     result = table.access_reg(e, p, 0);
     if (result == 0) {
-        //TODO messaggio di errore
+        wxLogMessage("Incorrect email or password");
     } else {
         TableUsers user;
         std::string TypeUser;
         TypeUser = user.select_type(e);
-        if (TypeUser == "f") {
-            //TODO crea menu fornitore
+        if (TypeUser == "F") {
+            StockistFrame *StockistWin = new StockistFrame(_T("Stockist"), wxPoint(50, 20), wxSize(500, 300));
+            StockistWin->Show(TRUE);
         } else {
-            //TODO menu clienti
+            ClientFrame *ClientWin = new ClientFrame(_T("Client"), wxPoint(50, 20), wxSize(500, 300));
+            ClientWin->Show(TRUE);
         }
 
     }

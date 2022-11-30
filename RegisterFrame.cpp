@@ -14,10 +14,13 @@ std::string u;
 
 
 const long RegisterFrame::IdButtonConfirm =::wxNewId();
+const long RegisterFrame::IdButtonStockist =::wxNewId();
+const long RegisterFrame::IdButtonClient =::wxNewId();
 
 BEGIN_EVENT_TABLE (RegisterFrame, wxFrame)
                 EVT_BUTTON(IdButtonConfirm, RegisterFrame::Register)
-
+                EVT_BUTTON(IdButtonClient, RegisterFrame::IsClient)
+                EVT_BUTTON(IdButtonStockist, RegisterFrame::IsStockist)
 END_EVENT_TABLE()
 
 RegisterFrame::RegisterFrame(const wxString &title):
@@ -28,6 +31,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
 
     wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
+    wxFlexGridSizer *fgs1=new wxFlexGridSizer(1,2, 12,-5);
 
     wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
 
@@ -42,10 +46,11 @@ RegisterFrame::RegisterFrame(const wxString &title):
     wxStaticText *email=new wxStaticText(panel, -1, wxT("Email"));
 
     Confirm=new wxButton (panel,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
+    Stockist=new wxButton(panel,IdButtonStockist, _T("Stockist"), wxDefaultPosition,wxDefaultSize,0 );
+    Client=new wxButton(panel, IdButtonClient, _T("Client"), wxDefaultPosition, wxDefaultSize, 0);
 
 
 
-    tcT = new wxTextCtrl(panel, -1);
     tcB_n = new wxTextCtrl(panel, -1);
     tcA = new wxTextCtrl(panel, -1);
     tcC = new wxTextCtrl(panel, -1);
@@ -53,9 +58,10 @@ RegisterFrame::RegisterFrame(const wxString &title):
     tcEm=new wxTextCtrl(panel, -1);
     m_passwordText = new wxTextCtrl(panel, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
 
-
+    fgs1->Add(Stockist,0);
+    fgs1->Add(Client,0);
     fgs->Add(type);
-    fgs->Add(tcT, 1, wxEXPAND);
+    fgs->Add(fgs1);
     fgs->Add(business_name);
     fgs->Add(tcB_n,1, wxEXPAND);
     fgs->Add(address);
@@ -76,13 +82,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
 
     hbox->Add(fgs, 1, wxALL, 10);
 
-     t=tcT->GetValue().ToStdString();
-     b_n=tcB_n->GetValue().ToStdString();
-     a=tcA->GetValue().ToStdString();
-     c=tcC->GetValue().ToStdString();
-     u=tcU->GetValue().ToStdString();
-     em=tcEm->GetValue().ToStdString();
-     psw=m_passwordText->GetValue().ToStdString();
+
 
 
     panel->SetSizer(hbox);
@@ -91,8 +91,21 @@ RegisterFrame::RegisterFrame(const wxString &title):
     Centre();
 }
 
+
+
+void RegisterFrame::IsStockist(wxCommandEvent& event) {
+    t="F";
+}
+
+void RegisterFrame::IsClient(wxCommandEvent& event) {
+    t="C";
+}
+
+
+
+
 void RegisterFrame::Register(wxCommandEvent &event) {
-    t=tcT->GetValue().ToStdString();
+
     b_n=tcB_n->GetValue().ToStdString();
     a=tcA->GetValue().ToStdString();
     c=tcC->GetValue().ToStdString();
@@ -101,14 +114,16 @@ void RegisterFrame::Register(wxCommandEvent &event) {
     psw=m_passwordText->GetValue().ToStdString();
    TableUsers table;
    int numResult;
+   numResult=table.access_reg(em,psw,1);
    Users *user;
      if(numResult==0){
          user = new Users(t,b_n,c,a,em,psw,u);
          table.add(*user);
 
      } else{
-      //TODO scrivere messaggio di errore
+         wxLogMessage("There is already an account with this email");
      }
     Close(true);
 }
+
 
