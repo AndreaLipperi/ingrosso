@@ -25,6 +25,7 @@ SelectFrame::SelectFrame(const wxString &title, const wxPoint &pos, const wxSize
 &size): wxFrame((wxFrame*)NULL,  - 1, title, pos, size)
 
 {
+
 this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 wxBoxSizer *MainBox= new wxBoxSizer(wxHORIZONTAL);
 wxBoxSizer *MainBox1=new wxBoxSizer(wxHORIZONTAL);

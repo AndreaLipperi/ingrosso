@@ -25,18 +25,18 @@ public:
     RegisterFrame(const wxString& title);
 
     static const long IdButtonConfirm;
-    static const long IdButtonStockist;
+    static const long IdButtonProvider;
     static const long IdButtonClient;
     DECLARE_EVENT_TABLE()
 
 
 private:
     void Register(wxCommandEvent& event);
-     void IsStockist(wxCommandEvent& event);
+     void IsProvider(wxCommandEvent& event);
      void IsClient(wxCommandEvent& event);
     wxButton *Confirm;
-    wxButton *Stockist;
-    wxButton *Client;
+    wxRadioButton *Provider;
+    wxRadioButton *Client;
     wxTextCtrl *tcB_n;
     wxTextCtrl *tcA;
     wxTextCtrl *tcC;

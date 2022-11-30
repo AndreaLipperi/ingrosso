@@ -12,8 +12,8 @@
 #include "MyApp.h"
 #include "Enter.h"
 #include "RegisterFrame.h"
+#include "usersMethods.h"
 
 IMPLEMENT_APP(MyApp)
 using namespace std;
-
 

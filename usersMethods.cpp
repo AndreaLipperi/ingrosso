@@ -78,6 +78,7 @@ void TableUsers::add(const Users& emp) {
   }
   data[used]= emp;
   used++;
+  cout<<used;
 }
 void TableUsers::remove(string business_name) {
   for (int i=0; i<used; i++) {

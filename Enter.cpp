@@ -9,10 +9,10 @@
 #include "Menu.h"
 #include "usersMethods.h"
 #include "ClientFrame.h"
-#include "StockistFrame.h"
+#include "ProvidersFrame.h"
 
 
-wxTextCtrl *password;
+
 const long Enter::IdButtonConfirm =::wxNewId();
 
 BEGIN_EVENT_TABLE (Enter, wxFrame)
@@ -83,16 +83,14 @@ void Enter::Access(wxCommandEvent &event) {
     if (result == 0) {
         wxLogMessage("Incorrect email or password");
     } else {
-        TableUsers user;
         std::string TypeUser;
-        TypeUser = user.select_type(e);
+        TypeUser = table.select_type(e);
         if (TypeUser == "F") {
-            StockistFrame *StockistWin = new StockistFrame(_T("Stockist"), wxPoint(50, 20), wxSize(500, 300));
-            StockistWin->Show(TRUE);
+            ProvidersFrame *ProvidersWin = new ProvidersFrame(_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
+            ProvidersWin->Show(TRUE);
         } else {
-            ClientFrame *ClientWin = new ClientFrame(_T("Client"), wxPoint(50, 20), wxSize(500, 300));
+            ClientFrame *ClientWin = new ClientFrame(_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
             ClientWin->Show(TRUE);
         }
-
     }
 }
