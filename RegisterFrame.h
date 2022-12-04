@@ -15,6 +15,7 @@
 #include "SelectFrame.h"
 #include "Menu.h"
 #include "Enter.h"
+#include "ProvidersFrame.h"
 #include "RegisterFrame.h"
 
 

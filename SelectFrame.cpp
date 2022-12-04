@@ -29,11 +29,11 @@ SelectFrame::SelectFrame(const wxString &title, const wxPoint &pos, const wxSize
 this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 wxBoxSizer *MainBox= new wxBoxSizer(wxHORIZONTAL);
 wxBoxSizer *MainBox1=new wxBoxSizer(wxHORIZONTAL);
-Register=new wxButton (this,IdButtonRegister,_T ("Register"),wxDefaultPosition,wxDefaultSize,0);
-HelloWorld=new wxButton(this,IdButtonAccess,_T ("Enter"), wxDefaultPosition,wxDefaultSize,0);
+Register=new wxButton (this,IdButtonRegister,_T ("Register"),wxDefaultPosition,wxSize(180,40),0);
+HelloWorld=new wxButton(this,IdButtonAccess,_T ("Enter"), wxDefaultPosition,wxSize(180,40),0);
 MainBox1->Add(Register,0,wxALL,0);
 this->SetSizer(MainBox1);
-MainBox->Add(HelloWorld,0,wxLEFT,100);
+MainBox->Add(HelloWorld,0,wxLEFT,210);
 this->SetSizer(MainBox);
 this->Layout();
 //HelloWorld = new wxButton(this, BUTTON_Hello, _T("Enter"),

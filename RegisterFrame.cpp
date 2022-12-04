@@ -24,7 +24,7 @@ BEGIN_EVENT_TABLE (RegisterFrame, wxFrame)
 END_EVENT_TABLE()
 
 RegisterFrame::RegisterFrame(const wxString &title):
-        wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 300)) {
+        wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
 
 
     wxPanel *panel = new wxPanel(this, -1);
@@ -32,6 +32,8 @@ RegisterFrame::RegisterFrame(const wxString &title):
     wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
     wxFlexGridSizer *fgs1=new wxFlexGridSizer(1,2, 12,-5);
+
+
 
     wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
 
@@ -59,7 +61,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
     m_passwordText = new wxTextCtrl(panel, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
 
     fgs1->Add(Provider,0);
-    fgs1->Add(Client,0);
+    fgs1->Add(Client,0, wxLEFT, 70);
     fgs->Add(type);
     fgs->Add(fgs1);
     fgs->Add(business_name);
@@ -74,14 +76,14 @@ RegisterFrame::RegisterFrame(const wxString &title):
     fgs->Add(tcEm, 1, wxEXPAND);
     fgs->Add(password);
     fgs->Add(m_passwordText, 1);
-    fgs->Add(Confirm,0,wxLeft,100);
+    fgs->Add(Confirm,0);
+
 
     fgs->AddGrowableRow(1, 1);
     fgs->AddGrowableCol(1, 1);
 
 
     hbox->Add(fgs, 1, wxALL, 10);
-
 
 
 
@@ -106,7 +108,8 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 void RegisterFrame::Register(wxCommandEvent &event) {
     Close(true);
-
+    ProvidersFrame *EnterWin = new ProvidersFrame (_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
+    EnterWin->Show(TRUE);
     b_n=tcB_n->GetValue().ToStdString();
     a=tcA->GetValue().ToStdString();
     c=tcC->GetValue().ToStdString();

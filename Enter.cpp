@@ -55,7 +55,7 @@ Enter::Enter(const wxString &title)
     fgs->Add(tc1, 1, wxEXPAND);
     fgs->Add(password);
     fgs->Add(m_passwordText, 1);
-    fgs->Add(Confirm,0,wxLeft,100);
+    fgs->Add(Confirm,0);
 
     fgs->AddGrowableRow(1, 1);
     fgs->AddGrowableCol(1, 1);
