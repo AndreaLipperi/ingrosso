@@ -15,6 +15,7 @@ bool MyApp::OnInit()
     SetTopWindow(MainWin); // and finally, set it as the main window
 
     return TRUE;
-}//
+}
+//
 // Created by dario on 16/11/2022.
 //

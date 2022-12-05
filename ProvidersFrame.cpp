@@ -73,5 +73,6 @@ void ProvidersFrame::OpenStore(wxCommandEvent &event) {
 }
 
 void ProvidersFrame::OpenInsProd(wxCommandEvent &event) {
-
+    NewProductsFrame *EnterWin = new NewProductsFrame (_T("NEW PRODUCT"));
+    EnterWin->Show(TRUE);
 }

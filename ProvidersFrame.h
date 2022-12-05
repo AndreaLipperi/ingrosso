@@ -7,6 +7,7 @@
 #define INGROSSO_ONLINE_STOCKISTFRAME_H
 #include "wx/wxhtml.h"
 #include "wx/wx.h"
+#include "NewProductsFrame.h"
 
 class ProvidersFrame:public wxFrame {
 public:

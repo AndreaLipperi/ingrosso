@@ -18,7 +18,6 @@ public:
     static const long IdButtonRegister;
 
 DECLARE_EVENT_TABLE()
-
 private:
     void OnAccess( wxCommandEvent& event );
     void OnRegister(wxCommandEvent& event);
