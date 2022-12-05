@@ -5,9 +5,12 @@
 #include "NewProductsFrame.h"
 
 const long NewProductsFrame::IdButtonInsert =::wxNewId();
+const long NewProductsFrame::IdButtonComeBack =::wxNewId();
+
 
 BEGIN_EVENT_TABLE (NewProductsFrame, wxFrame)
                 EVT_BUTTON(IdButtonInsert, NewProductsFrame::InsertProduct)
+                EVT_BUTTON(IdButtonComeBack, NewProductsFrame::ComeBack)
 
 END_EVENT_TABLE()
 
@@ -31,7 +34,7 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     wxStaticText *Cost= new wxStaticText(Mainpanel, -1, wxT("$"));
 
     Insert=new wxButton (Mainpanel,IdButtonInsert,_T ("Insert"),wxDefaultPosition,wxDefaultSize,0);
-
+    Back=new wxButton(Mainpanel,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
 
 
 
@@ -51,6 +54,7 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     fgs->Add(Cost,0);
     fgs->Add(tcCost, 1);
     fgs->Add(Insert,0);
+    fgs->Add(Back,0);
 
 
 
@@ -73,4 +77,11 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
 
 void NewProductsFrame::InsertProduct(wxCommandEvent &event) {
 
+}
+
+void NewProductsFrame::ComeBack(wxCommandEvent &event) {
+
+    Close(TRUE);
+    ProvidersFrame *MainWin = new ProvidersFrame(_T("HOME"),wxPoint(50, 20), wxSize(600, 300));
+    MainWin->Show(TRUE);
 }

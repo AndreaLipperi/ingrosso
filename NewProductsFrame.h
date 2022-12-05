@@ -7,16 +7,22 @@
 
 #include "wx/wx.h"
 #include "wx/wxhtml.h"
+#include "ProvidersFrame.h"
 
 class NewProductsFrame:public wxFrame {
 public:
     NewProductsFrame(const wxString &title);
 
     static const long IdButtonInsert;
-  DECLARE_EVENT_TABLE()
+    static const long IdButtonComeBack;
+
+
+DECLARE_EVENT_TABLE()
 private:
+    void ComeBack(wxCommandEvent& event);
     void InsertProduct(wxCommandEvent& event);
     wxButton *Insert;
+    wxButton *Back;
     wxTextCtrl *tcCategory;
     wxTextCtrl *tcName;
     wxTextCtrl *tcQ_a;

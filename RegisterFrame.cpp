@@ -107,9 +107,11 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 
 void RegisterFrame::Register(wxCommandEvent &event) {
-    Close(true);
-    ProvidersFrame *EnterWin = new ProvidersFrame (_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
-    EnterWin->Show(TRUE);
+    Close(TRUE);
+   //ClientFrame *EnterWin = new ClientFrame (_T("HOME"), wxPoint(50, 20), wxSize(600, 300));
+   //EnterWin->Show(TRUE);
+    SelectFrame *MainWin = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+    MainWin->Show(TRUE);
     b_n=tcB_n->GetValue().ToStdString();
     a=tcA->GetValue().ToStdString();
     c=tcC->GetValue().ToStdString();
@@ -121,6 +123,7 @@ void RegisterFrame::Register(wxCommandEvent &event) {
    numResult=table.access_reg(em,psw,1);
    Users *user;
      if(numResult==0){
+
          user = new Users(t,b_n,c,a,em,psw,u);
          table.add(*user);
          cout<<table.select_type(em);

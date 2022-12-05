@@ -17,6 +17,7 @@
 #include "Enter.h"
 #include "ProvidersFrame.h"
 #include "RegisterFrame.h"
+#include "ClientFrame.h"
 
 
 

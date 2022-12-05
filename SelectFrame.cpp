@@ -44,13 +44,14 @@ this->Layout();
 
 void SelectFrame::OnAccess(wxCommandEvent& event )
 {
+    Close(TRUE);
     Enter *MainWin2 = new Enter(_T("Enter!"));
     MainWin2->Show(TRUE); // show the window
     // and finally, set it as the main window
     // Tells the OS to quit running this process
 }
 void SelectFrame::OnRegister(wxCommandEvent& event){
-
+    Close(TRUE);
     RegisterFrame *MainWin3 = new RegisterFrame(_T("Register!"));
     MainWin3->Show(TRUE);
 }
