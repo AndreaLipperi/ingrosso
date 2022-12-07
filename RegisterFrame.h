@@ -22,7 +22,7 @@
 
 
 
-class RegisterFrame : public wxFrame{
+class RegisterFrame : public wxDialog{
 public:
     RegisterFrame(const wxString& title);
 

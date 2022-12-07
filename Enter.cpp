@@ -15,7 +15,7 @@
 
 const long Enter::IdButtonConfirm =::wxNewId();
 
-BEGIN_EVENT_TABLE (Enter, wxFrame)
+BEGIN_EVENT_TABLE (Enter, wxDialog)
         EVT_BUTTON(IdButtonConfirm, Enter::Access)
 
 END_EVENT_TABLE() // The button is pressed
@@ -24,7 +24,7 @@ END_EVENT_TABLE() // The button is pressed
 std::string e;
 std::string p;
 Enter::Enter(const wxString &title)
-        : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(365, 250)){
+        : wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(365, 250)){
 
 
 

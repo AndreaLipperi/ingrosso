@@ -14,6 +14,6 @@
 #include "RegisterFrame.h"
 #include "usersMethods.h"
 
-IMPLEMENT_APP(MyApp)
-using namespace std;
+IMPLEMENT_APP(MyApp);
+
 

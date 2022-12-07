@@ -17,14 +17,14 @@ const long RegisterFrame::IdButtonConfirm =::wxNewId();
 const long RegisterFrame::IdButtonProvider =::wxNewId();
 const long RegisterFrame::IdButtonClient =::wxNewId();
 
-BEGIN_EVENT_TABLE (RegisterFrame, wxFrame)
+BEGIN_EVENT_TABLE (RegisterFrame, wxDialog)
                 EVT_BUTTON(IdButtonConfirm, RegisterFrame::Register)
                 EVT_RADIOBUTTON(IdButtonClient, RegisterFrame::IsClient)
                 EVT_RADIOBUTTON(IdButtonProvider, RegisterFrame::IsProvider)
 END_EVENT_TABLE()
 
 RegisterFrame::RegisterFrame(const wxString &title):
-        wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
+        wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
 
 
     wxPanel *panel = new wxPanel(this, -1);
@@ -107,11 +107,11 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 
 void RegisterFrame::Register(wxCommandEvent &event) {
-    Close(TRUE);
+    Hide();
    //ClientFrame *EnterWin = new ClientFrame (_T("HOME"), wxPoint(50, 20), wxSize(600, 300));
    //EnterWin->Show(TRUE);
-    SelectFrame *MainWin = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
-    MainWin->Show(TRUE);
+    
+
     b_n=tcB_n->GetValue().ToStdString();
     a=tcA->GetValue().ToStdString();
     c=tcC->GetValue().ToStdString();

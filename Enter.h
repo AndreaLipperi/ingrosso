@@ -7,7 +7,7 @@
 #define BUTTON_WXWIDGETS_NEWFRAME_H
 
 
-class Enter : public wxFrame{
+class Enter : public wxDialog{
     public:
         Enter(const wxString& title);
         static const long IdButtonConfirm;

@@ -12,7 +12,7 @@
 
 const long SelectFrame::IdButtonRegister=::wxNewId();
 const long SelectFrame::IdButtonAccess =::wxNewId();
-BEGIN_EVENT_TABLE (SelectFrame, wxFrame )
+BEGIN_EVENT_TABLE (SelectFrame, wxFrame)
 //EVT_BUTTON ( BUTTON_Hello, SelectFrame::OnExit )
            EVT_BUTTON(IdButtonAccess, SelectFrame::OnAccess)
            EVT_BUTTON(IdButtonRegister, SelectFrame::OnRegister)
@@ -22,7 +22,7 @@ END_EVENT_TABLE() // The button is pressed
 
 
 SelectFrame::SelectFrame(const wxString &title, const wxPoint &pos, const wxSize
-&size): wxFrame((wxFrame*)NULL,  - 1, title, pos, size)
+&size): wxFrame(NULL,  - 1, title, pos, size)
 
 {
 
@@ -44,14 +44,14 @@ this->Layout();
 
 void SelectFrame::OnAccess(wxCommandEvent& event )
 {
-    Close(TRUE);
+
     Enter *MainWin2 = new Enter(_T("Enter!"));
-    MainWin2->Show(TRUE); // show the window
+    MainWin2->ShowModal(); // show the window
     // and finally, set it as the main window
     // Tells the OS to quit running this process
 }
 void SelectFrame::OnRegister(wxCommandEvent& event){
-    Close(TRUE);
+
     RegisterFrame *MainWin3 = new RegisterFrame(_T("Register!"));
-    MainWin3->Show(TRUE);
+    MainWin3->ShowModal();
 }

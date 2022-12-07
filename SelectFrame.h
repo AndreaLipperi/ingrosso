@@ -8,7 +8,7 @@
 
 
 
-class SelectFrame: public wxFrame // MainFrame is the class for our window,
+class SelectFrame: public wxFrame// MainFrame is the class for our window,
 {
     // It contains the window and all objects in it
 public:
