@@ -8,6 +8,7 @@
 
 TEST(Users, TestFindUser) {
     TableUsers user;
+    int all;
     string e = "matilde.tarchi@gmail.com";
     string p = "ciao";
     EXPECT_EQ(0,user.access_reg(e,p,0));
