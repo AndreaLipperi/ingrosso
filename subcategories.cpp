@@ -7,5 +7,5 @@
 #include <string>
 using namespace std;
 Products::Products(const std::string &new_name, Categories *new_cat) : cat(new_cat) {
-  name= new_name;
+    name= new_name;
 }

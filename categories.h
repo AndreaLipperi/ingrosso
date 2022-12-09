@@ -8,15 +8,15 @@
 using namespace std;
 class Categories {
 public:
-  Categories();
+    Categories();
     Categories(const std::string &new_name);
     string get_name() {
-      return name;
+        return name;
     }
     void set_name(const string &new_name){
-      Categories::name=new_name;
+        Categories::name=new_name;
     }
-  private:
+private:
     string name;
 };
 
