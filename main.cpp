@@ -4,9 +4,9 @@
 #include <iostream>
 #include <sqlite3.h>
 #include <stdio.h>
+#include "wx/wx.h"
 #include <string>
+#include "MyApp.h"
 using namespace std;
 
-int main() {
-
-}
+IMPLEMENT_APP(MyApp)

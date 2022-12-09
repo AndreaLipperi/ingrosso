@@ -108,8 +108,8 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 void RegisterFrame::Register(wxCommandEvent &event) {
     Hide();
-    //ClientFrame *EnterWin = new ClientFrame (_T("HOME"), wxPoint(50, 20), wxSize(600, 300));
-    //EnterWin->Show(TRUE);
+    ClientFrame *EnterWin = new ClientFrame (_T("HOME"), wxPoint(50, 20), wxSize(600, 300));
+    EnterWin->Show(TRUE);
 
 
     b_n=tcB_n->GetValue().ToStdString();

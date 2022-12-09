@@ -94,7 +94,7 @@ void TableCart::sort_id_provider() {
     }
   }
 }
-void TableCart::changeData(string IDuser, Products &prod) {
+void TableCart::changeData(const string& IDuser, Products &prod) {
   int num_result = 0;
   int save;
   for (int i=0; i<used; i++) {
