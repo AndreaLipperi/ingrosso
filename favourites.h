@@ -29,8 +29,8 @@ public:
   string get_id_prov(){
     return IDprovider;
   }
-  string get_prod_name(int id_prod){
-    return TableProducts::select_name(id_prod);
+  string get_prod_name(const string &prod){
+    return TableProducts::select_name(prod);
   }
   string get_prov_name(string id_prov) {
     return TableUsers::select_username(id_prov);

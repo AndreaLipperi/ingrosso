@@ -4,7 +4,6 @@
 
 #ifndef INGR_ONLINE_UTENTI_H
 #define INGR_ONLINE_UTENTI_H
-
 #include <string>
 using namespace std;
 class Users {
