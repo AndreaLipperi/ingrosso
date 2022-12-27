@@ -18,9 +18,9 @@ const long RegisterFrame::IdButtonProvider =::wxNewId();
 const long RegisterFrame::IdButtonClient =::wxNewId();
 
 BEGIN_EVENT_TABLE (RegisterFrame, wxDialog)
-EVT_BUTTON(IdButtonConfirm, RegisterFrame::Register)
-EVT_RADIOBUTTON(IdButtonClient, RegisterFrame::IsClient)
-EVT_RADIOBUTTON(IdButtonProvider, RegisterFrame::IsProvider)
+        EVT_BUTTON(IdButtonConfirm, RegisterFrame::Register)
+        EVT_RADIOBUTTON(IdButtonClient, RegisterFrame::IsClient)
+        EVT_RADIOBUTTON(IdButtonProvider, RegisterFrame::IsProvider)
 END_EVENT_TABLE()
 
 RegisterFrame::RegisterFrame(const wxString &title):
@@ -108,29 +108,25 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 void RegisterFrame::Register(wxCommandEvent &event) {
     Hide();
-    ClientFrame *EnterWin = new ClientFrame (_T("HOME"), wxPoint(50, 20), wxSize(600, 300));
-    EnterWin->Show(TRUE);
 
-
-    b_n=tcB_n->GetValue().ToStdString();
-    a=tcA->GetValue().ToStdString();
-    c=tcC->GetValue().ToStdString();
-    u=tcU->GetValue().ToStdString();
-    em=tcEm->GetValue().ToStdString();
-    psw=m_passwordText->GetValue().ToStdString();
+    b_n = tcB_n->GetValue().ToStdString();
+    a = tcA->GetValue().ToStdString();
+    c = tcC->GetValue().ToStdString();
+    u = tcU->GetValue().ToStdString();
+    em = tcEm->GetValue().ToStdString();
+    psw = m_passwordText->GetValue().ToStdString();
     TableUsers table;
     int numResult;
-    numResult=table.access_reg(em,psw,1);
+    numResult = table.access_reg(em, psw, 1);
     Users *user;
-    if(numResult==0){
 
-        user = new Users(t,b_n,c,a,em,psw,u);
+    if (numResult == 0) {
+        user = new Users(t, b_n, c, a, em, psw, u);
         table.add(*user);
-        cout<<table.select_type(em);
-    } else{
+        cout << table.select_type(em);
+    } else {
         wxLogMessage("There is already an account with this email");
     }
-
 
 }
 

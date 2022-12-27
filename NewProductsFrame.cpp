@@ -9,8 +9,9 @@ const long NewProductsFrame::IdButtonComeBack =::wxNewId();
 
 
 BEGIN_EVENT_TABLE (NewProductsFrame, wxFrame)
-EVT_BUTTON(IdButtonInsert, NewProductsFrame::InsertProduct)
-EVT_BUTTON(IdButtonComeBack, NewProductsFrame::ComeBack)
+
+          EVT_BUTTON(IdButtonInsert, NewProductsFrame::InsertProduct)
+          EVT_BUTTON(IdButtonComeBack, NewProductsFrame::ComeBack)
 
 END_EVENT_TABLE()
 
@@ -81,7 +82,6 @@ void NewProductsFrame::InsertProduct(wxCommandEvent &event) {
 
 void NewProductsFrame::ComeBack(wxCommandEvent &event) {
 
-    Close(TRUE);
-    ProvidersFrame *MainWin = new ProvidersFrame(_T("HOME"),wxPoint(50, 20), wxSize(600, 300));
-    MainWin->Show(TRUE);
+   Hide();
+
 }

@@ -20,12 +20,13 @@ const long ClientFrame::IdButtonComeBack =::wxNewId();
 
 
 BEGIN_EVENT_TABLE (ClientFrame, wxFrame)
-EVT_BUTTON(IdButtonCart, ClientFrame::OpenCart)
-EVT_BUTTON(IdButtonProfile, ClientFrame::OpenProfile)
-EVT_BUTTON(IdButtonProducts, ClientFrame::OpenProductsList)
-EVT_BUTTON(IdButtonOrders, ClientFrame::OpenOrdersList)
-EVT_BUTTON(IdButtonFavorites, ClientFrame::OpenFavoritesList)
-EVT_BUTTON(IdButtonComeBack, ClientFrame::ComeBack)
+
+           EVT_BUTTON(IdButtonCart, ClientFrame::OpenCart)
+           EVT_BUTTON(IdButtonProfile, ClientFrame::OpenProfile)
+           EVT_BUTTON(IdButtonProducts, ClientFrame::OpenProductsList)
+           EVT_BUTTON(IdButtonOrders, ClientFrame::OpenOrdersList)
+           EVT_BUTTON(IdButtonFavorites, ClientFrame::OpenFavoritesList)
+           EVT_BUTTON(IdButtonComeBack, ClientFrame::ComeBack)
 
 END_EVENT_TABLE()
 
@@ -97,7 +98,6 @@ void ClientFrame::OpenOrdersList(wxCommandEvent &event) {
 
 void ClientFrame::ComeBack(wxCommandEvent &event) {
 
-    Close(TRUE);
-    SelectFrame *MainWin = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
-    MainWin->Show(TRUE);
+    Hide();
+
 }
