@@ -12,7 +12,6 @@ class TableUsers{
 public :
     TableUsers();
     ~TableUsers();
-    TableUsers(const TableUsers& other);
     void operator =(const TableUsers& other);
     int access_reg(const string &email, const string &psw, int control);
     void add(const Users& emp);
@@ -23,10 +22,7 @@ public :
     void sort_bus_name();
     string select_type(const string &email);
 private:
-    void make_bigger();
-    int capacity;
-    Users *data;
-    int used;
+    Users data;
 };
 
 

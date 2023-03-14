@@ -5,51 +5,28 @@
 #include "usersMethods.h"
 #include <fstream>
 #include <iostream>
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Database.h>
 #include <string>
 #define accesso 0
 #define registrazione 1
 using namespace std;
 
-TableUsers::TableUsers() {
-    used = 0;
-    capacity = 5;
-    data = new Users[capacity];
-}
-TableUsers::TableUsers(const TableUsers &other) {
-    used = other.used;
-    capacity = other.capacity;
-    data = new Users[capacity];
-    copy(other.data, other.data+used, data);
-}
-TableUsers::~TableUsers() {
-    delete []data;
-}
+SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingosso.db");
 
-void TableUsers::operator=(const TableUsers &other) {
-    if (&other == this) {
-        return;
-    }
-    delete []data;
-    capacity = other.capacity;
-    used = other.used;
-    data = new Users[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableUsers::make_bigger() {
-    Users *tmp;
-    tmp = new Users[capacity + 5];
-    copy(data, data+used,tmp);
-    delete []data;
-    data = tmp;
-    capacity +=5;
-}
+TableUsers::TableUsers() {
+
+    SQLite::Statement query(db, "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, type TEXT NOT NULL,business_name TEXT NOT NULL, address TEXT NOT NULL,city TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,username TEXT NOT NULL);");
+}/*
 int TableUsers::access_reg(const string &email, const string &psw, int control) {
     //control =0 accesso normale
     //control = 1 per controllo se utente già esistente in caso di registrazione
     int num_found =0;
+    SQLite::Statement query(db, "SELECT * FROM Person");
     if (control==accesso) {
-        for (int i = 0; i < used; i++) {
-            if (data[i].get_email() == email && data[i].get_psw() == psw) {
+       while (query.executeStep()){
+            if (query.getColumn(4).getText() == email && query.getColumn(5).getText() == psw) {
                 num_found++;
             }
         }
@@ -59,8 +36,8 @@ int TableUsers::access_reg(const string &email, const string &psw, int control) 
             return 1;
         }
     } else if(control==registrazione){
-        for (int i = 0; i < used; i++) {
-            if (data[i].get_email() == email) {
+        while (query.executeStep()){
+            if (query.getColumn(4).getText() == email) {
                 num_found++;
             }
         }
@@ -70,14 +47,11 @@ int TableUsers::access_reg(const string &email, const string &psw, int control) 
             return 1;
         }
     }
-}
+}*/
 void TableUsers::add(const Users& emp) {
-    if (used>=capacity) {
-        make_bigger();
-    }
-    data[used]= emp;
-    used++;
-}
+    data=emp;
+    SQLite::Statement query(db, "INSERT INTO users (type, business_name, address, city, email, password, username) VALUES ('" + data.get_type() + "', '" + data.get_bus_name() + "', '" + data.get_address() + "', '" + data.get_city() + "', '" + data.get_email() + "', '" + data.get_psw() + "', '" + data.get_username() + "');");
+}/*
 void TableUsers::remove(const string &business_name) {
     for (int i=0; i<used; i++) {
         if (data[i].get_bus_name() == business_name) {
@@ -154,4 +128,4 @@ string TableUsers::select_type(const std::string &email) {
         }
     }
     return data[save].get_type();
-}
+}*/
