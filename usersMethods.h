@@ -16,7 +16,7 @@ public :
     int access_reg(const string &email, const string &psw, int control);
     void add(const Users& emp);
     void remove(const string &business_name);
-    void changePsw(const string &psw);
+    int changePsw(const string &psw,const string &new_psw);
     string select_username(const string &business_name);
     void sort_email();
     void sort_bus_name();

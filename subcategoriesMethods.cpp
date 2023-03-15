@@ -4,58 +4,40 @@
 
 #include "subcategoriesMethods.h"
 #include <fstream>
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Database.h>
 #include <iostream>
 #include <string>
 using namespace std;
 
-TableProducts::TableProducts() {
-    used = 0;
-    capacity = 5;
-    data = new Products[capacity];
-}
-TableProducts::TableProducts(const TableProducts &other) {
-    used = other.used;
-    capacity = other.capacity;
-    data = new Products[capacity];
-    copy(other.data, other.data+used, data);
-}
-TableProducts::~TableProducts() {
-    delete []data;
-}
+SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingosso.db");
 
-void TableProducts::operator=(const TableProducts &other) {
-    if (&other == this) {
-        return;
-    }
-    delete []data;
-    capacity = other.capacity;
-    used = other.used;
-    data = new Products[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableProducts::make_bigger() {
-    Products *tmp;
-    tmp = new Products[capacity + 5];
-    copy(data, data+used,tmp);
-    delete []data;
-    data = tmp;
-    capacity +=5;
+
+TableProducts::TableProducts() {
+    SQLite::Statement query(db, "CREATE TABLE IF NOT EXISTS subcategories (id INTEGER PRIMARY KEY, name VARCHAR NOT NULL,FOREIGN KEY (id_cat) REFERENCES categories (id) NOT NULL);");
+
 }
 void TableProducts::add(const Products& prod) {
-    if (used>=capacity) {
-        make_bigger();
-    }
-    data[used]= prod;
-    used++;
-}
-void TableProducts::remove(const string &name) {
-    for (int i=0; i<used; i++) {
-        if (data[i].get_name() == name) {
-            data[i] = data[used-1];
-            used++;
+    data=prod;
+    Categories *cat = data.get_cat();
+    int i=0;
+    SQLite::Statement query(db, "SELECT * FROM categories");
+    while (query.executeStep()) {
+        if (query.getColumn(1).getText() != cat->get_name()) {
+            i++;
         }
     }
+    SQLite::Statement query2(db, "INSERT INTO subcategories (name, id_cat) VALUES ('" + data.get_name() + "', " + to_string(i) + ");");
 }
+void TableProducts::remove(const string &name) {
+    SQLite::Statement query(db, "SELECT * FROM subcategories");
+    while (query.executeStep()){
+        if (query.getColumn(1).getText() == name) {
+            SQLite::Statement query(db,"DELETE FROM subcategories WHERE name = '"+name+"'");
+        }
+    }
+}/*
 void TableProducts::sort_id() {
     bool done = false;
     Products tmp;
@@ -70,34 +52,19 @@ void TableProducts::sort_id() {
             }
         }
     }
-}
-void TableProducts::changeData(const string &name) {
+}*/
+void TableProducts::changeData(const string &name, const string &new_name) {
     int num_result = 0;
-    int save;
-    for (int i=0; i<used; i++) {
-        if (data[i].get_name() == name) {
+    int i=0;
+    SQLite::Statement query(db, "SELECT * FROM subcategories");
+    while (query.executeStep()){
+        if (query.getColumn(1).getText() == name) {
             num_result++;
-            save=i;
-            i=used;
+        } else {
+            i++;
         }
     }
     if (num_result>0) {
-        string new_name;
-        string new_descriprion;
-        Categories *new_cat;
-        data[save].set_name(new_name);
-        data[save].set_cat(new_cat);
+        SQLite::Statement query(db, "UPDATE subcategories SET name = '"+name+"' WHERE id = "+ to_string(i)+"");
     }
-}
-string TableProducts::select_name(const string &name) {
-    int num_result = 0;
-    int save;
-    for (int i=0; i<used; i++) {
-        if (data[i].get_name() == name) {
-            num_result++;
-            save=i;
-            i=used;
-        }
-    }
-    return data[save].get_name();
 }

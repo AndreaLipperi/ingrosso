@@ -10,19 +10,13 @@
 class TableProducts {
 public :
     TableProducts();
-    ~TableProducts();
-    TableProducts(const TableProducts& other);
-    void operator =(const TableProducts& other);
     void add(const Products& prod);
     string select_name(const string &name);
     void remove(const string &name);
-    void changeData(const string &name);
+    void changeData(const string &name, const string &new_name);
     void sort_id();
 private:
-    void make_bigger();
-    int capacity;
-    Products *data;
-    int used;
+    Products data;
 };
 
 #endif // INGROSSO_DB_DB_SUBCATEGORIESMETHODS_H
