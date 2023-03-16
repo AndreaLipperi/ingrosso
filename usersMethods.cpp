@@ -13,17 +13,20 @@
 #define registrazione 1
 using namespace std;
 
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingosso.db");
+SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableUsers::TableUsers() {
-
-    SQLite::Statement query(db, "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, type TEXT NOT NULL,business_name TEXT NOT NULL, address TEXT NOT NULL,city TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,username TEXT NOT NULL);");
+    string query ="CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, type TEXT NOT NULL,business_name TEXT NOT NULL, address TEXT NOT NULL,city TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,username TEXT NOT NULL);";
+    db.exec(query);
 }
 int TableUsers::access_reg(const string &email, const string &psw, int control) {
     //control =0 accesso normale
     //control = 1 per controllo se utente già esistente in caso di registrazione
     int num_found =0;
+
+
     SQLite::Statement query(db, "SELECT * FROM users");
+    query.reset();
     if (control==accesso) {
        while (query.executeStep()){
             if (query.getColumn(4).getText() == email && query.getColumn(5).getText() == psw) {
@@ -50,30 +53,33 @@ int TableUsers::access_reg(const string &email, const string &psw, int control) 
 }
 void TableUsers::add(const Users& emp) {
     data=emp;
-    SQLite::Statement query(db, "INSERT INTO users (type, business_name, address, city, email, password, username) VALUES ('" + data.get_type() + "', '" + data.get_bus_name() + "', '" + data.get_address() + "', '" + data.get_city() + "', '" + data.get_email() + "', '" + data.get_psw() + "', '" + data.get_username() + "');");
+
+    string query="INSERT INTO users (type, business_name, address, city, email, password, username) VALUES ('" + data.get_type() + "', '" + data.get_bus_name() + "', '" + data.get_address() + "', '" + data.get_city() + "', '" + data.get_email() + "', '" + data.get_psw() + "', '" + data.get_username() + "');";
+
+    db.exec(query);
 }
 void TableUsers::remove(const string &business_name) {
-    SQLite::Statement query(db, "SELECT * FROM users");
-    while (query.executeStep()){
-        if (query.getColumn(2).getText() == business_name) {
-            SQLite::Statement query(db,"DELETE FROM users WHERE business_name = '"+business_name+"'");
-        }
-    }
+    string query="DELETE FROM users WHERE business_name = '"+business_name+"'";
+    db.exec(query);
 }
 int TableUsers::changePsw(const string &email, const string &new_psw) {
     int num_result = 0;
     int i=0;
-    SQLite::Statement query(db, "SELECT * FROM users");
-    while (query.executeStep()){
-        if (query.getColumn(5).getText() == email) {
+
+    SQLite::Statement query_select(db, "SELECT * FROM users");
+
+    while (query_select.executeStep()){
+        if (query_select.getColumn(5).getText() == email) {
             num_result++;
         }
         else {
             i++;
         }
     }
+    query_select.reset();
     if (num_result>0) {
-        SQLite::Statement query(db, "UPDATE users SET password = '"+new_psw+"' WHERE id = "+ to_string(i)+"");
+        string query="UPDATE users SET password = '"+new_psw+"' WHERE id = "+ to_string(i)+"";
+        db.exec(query);
         return 1;
     } else {
         return 0;
@@ -82,14 +88,12 @@ int TableUsers::changePsw(const string &email, const string &new_psw) {
 
 string TableUsers::select_username(const string &business_name) {
     string username;
-    SQLite::Statement query(db, "SELECT username FROM users WHERE business_name='"+business_name+"'");
-    username = query.getColumn(0).getString();
-    return username;
+    string query="SELECT username FROM users WHERE business_name='"+business_name+"'";
+    return db.execAndGet(query);
 }
 
 string TableUsers::select_type(const std::string &email) {
     string type;
-    SQLite::Statement query(db, "SELECT type FROM users WHERE email='"+email+"'");
-    type = query.getColumn(0).getString();
-    return type;
+    string query="SELECT type FROM users WHERE email='"+email+"'";
+    return db.execAndGet(query);
 }
