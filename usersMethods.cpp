@@ -53,9 +53,7 @@ int TableUsers::access_reg(const string &email, const string &psw, int control) 
 }
 void TableUsers::add(const Users& emp) {
     data=emp;
-
     string query="INSERT INTO users (type, business_name, address, city, email, password, username) VALUES ('" + data.get_type() + "', '" + data.get_bus_name() + "', '" + data.get_address() + "', '" + data.get_city() + "', '" + data.get_email() + "', '" + data.get_psw() + "', '" + data.get_username() + "');";
-
     db.exec(query);
 }
 void TableUsers::remove(const string &business_name) {
