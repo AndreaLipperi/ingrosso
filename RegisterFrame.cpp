@@ -107,7 +107,7 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 
 void RegisterFrame::Register(wxCommandEvent &event) {
-    Hide();
+    Close();
 
     b_n = tcB_n->GetValue().ToStdString();
     a = tcA->GetValue().ToStdString();

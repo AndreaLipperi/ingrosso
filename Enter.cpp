@@ -79,7 +79,7 @@ Enter::Enter(const wxString &title)
 
 void Enter::Access(wxCommandEvent &event) {
 
-    Hide();
+    Close();
 
     e = tc1->GetValue().ToStdString();
     p = m_passwordText->GetValue().ToStdString();
