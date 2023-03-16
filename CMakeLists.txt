@@ -7,9 +7,8 @@ add_subdirectory(test)
 add_subdirectory(SQLiteCpp)
 
 
-find_package(SQLite3 REQUIRED net gl core base media)
-include_directories(${SQLite3_INCLUDE_DIRS})
 include_directories(SQLiteCpp/include)
+include_directories(SQLiteCpp/sqlite3)
 find_package(wxWidgets REQUIRED net gl core base media)
 include(${wxWidgets_USE_FILE})
 

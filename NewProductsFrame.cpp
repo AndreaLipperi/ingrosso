@@ -29,6 +29,8 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
 
     //wxBoxSizer *MainBox=new wxBoxSizer(wxHORIZONTAL);
 
+    wxString choices[]={"ggg","bb","aa"};
+
     wxStaticText *Category = new wxStaticText(Mainpanel, -1, wxT("Type"));
     wxStaticText *Name = new wxStaticText(Mainpanel, -1, wxT("Product's name"));
     wxStaticText *Qty_avb= new wxStaticText(Mainpanel, -1, wxT("Quantity available"));
@@ -38,15 +40,15 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     Back=new wxButton(Mainpanel,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
 
 
-
-    tcCategory = new wxTextCtrl(Mainpanel, -1);
+    choice=new wxChoice(Mainpanel, wxID_ANY,wxDefaultPosition, wxDefaultSize,3,choices);
+   // tcCategory = new wxTextCtrl(Mainpanel, -1);
     tcName = new wxTextCtrl(Mainpanel, -1);
     tcCost = new wxTextCtrl(Mainpanel, -1);
     tcQ_a= new wxTextCtrl(Mainpanel, -1);
 
 
     fgs->Add(Category,0);
-    fgs->Add(tcCategory,1, wxEXPAND);
+    fgs->Add(choice,1, wxEXPAND);
     fgs->Add(Name,0);
     fgs->Add(tcName,1, wxEXPAND);
 
@@ -82,6 +84,6 @@ void NewProductsFrame::InsertProduct(wxCommandEvent &event) {
 
 void NewProductsFrame::ComeBack(wxCommandEvent &event) {
 
-   Hide();
+   Close();
 
 }

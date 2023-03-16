@@ -54,12 +54,12 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
 
 
 
-    MainGrid->Add(Products,0);
-    MainGrid->Add(Favorites,0,wxLEFT, 10);
-    MainGrid->Add(Orders,0);
-    MainGrid->Add(Cart,0,wxLEFT, 10);
-    MainGrid->Add(Profile,0,wxLEFT,130);
-    MainGrid->Add(Back,0,wxLEFT, 90);
+    MainGrid->Add(Products,0,wxLEFT, 5);
+    MainGrid->Add(Favorites,0,wxLEFT, 5);
+    MainGrid->Add(Orders,0,wxLEFT, 5);
+    MainGrid->Add(Cart,0,wxLEFT, 5);
+    MainGrid->Add(Profile,0,wxLEFT,90);
+    MainGrid->Add(Back,0,wxLEFT,85);
 
     MainGrid->AddGrowableRow(1, 1);
     MainGrid->AddGrowableCol(1, 1);
@@ -98,6 +98,6 @@ void ClientFrame::OpenOrdersList(wxCommandEvent &event) {
 
 void ClientFrame::ComeBack(wxCommandEvent &event) {
 
-    Hide();
+    Close();
 
 }

@@ -40,9 +40,9 @@ ProvidersFrame::ProvidersFrame(const wxString& title, const wxPoint& pos, const 
     Store=new wxButton(panelHome, IdButtonStore, _T("Store"),wxDefaultPosition, wxSize(180,40),0);
 
 
-    MainGrid->Add(InsProd,0);
+    MainGrid->Add(InsProd,0, wxLEFT, -15);
     MainGrid->Add(Profile,0,wxLEFT, 50);
-    MainGrid->Add(Store,0);
+    MainGrid->Add(Store,0, wxLEFT, -15);
     MainGrid->Add(Requests,0,wxLEFT, 50);
 
     MainGrid->AddGrowableRow(1, 1);

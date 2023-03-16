@@ -27,6 +27,7 @@ private:
     wxTextCtrl *tcName;
     wxTextCtrl *tcQ_a;
     wxTextCtrl *tcCost;
+    wxChoice* choice;
 };
 
 #endif //INGROSSO_ONLINE_NEWPRODUCTSFRAME_H
