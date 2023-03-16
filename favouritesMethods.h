@@ -2,8 +2,8 @@
 // Created by Andrea Lipperi on 16/11/22.
 //
 
-#ifndef INGROSSO_DB_DB_FAVOURITESMETHODS_H
-#define INGROSSO_DB_DB_FAVOURITESMETHODS_H
+#ifndef INGROSSO_ONLINE_FAVOURITESMETHODS_H
+#define INGROSSO_ONLINE_FAVOURITESMETHODS_H
 #include <string>
 #include "favourites.h"
 using namespace std;
@@ -24,4 +24,4 @@ private:
     int used;
 };
 
-#endif // INGROSSO_DB_DB_FAVOURITESMETHODS_H
+#endif // INGROSSO_ONLINE_FAVOURITESMETHODS_H

@@ -1,7 +1,7 @@
 //
 // Created by dario on 09/12/2022.
 //
-
+#include <wx/wx.h>
 #include "ClientFrame.h"
 //
 // Created by dario on 30/11/2022.

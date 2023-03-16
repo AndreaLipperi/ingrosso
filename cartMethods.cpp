@@ -3,67 +3,75 @@
 //
 
 #include "cartMethods.h"
-#include <fstream>
+#include "subcategories.h"
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Database.h>
 #include <iostream>
 #include <string>
 using namespace std;
 
-TableCart::TableCart() {
-  used = 0;
-  capacity = 5;
-  data = new Cart[capacity];
-}
-TableCart::TableCart(const TableCart &other) {
-  used = other.used;
-  capacity = other.capacity;
-  data = new Cart[capacity];
-  copy(other.data, other.data+used, data);
-}
-TableCart::~TableCart() {
-  delete []data;
-}
+SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
-void TableCart::operator=(const TableCart &other) {
-  if (&other == this) {
-    return;
-  }
-  delete []data;
-  capacity = other.capacity;
-  used = other.used;
-  data = new Cart[capacity];
-  copy(other.data, other.data+used, data);
-}
-void TableCart::make_bigger() {
-  Cart *tmp;
-  tmp = new Cart[capacity + 5];
-  copy(data, data+used,tmp);
-  delete []data;
-  data = tmp;
-  capacity +=5;
+TableCart::TableCart() {
+    string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY, quantity INT NOT NULL, id_sub INT NOT NULL, id_user INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_sub) REFERENCES subcategories (id) NOT NULL, FOREIGN KEY (id_user) REFERENCES users (id) NOT NULL, FOREIGN KEY (id_prov) REFERENCES users (id) NOT NULL);";
+    db.exec(query);
 }
 void TableCart::add(const Cart& cart) {
-  if (used>=capacity) {
-    make_bigger();
-  }
-  data[used]= cart;
-  used++;
+    data=cart;
+    Products *prod = data.get_prod();
+    int i=0;
+    int k=0;
+    int j=0;
+    SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
+    while (query_sub.executeStep()) {
+        if (query_sub.getColumn(1).getText() != prod->get_name()) {
+            i++;
+        }
+    }
+    query_sub.reset();
+    SQLite::Statement query_user(db, "SELECT * FROM user");
+    while (query_user.executeStep()) {
+        if (query_user.getColumn(2).getText() != data.get_id_user()) {
+            k++;
+        }
+        if (query_user.getColumn(2).getText() != data.get_id_prov()){
+            j++;
+        }
+    }
+    query_user.reset();
+
+    string query_insert="INSERT INTO cart (quantity, id_sub, id_prov) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(i) + ","+
+                                                                                                                                         to_string(k)+","+
+                                                                                                                                                      to_string(j)+");";
+    db.exec(query_insert);
 }
 void TableCart::remove_all(const string &IDuser) {
-  for (int i=0; i<used; i++) {
-    if (data[i].get_id_user() == IDuser) {
-      data[i] = data[used-1];
-      used++;
-    }
-  }
+
+    string query="DELETE FROM cart WHERE id_user = '"+IDuser+"'";
+    db.exec(query);
 }
 void TableCart::remove_prod(Products &prod,const string &IDuser) {
-  for (int i=0; i<used; i++) {
-    if (data[i].get_prod() == &prod && data[i].get_id_user()==IDuser) {
-      data[i] = data[used-1];
-      used++;
+    int i=0;
+    int k=0;
+    SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
+    while (query_sub.executeStep()) {
+        if (query_sub.getColumn(1).getText() != prod.get_name()) {
+            i++;
+        }
     }
-  }
-}
+    query_sub.reset();
+    SQLite::Statement query_user(db, "SELECT * FROM user");
+    while (query_user.executeStep()) {
+        if (query_user.getColumn(2).getText() != IDuser) {
+            k++;
+        }
+    }
+    query_user.reset();
+
+    string query="DELETE FROM cart WHERE id_user = '"+ to_string(k)+"' AND id_sub = "+ to_string(i)+"";
+    db.exec(query);
+}/*
 void TableCart::sort_id_prod() {
   bool done = false;
   Cart tmp;
@@ -93,25 +101,22 @@ void TableCart::sort_id_provider() {
       }
     }
   }
-}
-void TableCart::changeData(const string& IDuser, Products &prod) {
-  int num_result = 0;
-  int save;
-  for (int i=0; i<used; i++) {
-    if (data[i].get_prod() == &prod && data[i].get_id_user()==IDuser) {
-      num_result++;
-      save=i;
-      i=used;
+}*/
+void TableCart::changeData(const string& IDuser, Products &prod, const string &new_IDprov, const int &new_quantity) {
+    int num_result = 0;
+    int i=0;
+    SQLite::Statement query_select(db, "SELECT * FROM subcategories");
+    while (query_select.executeStep()){
+        if (query_select.getColumn(1).getText() == prod.get_name()) {
+            num_result++;
+        } else {
+            i++;
+        }
     }
-  }
-  if (num_result>0) {
-    int new_quantity;
-    string new_provider;
-    cout << "Enter new quantity: ";
-    cin >> new_quantity;
-    data[save].set_quantity(new_quantity);
-    cout << "enter provider business name: ";
-    cin >> new_provider;
-    data[save].set_IDprov(new_provider);
-  }
+    query_select.reset();
+    if (num_result>0) {
+        string query="UPDATE cart SET quantity = "+ to_string(new_quantity)+", id_prov='"+new_IDprov+"' WHERE id = '"+ IDuser+"' AND id_sub = "+
+                                                                                                                              to_string(i)+";";
+        db.exec(query);
+    }
 }

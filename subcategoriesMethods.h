@@ -2,8 +2,8 @@
 // Created by Andrea Lipperi on 16/11/22.
 //
 
-#ifndef INGROSSO_DB_DB_SUBCATEGORIESMETHODS_H
-#define INGROSSO_DB_DB_SUBCATEGORIESMETHODS_H
+#ifndef INGROSSO_ONLINE_SUBCATEGORIESMETHODS_H
+#define INGROSSO_ONLINE_SUBCATEGORIESMETHODS_H
 
 #include "subcategories.h"
 #include <string>
@@ -19,4 +19,4 @@ private:
     Products data;
 };
 
-#endif // INGROSSO_DB_DB_SUBCATEGORIESMETHODS_H
+#endif // INGROSSO_ONLINE_SUBCATEGORIESMETHODS_H

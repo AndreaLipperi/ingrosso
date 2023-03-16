@@ -2,14 +2,14 @@
 // Created by Matilde Tarchi on 29/07/22.
 //
 
-#ifndef INGR_ONLINE_CARRELLO_H
-#define INGR_ONLINE_CARRELLO_H
+#ifndef INGROSSO_ONLINE_FAVOURITES_H
+#define INGROSSO_ONLINE_FAVOURITES_H
 
 #include "subcategoriesMethods.h"
 #include "usersMethods.h"
 #include <string>
 using namespace std;
-class Favourites : public TableUsers, public TableProducts{
+class Favourites : public Users, public Products{
 public:
 
   Favourites();
@@ -28,12 +28,6 @@ public:
   }
   string get_id_prov(){
     return IDprovider;
-  }
-  string get_prod_name(const string prod){
-    return TableProducts::select_name(prod);
-  }
-  string get_prov_name(string id_prov) {
-    return TableUsers::select_username(id_prov);
   }
   void set_name(int new_quantity){
     Favourites::quantity=new_quantity;
@@ -57,4 +51,4 @@ private :
 
 };
 
-#endif //INGR_ONLINE_CARRELLO_H
+#endif //INGROSSO_ONLINE_FAVOURITES_H

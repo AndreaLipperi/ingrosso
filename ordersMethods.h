@@ -2,8 +2,8 @@
 // Created by Andrea Lipperi on 16/11/22.
 //
 
-#ifndef INGROSSO_DB_DB_ORDERSMETHODS_H
-#define INGROSSO_DB_DB_ORDERSMETHODS_H
+#ifndef INGROSSO_ONLINE_ORDERSMETHODS_H
+#define INGROSSO_ONLINE_ORDERSMETHODS_H
 
 #include <string>
 #include "orders.h"
@@ -22,4 +22,4 @@ private:
     Orders *data;
     int used;
 };
-#endif // INGROSSO_DB_DB_ORDERSMETHODS_H
+#endif // INGROSSO_ONLINE_ORDERSMETHODS_H

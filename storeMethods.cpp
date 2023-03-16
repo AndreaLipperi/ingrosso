@@ -3,11 +3,16 @@
 //
 
 
-#include <fstream>
+#include "storeMethods.h"
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Database.h>
 #include <iostream>
 #include <string>
-#include "storeMethods.h"
 using namespace std;
+
+SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
+
 TableStore::TableStore() {
     used = 0;
     capacity = 5;
@@ -46,7 +51,7 @@ void TableStore::add(const Store& store) {
     }
     data[used]= store;
     used++;
-}
+}/*
 void TableStore::remove(int id) {
     for (int i=0; i<used; i++) {
         if (data[i].get_id() == id) {
@@ -54,7 +59,7 @@ void TableStore::remove(int id) {
             used++;
         }
     }
-}
+}*/
 void TableStore::changeQuantity(Products *prod, const string &id_prov){
     int num_result = 0;
     int save;

@@ -4,17 +4,17 @@
 
 #include "subcategoriesMethods.h"
 #include <fstream>
+#include <iostream>
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
 #include <SQLiteCpp/Database.h>
-#include <iostream>
 #include <string>
 using namespace std;
 
 SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
-TableProducts::TableProducts() {
-    string query="CREATE TABLE IF NOT EXISTS subcategories (id INTEGER PRIMARY KEY, name VARCHAR NOT NULL,FOREIGN KEY (id_cat) REFERENCES categories (id) NOT NULL);";
+TableProducts::TableProducts()  {
+    string query ="CREATE TABLE IF NOT EXISTS diocane (id INTEGER PRIMARY KEY, type TEXT NOT NULL,business_name TEXT NOT NULL, address TEXT NOT NULL,city TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,username TEXT NOT NULL);";
     db.exec(query);
 }
 void TableProducts::add(const Products& prod) {
@@ -34,22 +34,7 @@ void TableProducts::add(const Products& prod) {
 void TableProducts::remove(const string &name) {
     string query="DELETE FROM subcategories WHERE name = '"+name+"'";
     db.exec(query);
-}/*
-void TableProducts::sort_id() {
-    bool done = false;
-    Products tmp;
-    while(!done) {
-        done = true;
-        for(int i=0; i<used; i++) {
-            if (data[i].get_name() > data[i+1].get_name()) {
-                done = false;
-                tmp = data[i];
-                data[i] = data[i+1];
-                data[i+1] = tmp;
-            }
-        }
-    }
-}*/
+}
 void TableProducts::changeData(const string &name, const string &new_name) {
     int num_result = 0;
     int i=0;
@@ -67,3 +52,4 @@ void TableProducts::changeData(const string &name, const string &new_name) {
         db.exec(query);
     }
 }
+

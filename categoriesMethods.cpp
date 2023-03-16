@@ -39,26 +39,26 @@ int TableCategories::add(const Categories& cat) {
 void TableCategories::remove(const string &name) {
     string query="DELETE FROM categories WHERE name = '"+name+"'";
     db.exec(query);
-}/*
-void TableProducts::sort_id() {
-    bool done = false;
-    Products tmp;
-    while(!done) {
-        done = true;
-        for(int i=0; i<used; i++) {
-            if (data[i].get_name() > data[i+1].get_name()) {
-                done = false;
-                tmp = data[i];
-                data[i] = data[i+1];
-                data[i+1] = tmp;
-            }
-        }
+}
+string* TableCategories::select_all() {
+    int num_result = 0;
+    int i=0;
+    string query_select_number="SELECT count(*) FROM categories";
+    i = db.execAndGet(query_select_number);
+
+    string* categories=new string[i];
+    int j=0;
+    SQLite::Statement query_select(db, "SELECT * FROM categories");
+    while (query_select.executeStep()){
+        categories[j]=query_select.getColumn(1).getString();
     }
-}*/
+    query_select.reset();
+    return categories;
+}
 void TableCategories::changeName(const string &name, const string &new_name) {
     int num_result = 0;
     int i=0;
-    SQLite::Statement query_select(db, "SELECT * FROM subcategories");
+    SQLite::Statement query_select(db, "SELECT * FROM categories");
     while (query_select.executeStep()){
         if (query_select.getColumn(1).getText() == name) {
             num_result++;
@@ -68,7 +68,7 @@ void TableCategories::changeName(const string &name, const string &new_name) {
     }
     query_select.reset();
     if (num_result>0) {
-        string query="UPDATE subcategories SET name = '"+new_name+"' WHERE id = "+ to_string(i)+"";
+        string query="UPDATE categories SET name = '"+new_name+"' WHERE id = "+ to_string(i)+"";
         db.exec(query);
     }
 }

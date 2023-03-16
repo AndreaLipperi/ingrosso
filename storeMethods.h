@@ -2,8 +2,8 @@
 // Created by Andrea Lipperi on 16/11/22.
 //
 
-#ifndef INGROSSO_DB_DB_STOREMETHODS_H
-#define INGROSSO_DB_DB_STOREMETHODS_H
+#ifndef INGROSSO_ONLINE_STOREMETHODS_H
+#define INGROSSO_ONLINE_STOREMETHODS_H
 
 
 #include <string>
@@ -28,4 +28,4 @@ private:
     int used;
 };
 
-#endif // INGROSSO_DB_DB_STOREMETHODS_H
+#endif // INGROSSO_ONLINE_STOREMETHODS_H

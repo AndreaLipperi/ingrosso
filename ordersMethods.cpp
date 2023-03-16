@@ -2,13 +2,19 @@
 // Created by Andrea Lipperi on 14/11/22.
 //
 
-#include "ordersMethods.h"
-#include <fstream>
-#include <iostream>
-#include <string>
 #define from_customer 0
 #define from_provider 1
+#include "ordersMethods.h"
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Database.h>
+#include <iostream>
+#include <string>
 using namespace std;
+
+SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
+
+
 
 TableOrders::TableOrders() {
     used = 0;

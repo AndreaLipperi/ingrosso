@@ -1,9 +1,10 @@
 //
-// Created by Matilde Tarchi on 29/07/22.
+// Created by Andrea Lipperi on 16/03/23.
 //
 
-#ifndef INGR_ONLINE_PRODOTTI_H
-#define INGR_ONLINE_PRODOTTI_H
+#ifndef INGROSSO_ONLINE_SUBCATEGORIES_H
+#define INGROSSO_ONLINE_SUBCATEGORIES_H
+
 #include "categoriesMethods.h"
 #include <string>
 using namespace std;
@@ -29,4 +30,4 @@ private:
     Categories *cat;
 };
 
-#endif //INGR_ONLINE_PRODOTTI_H
+#endif //INGROSSO_ONLINE_SUBCATEGORIES_H

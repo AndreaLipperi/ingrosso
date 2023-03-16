@@ -3,10 +3,14 @@
 //
 
 #include "favouritesMethods.h"
-#include <fstream>
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Database.h>
 #include <iostream>
 #include <string>
 using namespace std;
+
+SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableFavourites::TableFavourites() {
     used = 0;
