@@ -11,19 +11,13 @@ using namespace std;
 class TableCategories {
 public :
     TableCategories();
-    ~TableCategories();
-    TableCategories(const TableCategories& other);
-    void operator =(const TableCategories& other);
-    void add(const Categories& cat);
+    int add(const Categories& cat);
     void remove(const string &name);
     string select_name(const string &name);
-    void changeName(const string &name);
+    void changeName(const string &name, const string &new_name);
     void sort_name();
 private:
-    void make_bigger();
-    int capacity;
-    Categories *data;
-    int used;
+    Categories data;
 };
 
 #endif // INGROSSO_DB_DB_TABELCATEGORIES_H

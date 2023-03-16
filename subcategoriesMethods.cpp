@@ -11,12 +11,11 @@
 #include <string>
 using namespace std;
 
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingosso.db");
-
+SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableProducts::TableProducts() {
-    SQLite::Statement query(db, "CREATE TABLE IF NOT EXISTS subcategories (id INTEGER PRIMARY KEY, name VARCHAR NOT NULL,FOREIGN KEY (id_cat) REFERENCES categories (id) NOT NULL);");
-
+    string query="CREATE TABLE IF NOT EXISTS subcategories (id INTEGER PRIMARY KEY, name VARCHAR NOT NULL,FOREIGN KEY (id_cat) REFERENCES categories (id) NOT NULL);";
+    db.exec(query);
 }
 void TableProducts::add(const Products& prod) {
     data=prod;
@@ -28,15 +27,13 @@ void TableProducts::add(const Products& prod) {
             i++;
         }
     }
-    SQLite::Statement query2(db, "INSERT INTO subcategories (name, id_cat) VALUES ('" + data.get_name() + "', " + to_string(i) + ");");
+    query.reset();
+    string query_insert="INSERT INTO subcategories (name, id_cat) VALUES ('" + data.get_name() + "', " + to_string(i) + ");";
+    db.exec(query_insert);
 }
 void TableProducts::remove(const string &name) {
-    SQLite::Statement query(db, "SELECT * FROM subcategories");
-    while (query.executeStep()){
-        if (query.getColumn(1).getText() == name) {
-            SQLite::Statement query(db,"DELETE FROM subcategories WHERE name = '"+name+"'");
-        }
-    }
+    string query="DELETE FROM subcategories WHERE name = '"+name+"'";
+    db.exec(query);
 }/*
 void TableProducts::sort_id() {
     bool done = false;
@@ -56,15 +53,17 @@ void TableProducts::sort_id() {
 void TableProducts::changeData(const string &name, const string &new_name) {
     int num_result = 0;
     int i=0;
-    SQLite::Statement query(db, "SELECT * FROM subcategories");
-    while (query.executeStep()){
-        if (query.getColumn(1).getText() == name) {
+    SQLite::Statement query_select(db, "SELECT * FROM subcategories");
+    while (query_select.executeStep()){
+        if (query_select.getColumn(1).getText() == name) {
             num_result++;
         } else {
             i++;
         }
     }
+    query_select.reset();
     if (num_result>0) {
-        SQLite::Statement query(db, "UPDATE subcategories SET name = '"+name+"' WHERE id = "+ to_string(i)+"");
+        string query="UPDATE subcategories SET name = '"+new_name+"' WHERE id = "+ to_string(i)+"";
+        db.exec(query);
     }
 }
