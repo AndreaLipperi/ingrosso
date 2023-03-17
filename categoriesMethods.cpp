@@ -4,14 +4,14 @@
 
 #include "categoriesMethods.h"
 #include <fstream>
+#include "database.h"
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
 #include <SQLiteCpp/Database.h>
 #include <iostream>
+#include <vector>
 #include <string>
 using namespace std;
-
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableCategories::TableCategories() {
     string query="CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY, name VARCHAR NOT NULL);";
@@ -40,19 +40,25 @@ void TableCategories::remove(const string &name) {
     string query="DELETE FROM categories WHERE name = '"+name+"'";
     db.exec(query);
 }
-string* TableCategories::select_all() {
-    int num_result = 0;
-    int i=0;
-    string query_select_number="SELECT count(*) FROM categories";
-    i = db.execAndGet(query_select_number);
+int TableCategories::number_of_cat(){
+    int n;
+    string query="SELECT count(*) FROM categories";
+    n = db.execAndGet(query);
 
-    string* categories=new string[i];
-    int j=0;
-    SQLite::Statement query_select(db, "SELECT * FROM categories");
-    while (query_select.executeStep()){
-        categories[j]=query_select.getColumn(1).getString();
+    return n;
+}
+std::vector<std::string> TableCategories::select() {
+
+    string category;
+    std::vector<std::string> categories;
+    //int i=0;
+    SQLite::Statement query(db, "SELECT name FROM categories");
+    while (query.executeStep()) {
+        category = query.getColumn(0).getString();
+        categories.push_back(category);
+
     }
-    query_select.reset();
+    query.reset();
     return categories;
 }
 void TableCategories::changeName(const string &name, const string &new_name) {

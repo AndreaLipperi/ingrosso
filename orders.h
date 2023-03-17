@@ -9,17 +9,17 @@
 #include "usersMethods.h"
 #include <string>
 using namespace std;
-class Orders: public Users, public Products{
+class Orders{
 public:
     Orders();
-    Orders(int new_id, int new_quantity, Products *new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov);
+    Orders(int new_id, int new_quantity, Subcategories *new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov);
     int get_id() {
         return ID;
     }
     int get_quantity() {
         return quantity;
     }
-    Products* get_prod(){
+    Subcategories* get_prod(){
         return prod;
     }
     string get_status(){
@@ -41,7 +41,7 @@ public:
 private:
     int ID;
     int quantity;
-    Products *prod;
+    Subcategories *prod;
     string status;
     string date_order;
     string IDcust;

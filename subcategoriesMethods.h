@@ -10,13 +10,13 @@
 class TableProducts {
 public :
     TableProducts();
-    void add(const Products& prod);
-    string select_name(const string &name);
+    void add(const Subcategories& prod);
+    std::vector<std::string> select(const string &categories_name);
     void remove(const string &name);
     void changeData(const string &name, const string &new_name);
     void sort_id();
 private:
-    Products data;
+    Subcategories data;
 };
 
 #endif // INGROSSO_ONLINE_SUBCATEGORIESMETHODS_H

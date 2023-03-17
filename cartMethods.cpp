@@ -4,6 +4,7 @@
 
 #include "cartMethods.h"
 #include "subcategories.h"
+#include "database.h"
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
 #include <SQLiteCpp/Database.h>
@@ -11,15 +12,13 @@
 #include <string>
 using namespace std;
 
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
-
 TableCart::TableCart() {
     string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY, quantity INT NOT NULL, id_sub INT NOT NULL, id_user INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_sub) REFERENCES subcategories (id) NOT NULL, FOREIGN KEY (id_user) REFERENCES users (id) NOT NULL, FOREIGN KEY (id_prov) REFERENCES users (id) NOT NULL);";
     db.exec(query);
 }
 void TableCart::add(const Cart& cart) {
     data=cart;
-    Products *prod = data.get_prod();
+    Subcategories *prod = data.get_prod();
     int i=0;
     int k=0;
     int j=0;
@@ -51,7 +50,7 @@ void TableCart::remove_all(const string &IDuser) {
     string query="DELETE FROM cart WHERE id_user = '"+IDuser+"'";
     db.exec(query);
 }
-void TableCart::remove_prod(Products &prod,const string &IDuser) {
+void TableCart::remove_prod(Subcategories &prod,const string &IDuser) {
     int i=0;
     int k=0;
     SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
@@ -102,7 +101,7 @@ void TableCart::sort_id_provider() {
     }
   }
 }*/
-void TableCart::changeData(const string& IDuser, Products &prod, const string &new_IDprov, const int &new_quantity) {
+void TableCart::changeData(const string& IDuser, Subcategories &prod, const string &new_IDprov, const int &new_quantity) {
     int num_result = 0;
     int i=0;
     SQLite::Statement query_select(db, "SELECT * FROM subcategories");

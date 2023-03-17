@@ -11,7 +11,6 @@
 #include <string>
 using namespace std;
 
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableStore::TableStore() {
     used = 0;
@@ -20,30 +19,6 @@ TableStore::TableStore() {
 }
 TableStore::~TableStore() {
     delete []data;
-}
-TableStore::TableStore(const TableStore &other) {
-    used = other.used;
-    capacity = other.capacity;
-    data = new Store[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableStore::operator=(const TableStore &other) {
-    if (&other == this) {
-        return;
-    }
-    delete []data;
-    capacity = other.capacity;
-    used = other.used;
-    data = new Store[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableStore::make_bigger() {
-    Store *tmp;
-    tmp = new Store[capacity + 5];
-    copy(data, data+used,tmp);
-    delete []data;
-    data = tmp;
-    capacity +=5;
 }
 void TableStore::add(const Store& store) {
     if (used>=capacity) {
@@ -60,7 +35,7 @@ void TableStore::remove(int id) {
         }
     }
 }*/
-void TableStore::changeQuantity(Products *prod, const string &id_prov){
+void TableStore::changeQuantity(Subcategories *prod, const string &id_prov){
     int num_result = 0;
     int save;
     for (int i=0; i<used; i++) {
@@ -78,7 +53,7 @@ void TableStore::changeQuantity(Products *prod, const string &id_prov){
     }
 }
 
-void TableStore::changeDesc(Products *prod, const string &id_prov){
+void TableStore::changeDesc(Subcategories *prod, const string &id_prov){
     int num_result = 0;
     int save;
     for (int i=0; i<used; i++) {

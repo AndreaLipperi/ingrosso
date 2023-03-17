@@ -5,19 +5,20 @@
 #include "subcategoriesMethods.h"
 #include <fstream>
 #include <iostream>
+#include "database.h"
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
 #include <SQLiteCpp/Database.h>
 #include <string>
 using namespace std;
 
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
+//SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableProducts::TableProducts()  {
     string query ="CREATE TABLE IF NOT EXISTS diocane (id INTEGER PRIMARY KEY, type TEXT NOT NULL,business_name TEXT NOT NULL, address TEXT NOT NULL,city TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,username TEXT NOT NULL);";
     db.exec(query);
 }
-void TableProducts::add(const Products& prod) {
+void TableProducts::add(const Subcategories& prod) {
     data=prod;
     Categories *cat = data.get_cat();
     int i=0;
@@ -51,5 +52,24 @@ void TableProducts::changeData(const string &name, const string &new_name) {
         string query="UPDATE subcategories SET name = '"+new_name+"' WHERE id = "+ to_string(i)+"";
         db.exec(query);
     }
+}
+
+std::vector<std::string> TableProducts::select(const string &categories_name) {
+    std::vector<std::string> subcategories;
+    string subcategory;
+    int id;
+    SQLite::Statement query_cat(db, "SELECT id FROM categories WHERE name='"+categories_name+"'");
+    while (query_cat.executeStep()){
+        id=query_cat.getColumn(0).getInt();
+    }
+    query_cat.reset();
+    SQLite::Statement query(db, "SELECT name FROM subcategories WHERE id_cat="+ to_string(id)+"");
+    while (query.executeStep()) {
+        subcategory = query.getColumn(0).getString();
+        subcategories.push_back(subcategory);
+
+    }
+    query.reset();
+    return subcategories;
 }
 

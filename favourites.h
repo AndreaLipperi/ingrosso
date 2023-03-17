@@ -9,18 +9,17 @@
 #include "usersMethods.h"
 #include <string>
 using namespace std;
-class Favourites : public Users, public Products{
+class Favourites{
 public:
-
-  Favourites();
-  Favourites(int new_id, int new_quantity, Products *new_prod, const string &new_id_cust, const string &new_id_prov);
+Favourites();
+  Favourites(int new_id, int new_quantity, Subcategories *new_prod, const string &new_id_cust, const string &new_id_prov);
   int get_id() {
     return ID;
   }
   int get_quantity() {
     return quantity;
   }
-  Products* get_prod(){
+    Subcategories* get_prod(){
     return prod;
   }
   string get_id_cust(){
@@ -32,7 +31,7 @@ public:
   void set_name(int new_quantity){
     Favourites::quantity=new_quantity;
   }
-  void set_prod(Products *new_prod){
+  void set_prod(Subcategories *new_prod){
     Favourites::prod=new_prod;
   }
   void set_IDuser(string new_id_cust){
@@ -45,7 +44,7 @@ public:
 private :
   int ID;
   int quantity;
-  Products *prod;
+  Subcategories *prod;
   string IDcustomer;
   string IDprovider;
 

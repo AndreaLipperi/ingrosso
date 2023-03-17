@@ -14,8 +14,8 @@ public :
     TableCart();
     void add(const Cart& cart);
     void remove_all(const string &IDuser);
-    void remove_prod(Products &prod, const string &IDuser);
-    void changeData(const string &IDuser, Products &prod, const string &new_IDprov, const int &new_quantity);
+    void remove_prod(Subcategories &prod, const string &IDuser);
+    void changeData(const string &IDuser, Subcategories &prod, const string &new_IDprov, const int &new_quantity);
     void sort_id_prod();
     void sort_id_provider();
 private:

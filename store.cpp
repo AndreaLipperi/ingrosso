@@ -7,16 +7,15 @@
 #include <string>
 using namespace std;
 
-Store::Store() {
 
-    available_quantity=0;
-    price_product=0;
-}
-
-Store::Store(int new_quantity, Products *new_prod, int new_price, const string &new_desc, const string &new_id_prov) : product(new_prod){
+Store::Store(int new_quantity, Subcategories *new_prod, int new_price, const string &new_desc, const string &new_id_prov) : product(new_prod){
 
     available_quantity=new_quantity;
     price_product=new_price;
     description_prod=new_desc;
     IDprovider=new_id_prov;
+}
+
+Store::Store() {
+
 }

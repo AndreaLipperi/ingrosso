@@ -5,6 +5,7 @@
 #include "usersMethods.h"
 #include <fstream>
 #include <iostream>
+#include "database.h"
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
 #include <SQLiteCpp/Database.h>
@@ -13,10 +14,10 @@
 #define registrazione 1
 using namespace std;
 
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
+//SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableUsers::TableUsers() {
-    string query ="CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, type TEXT NOT NULL,business_name TEXT NOT NULL, address TEXT NOT NULL,city TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,username TEXT NOT NULL);";
+    string query ="CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, type VARCHAR NOT NULL,business_name VARCHAR NOT NULL, address VARCHAR NOT NULL,city VARCHAR NOT NULL,email VARCHAR NOT NULL,password VARCHAR NOT NULL,username VARCHAR NOT NULL);";
     db.exec(query);
 }
 int TableUsers::access_reg(const string &email, const string &psw, int control) {
@@ -50,6 +51,7 @@ int TableUsers::access_reg(const string &email, const string &psw, int control) 
             return 1;
         }
     }
+    return 0;
 }
 void TableUsers::add(const Users& emp) {
     data=emp;

@@ -10,41 +10,16 @@
 #include <string>
 using namespace std;
 
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
-
 TableFavourites::TableFavourites() {
     used = 0;
     capacity = 5;
     data = new Favourites[capacity];
 }
-TableFavourites::TableFavourites(const TableFavourites &other) {
-    used = other.used;
-    capacity = other.capacity;
-    data = new Favourites[capacity];
-    copy(other.data, other.data+used, data);
-}
 TableFavourites::~TableFavourites() {
     delete []data;
 }
 
-void TableFavourites::operator=(const TableFavourites &other) {
-    if (&other == this) {
-        return;
-    }
-    delete []data;
-    capacity = other.capacity;
-    used = other.used;
-    data = new Favourites[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableFavourites::make_bigger() {
-    Favourites *tmp;
-    tmp = new Favourites[capacity + 5];
-    copy(data, data+used,tmp);
-    delete []data;
-    data = tmp;
-    capacity +=5;
-}
+
 void TableFavourites::add(const Favourites& fav) {
     if (used>=capacity) {
         make_bigger();
@@ -52,10 +27,10 @@ void TableFavourites::add(const Favourites& fav) {
     data[used]= fav;
     used++;
 }
-void TableFavourites::remove_prod(Products *prod, const string &IDcust) {
+void TableFavourites::remove_prod(Subcategories *prod, const string &IDcust) {
     for (int i=0; i<used; i++) {
         if (data[i].get_prod() == prod && data[i].get_id_cust()==IDcust) {
-            data[i] = data[used-1];
+
             used++;
         }
     }
@@ -68,14 +43,11 @@ void TableFavourites::sort_id_provider() {
         for(int i=0; i<used; i++) {
             if (data[i].get_id_prov() > data[i+1].get_id_prov()) {
                 done = false;
-                tmp = data[i];
-                data[i] = data[i+1];
-                data[i+1] = tmp;
             }
         }
     }
 }
-void TableFavourites::changeData(const string &IDcust, Products *prod) {
+void TableFavourites::changeData(const string &IDcust, Subcategories *prod) {
     int num_result = 0;
     int save;
     for (int i=0; i<used; i++) {

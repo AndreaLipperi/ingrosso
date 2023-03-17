@@ -6,6 +6,10 @@
 #include <iostream>
 #include <string>
 using namespace std;
-Products::Products(const std::string &new_name, Categories *new_cat) : cat(new_cat) {
+Subcategories::Subcategories(const std::string &new_name, Categories *new_cat) : cat(new_cat) {
     name= new_name;
+}
+
+Subcategories::Subcategories() {
+
 }

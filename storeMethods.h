@@ -17,8 +17,8 @@ public :
     void operator =(const TableStore& other);
     void add(const Store& store);
     void remove(int id);
-    void changeQuantity(Products *prod, const string &id_prov);
-    void changeDesc(Products *prod, const string &id_prov);
+    void changeQuantity(Subcategories *prod, const string &id_prov);
+    void changeDesc(Subcategories *prod, const string &id_prov);
     void save(ostream& outs);
     void load(istream& ins);
 private:

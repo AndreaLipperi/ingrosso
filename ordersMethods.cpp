@@ -12,43 +12,16 @@
 #include <string>
 using namespace std;
 
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
-
-
 
 TableOrders::TableOrders() {
     used = 0;
     capacity = 5;
     data = new Orders[capacity];
 }
-TableOrders::TableOrders(const TableOrders &other) {
-    used = other.used;
-    capacity = other.capacity;
-    data = new Orders[capacity];
-    copy(other.data, other.data+used, data);
-}
 TableOrders::~TableOrders() {
     delete []data;
 }
 
-void TableOrders::operator=(const TableOrders &other) {
-    if (&other == this) {
-        return;
-    }
-    delete []data;
-    capacity = other.capacity;
-    used = other.used;
-    data = new Orders[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableOrders::make_bigger() {
-    Orders *tmp;
-    tmp = new Orders[capacity + 5];
-    copy(data, data+used,tmp);
-    delete []data;
-    data = tmp;
-    capacity +=5;
-}
 void TableOrders::add(const Orders& ord) {
     if (used>=capacity) {
         make_bigger();

@@ -8,15 +8,15 @@
 #include "usersMethods.h"
 #include <string>
 using namespace std;
-class Store : public Products, Users {
+class Store{
 public:
     Store();
-    Store(int new_quantity, Products *new_prod, int new_price,const string &new_desc, const string &new_id_prov);
+    Store(int new_quantity, Subcategories *new_prod, int new_price,const string &new_desc, const string &new_id_prov);
 
     int get_quantity() {
         return available_quantity;
     }
-    Products* get_prod() {
+    Subcategories* get_prod() {
         return product;
     }
 
@@ -43,7 +43,7 @@ public:
 
 private:
     int available_quantity;
-    Products *product;
+    Subcategories *product;
     double price_product;
     string description_prod;
     string IDprovider;

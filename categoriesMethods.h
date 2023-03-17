@@ -6,6 +6,7 @@
 #define INGROSSO_ONLINE_CATEGORIESMETHODS_H
 
 #include <string>
+#include <vector>
 #include "categories.h"
 using namespace std;
 class TableCategories {
@@ -13,8 +14,8 @@ public :
     TableCategories();
     int add(const Categories& cat);
     void remove(const string &name);
-    string* select_all();
-    string select_name(const string &name);
+    int number_of_cat();
+    std::vector<std::string> select();
     void changeName(const string &name, const string &new_name);
     void sort_name();
 private:

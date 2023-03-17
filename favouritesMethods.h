@@ -13,8 +13,8 @@ class TableFavourites {
     TableFavourites(const TableFavourites& other);
     void operator =(const TableFavourites& other);
     void add(const Favourites& fav);
-    void remove_prod(Products *prod, const string &IDcust);
-    void changeData(const string &IDcust, Products *prod);
+    void remove_prod(Subcategories *prod, const string &IDcust);
+    void changeData(const string &IDcust, Subcategories *prod);
     void sort_id_prod();
     void sort_id_provider();
 private:

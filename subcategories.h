@@ -8,10 +8,10 @@
 #include "categoriesMethods.h"
 #include <string>
 using namespace std;
-class Products : public TableCategories {
+class Subcategories{
 public:
-    Products();
-    Products(const std::string &new_name, Categories *new_cat);
+    Subcategories();
+    Subcategories(const std::string &new_name, Categories *new_cat);
     string get_name() {
         return name;
     }
@@ -20,10 +20,10 @@ public:
     }
 
     void set_name(const string &new_name){
-        Products::name=new_name;
+        Subcategories::name=new_name;
     }
     void set_cat(Categories *new_cat){
-        Products::cat=new_cat;
+        Subcategories::cat=new_cat;
     }
 private:
     string name;
