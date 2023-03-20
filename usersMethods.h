@@ -11,6 +11,7 @@ using namespace std;
 class TableUsers{
 public :
     TableUsers();
+    ~TableUsers();
     void operator =(const TableUsers& other);
     int access_reg(const string &email, const string &psw, int control);
     void add(const Users& emp);

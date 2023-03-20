@@ -3,11 +3,15 @@
 //
 
 
-#include <fstream>
+#include "storeMethods.h"
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Database.h>
 #include <iostream>
 #include <string>
-#include "storeMethods.h"
 using namespace std;
+
+
 TableStore::TableStore() {
     used = 0;
     capacity = 5;
@@ -16,37 +20,13 @@ TableStore::TableStore() {
 TableStore::~TableStore() {
     delete []data;
 }
-TableStore::TableStore(const TableStore &other) {
-    used = other.used;
-    capacity = other.capacity;
-    data = new Store[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableStore::operator=(const TableStore &other) {
-    if (&other == this) {
-        return;
-    }
-    delete []data;
-    capacity = other.capacity;
-    used = other.used;
-    data = new Store[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableStore::make_bigger() {
-    Store *tmp;
-    tmp = new Store[capacity + 5];
-    copy(data, data+used,tmp);
-    delete []data;
-    data = tmp;
-    capacity +=5;
-}
 void TableStore::add(const Store& store) {
     if (used>=capacity) {
         make_bigger();
     }
     data[used]= store;
     used++;
-}
+}/*
 void TableStore::remove(int id) {
     for (int i=0; i<used; i++) {
         if (data[i].get_id() == id) {
@@ -54,8 +34,8 @@ void TableStore::remove(int id) {
             used++;
         }
     }
-}
-void TableStore::changeQuantity(Products *prod, const string &id_prov){
+}*/
+void TableStore::changeQuantity(Subcategories *prod, const string &id_prov){
     int num_result = 0;
     int save;
     for (int i=0; i<used; i++) {
@@ -73,7 +53,7 @@ void TableStore::changeQuantity(Products *prod, const string &id_prov){
     }
 }
 
-void TableStore::changeDesc(Products *prod, const string &id_prov){
+void TableStore::changeDesc(Subcategories *prod, const string &id_prov){
     int num_result = 0;
     int save;
     for (int i=0; i<used; i++) {

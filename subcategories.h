@@ -1,16 +1,17 @@
 //
-// Created by Matilde Tarchi on 29/07/22.
+// Created by Andrea Lipperi on 16/03/23.
 //
 
-#ifndef INGR_ONLINE_PRODOTTI_H
-#define INGR_ONLINE_PRODOTTI_H
+#ifndef INGROSSO_ONLINE_SUBCATEGORIES_H
+#define INGROSSO_ONLINE_SUBCATEGORIES_H
+
 #include "categoriesMethods.h"
 #include <string>
 using namespace std;
-class Products : public TableCategories {
+class Subcategories{
 public:
-    Products();
-    Products(const std::string &new_name, Categories *new_cat);
+    Subcategories();
+    Subcategories(const std::string &new_name, Categories *new_cat);
     string get_name() {
         return name;
     }
@@ -19,14 +20,14 @@ public:
     }
 
     void set_name(const string &new_name){
-        Products::name=new_name;
+        Subcategories::name=new_name;
     }
     void set_cat(Categories *new_cat){
-        Products::cat=new_cat;
+        Subcategories::cat=new_cat;
     }
 private:
     string name;
     Categories *cat;
 };
 
-#endif //INGR_ONLINE_PRODOTTI_H
+#endif //INGROSSO_ONLINE_SUBCATEGORIES_H
