@@ -17,7 +17,7 @@ using namespace std;
 //SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableUsers::TableUsers() {
-    string query ="CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, type VARCHAR NOT NULL,business_name VARCHAR NOT NULL, address VARCHAR NOT NULL,city VARCHAR NOT NULL,email VARCHAR NOT NULL,password VARCHAR NOT NULL,username VARCHAR NOT NULL);";
+    string query ="CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY autoincrement, type VARCHAR NOT NULL,business_name VARCHAR NOT NULL, address VARCHAR NOT NULL,city VARCHAR NOT NULL,email VARCHAR NOT NULL,password VARCHAR NOT NULL,username VARCHAR NOT NULL);";
     db.exec(query);
 }
 int TableUsers::access_reg(const string &email, const string &psw, int control) {
@@ -65,7 +65,7 @@ void TableUsers::remove(const string &business_name) {
 }
 int TableUsers::changePsw(const string &email, const string &new_psw) {
     int num_result = 0;
-    int i=0;
+    int i=1;
 
     SQLite::Statement query_select(db, "SELECT * FROM users");
 

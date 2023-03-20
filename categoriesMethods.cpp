@@ -14,7 +14,7 @@
 using namespace std;
 
 TableCategories::TableCategories() {
-    string query="CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY, name VARCHAR NOT NULL);";
+    string query="CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY autoincrement, name VARCHAR NOT NULL);";
     db.exec(query);
 }
 int TableCategories::add(const Categories& cat) {
