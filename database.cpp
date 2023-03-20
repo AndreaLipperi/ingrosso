@@ -3,4 +3,4 @@
 //
 #include "database.h"
 
-SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
+SQLite::Database db("/Users/matildetarchi/CLionProjects/ingrosso2/DTB.db");

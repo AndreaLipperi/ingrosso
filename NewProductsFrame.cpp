@@ -82,6 +82,6 @@ void NewProductsFrame::InsertProduct(wxCommandEvent &event) {
 
 void NewProductsFrame::ComeBack(wxCommandEvent &event) {
 
-   Hide();
+   Close();
 
 }
