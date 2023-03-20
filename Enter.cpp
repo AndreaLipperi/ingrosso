@@ -25,8 +25,7 @@ BEGIN_EVENT_TABLE (Enter, wxDialog)
 END_EVENT_TABLE() // The button is pressed
 
 
-std::string e;
-std::string p;
+
 Enter::Enter(const wxString &title)
         : wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(365, 250)){
 
@@ -81,8 +80,8 @@ void Enter::Access(wxCommandEvent &event) {
 
     Close();
 
-    e = tc1->GetValue().ToStdString();
-    p = m_passwordText->GetValue().ToStdString();
+    string e = tc1->GetValue().ToStdString();
+    string p = m_passwordText->GetValue().ToStdString();
     int result;
     TableUsers table;
     result = table.access_reg(e, p, 0);

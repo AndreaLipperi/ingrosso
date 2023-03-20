@@ -7,12 +7,12 @@
 
 #include <string>
 #include "users.h"
+#include "database.h"
 using namespace std;
 class TableUsers{
 public :
     TableUsers();
-    ~TableUsers();
-    void operator =(const TableUsers& other);
+
     int access_reg(const string &email, const string &psw, int control);
     void add(const Users& emp);
     void remove(const string &business_name);

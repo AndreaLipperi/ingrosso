@@ -8,6 +8,8 @@
 #include "wx/wx.h"
 #include "wx/wxhtml.h"
 #include "ProvidersFrame.h"
+#include "categoriesMethods.h"
+#include "subcategoriesMethods.h"
 
 class NewProductsFrame:public wxFrame {
 public:
@@ -27,7 +29,8 @@ private:
     wxTextCtrl *tcName;
     wxTextCtrl *tcQ_a;
     wxTextCtrl *tcCost;
-    wxChoice* choice;
+    wxChoice* choiceC;
+    wxChoice* choiceSubC;
 };
 
 #endif //INGROSSO_ONLINE_NEWPRODUCTSFRAME_H

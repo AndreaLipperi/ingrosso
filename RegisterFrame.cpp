@@ -5,12 +5,6 @@
 #include "RegisterFrame.h"
 
 std::string t;
-std::string b_n;
-std::string a;
-std::string c;
-std::string em;
-std::string psw;
-std::string u;
 
 
 const long RegisterFrame::IdButtonConfirm =::wxNewId();
@@ -109,12 +103,13 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 void RegisterFrame::Register(wxCommandEvent &event) {
     Close();
 
-    b_n = tcB_n->GetValue().ToStdString();
-    a = tcA->GetValue().ToStdString();
-    c = tcC->GetValue().ToStdString();
-    u = tcU->GetValue().ToStdString();
-    em = tcEm->GetValue().ToStdString();
-    psw = m_passwordText->GetValue().ToStdString();
+    string b_n = tcB_n->GetValue().ToStdString();
+    string a = tcA->GetValue().ToStdString();
+    string  c = tcC->GetValue().ToStdString();
+    string u = tcU->GetValue().ToStdString();
+    string em = tcEm->GetValue().ToStdString();
+    string psw = m_passwordText->GetValue().ToStdString();
+
     TableUsers table;
     int numResult;
     numResult = table.access_reg(em, psw, 1);
