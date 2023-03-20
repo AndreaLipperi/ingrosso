@@ -12,20 +12,12 @@ using namespace std;
 class TableStore {
 public :
     TableStore();
-    ~TableStore();
-    TableStore(const TableStore& other);
-    void operator =(const TableStore& other);
     void add(const Store& store);
-    void remove(int id);
-    void changeQuantity(Subcategories *prod, const string &id_prov);
-    void changeDesc(Subcategories *prod, const string &id_prov);
-    void save(ostream& outs);
-    void load(istream& ins);
+    void remove(const int &id_inter, const string &id_prov);
+    void changeQuantity(const int &id_inter, const string &id_prov,const int &new_quantity);
+    void changeDesc(const int &id_inter, const string &id_prov, const string &new_desc);
 private:
-    void make_bigger();
-    int capacity;
-    Store *data;
-    int used;
+    Store data;
 };
 
 #endif // INGROSSO_ONLINE_STOREMETHODS_H

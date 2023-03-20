@@ -13,15 +13,15 @@
 using namespace std;
 
 TableCart::TableCart() {
-    string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY, quantity INT NOT NULL, id_sub INT NOT NULL, id_user INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_sub) REFERENCES subcategories (id) NOT NULL, FOREIGN KEY (id_user) REFERENCES users (id) NOT NULL, FOREIGN KEY (id_prov) REFERENCES users (id) NOT NULL);";
+    string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_sub INT NOT NULL, id_user INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_sub) REFERENCES subcategories (id) NOT NULL, FOREIGN KEY (id_user) REFERENCES users (id) NOT NULL, FOREIGN KEY (id_prov) REFERENCES users (id) NOT NULL);";
     db.exec(query);
 }
 void TableCart::add(const Cart& cart) {
     data=cart;
     Subcategories *prod = data.get_prod();
-    int i=0;
-    int k=0;
-    int j=0;
+    int i=1;
+    int k=1;
+    int j=1;
     SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
     while (query_sub.executeStep()) {
         if (query_sub.getColumn(1).getText() != prod->get_name()) {
@@ -51,8 +51,8 @@ void TableCart::remove_all(const string &IDuser) {
     db.exec(query);
 }
 void TableCart::remove_prod(Subcategories &prod,const string &IDuser) {
-    int i=0;
-    int k=0;
+    int i=1;
+    int k=1;
     SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
     while (query_sub.executeStep()) {
         if (query_sub.getColumn(1).getText() != prod.get_name()) {

@@ -15,13 +15,13 @@ using namespace std;
 //SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableProducts::TableProducts()  {
-    string query ="CREATE TABLE IF NOT EXISTS diocane (id INTEGER PRIMARY KEY, type TEXT NOT NULL,business_name TEXT NOT NULL, address TEXT NOT NULL,city TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,username TEXT NOT NULL);";
+    string query ="CREATE TABLE IF NOT EXISTS subcategories (id INTEGER PRIMARY KEY autoincrement, name VARCHAR NOT NULL, id_cat INT NOT NULL, FOREIGN KEY(id_cat) REFERENCES categories (id));";
     db.exec(query);
 }
 void TableProducts::add(const Subcategories& prod) {
     data=prod;
     Categories *cat = data.get_cat();
-    int i=0;
+    int i=1;
     SQLite::Statement query(db, "SELECT * FROM categories");
     while (query.executeStep()) {
         if (query.getColumn(1).getText() != cat->get_name()) {
@@ -38,7 +38,7 @@ void TableProducts::remove(const string &name) {
 }
 void TableProducts::changeData(const string &name, const string &new_name) {
     int num_result = 0;
-    int i=0;
+    int i=1;
     SQLite::Statement query_select(db, "SELECT * FROM subcategories");
     while (query_select.executeStep()){
         if (query_select.getColumn(1).getText() == name) {
