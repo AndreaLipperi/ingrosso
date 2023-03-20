@@ -2,8 +2,8 @@
 // Created by Matilde Tarchi on 29/07/22.
 //
 
-#ifndef INGR_ONLINE_UTENTI_H
-#define INGR_ONLINE_UTENTI_H
+#ifndef INGROSSO_ONLINE_USERS_H
+#define INGROSSO_ONLINE_USERS_H
 #include <string>
 using namespace std;
 class Users {
@@ -45,4 +45,4 @@ private:
     std::string username;
 };
 
-#endif //INGR_ONLINE_UTENTI_H
+#endif //INGROSSO_ONLINE_USERS_H

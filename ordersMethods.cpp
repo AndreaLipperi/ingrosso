@@ -2,47 +2,26 @@
 // Created by Andrea Lipperi on 14/11/22.
 //
 
-#include "ordersMethods.h"
-#include <fstream>
-#include <iostream>
-#include <string>
 #define from_customer 0
 #define from_provider 1
+#include "ordersMethods.h"
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Database.h>
+#include <iostream>
+#include <string>
 using namespace std;
+
 
 TableOrders::TableOrders() {
     used = 0;
     capacity = 5;
     data = new Orders[capacity];
 }
-TableOrders::TableOrders(const TableOrders &other) {
-    used = other.used;
-    capacity = other.capacity;
-    data = new Orders[capacity];
-    copy(other.data, other.data+used, data);
-}
 TableOrders::~TableOrders() {
     delete []data;
 }
 
-void TableOrders::operator=(const TableOrders &other) {
-    if (&other == this) {
-        return;
-    }
-    delete []data;
-    capacity = other.capacity;
-    used = other.used;
-    data = new Orders[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableOrders::make_bigger() {
-    Orders *tmp;
-    tmp = new Orders[capacity + 5];
-    copy(data, data+used,tmp);
-    delete []data;
-    data = tmp;
-    capacity +=5;
-}
 void TableOrders::add(const Orders& ord) {
     if (used>=capacity) {
         make_bigger();

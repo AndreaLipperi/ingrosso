@@ -1,102 +1,80 @@
-//
+///
 // Created by Andrea Lipperi on 14/11/22.
 //
 
 #include "categoriesMethods.h"
 #include <fstream>
+#include "database.h"
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Database.h>
 #include <iostream>
+#include <vector>
 #include <string>
 using namespace std;
 
 TableCategories::TableCategories() {
-    used = 0;
-    capacity = 5;
-    data = new Categories[capacity];
+    string query="CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY, name VARCHAR NOT NULL);";
+    db.exec(query);
 }
-TableCategories::TableCategories(const TableCategories &other) {
-    used = other.used;
-    capacity = other.capacity;
-    data = new Categories[capacity];
-    copy(other.data, other.data+used, data);
-}
-TableCategories::~TableCategories() {
-    delete []data;
-}
+int TableCategories::add(const Categories& cat) {
+    data=cat;
+    int i=0;
+    SQLite::Statement query(db, "SELECT * FROM categories");
+    while (query.executeStep()) {
+        if (query.getColumn(1).getText() == data.get_name()) {
+            i++;
+        }
+    }
+    query.reset();
+    if (i==0){
+        string query_insert="INSERT INTO categories (name) VALUES ('" + data.get_name() + "');";
+        db.exec(query_insert);
+        return 1;
+    } else {
+        return 0;
+    }
 
-void TableCategories::operator=(const TableCategories &other) {
-    if (&other == this) {
-        return;
-    }
-    delete []data;
-    capacity = other.capacity;
-    used = other.used;
-    data = new Categories[capacity];
-    copy(other.data, other.data+used, data);
-}
-void TableCategories::make_bigger() {
-    Categories *tmp;
-    tmp = new Categories[capacity + 5];
-    copy(data, data+used,tmp);
-    delete []data;
-    data = tmp;
-    capacity +=5;
-}
-void TableCategories::add(const Categories& cat) {
-    if (used>=capacity) {
-        make_bigger();
-    }
-    data[used]= cat;
-    used++;
 }
 void TableCategories::remove(const string &name) {
-    for (int i=0; i<used; i++) {
-        if (data[i].get_name() == name) {
-            data[i] = data[used-1];
-            used++;
-        }
-    }
+    string query="DELETE FROM categories WHERE name = '"+name+"'";
+    db.exec(query);
 }
-void TableCategories::sort_name() {
-    bool done = false;
-    Categories tmp;
-    while(!done) {
-        done = true;
-        for(int i=0; i<used; i++) {
-            if (data[i].get_name() > data[i+1].get_name()) {
-                done = false;
-                tmp = data[i];
-                data[i] = data[i+1];
-                data[i+1] = tmp;
-            }
-        }
-    }
+int TableCategories::number_of_cat(){
+    int n;
+    string query="SELECT count(*) FROM categories";
+    n = db.execAndGet(query);
+
+    return n;
 }
-void TableCategories::changeName(const string &name) {
+std::vector<std::string> TableCategories::select() {
+
+    string category;
+    std::vector<std::string> categories;
+    //int i=0;
+    SQLite::Statement query(db, "SELECT name FROM categories");
+    while (query.executeStep()) {
+        category = query.getColumn(0).getString();
+        categories.push_back(category);
+
+    }
+    query.reset();
+    return categories;
+}
+void TableCategories::changeName(const string &name, const string &new_name) {
     int num_result = 0;
-    int save;
-    for (int i=0; i<used; i++) {
-        if (data[i].get_name() == name) {
+    int i=0;
+    SQLite::Statement query_select(db, "SELECT * FROM categories");
+    while (query_select.executeStep()){
+        if (query_select.getColumn(1).getText() == name) {
             num_result++;
-            save=i;
-            i=used;
+        } else {
+            i++;
         }
     }
+    query_select.reset();
     if (num_result>0) {
-        string new_name;
-        cout << "Enter new name: ";
-        cin >> new_name;
-        data[save].set_name(new_name);
+        string query="UPDATE categories SET name = '"+new_name+"' WHERE id = "+ to_string(i)+"";
+        db.exec(query);
     }
-}
-string TableCategories::select_name(const string &name) {
-    int num_result = 0;
-    int save;
-    for (int i=0; i<used; i++) {
-        if (data[i].get_name() == name) {
-            num_result++;
-            save=i;
-            i=used;
-        }
-    }
-    return data[save].get_name();
 }

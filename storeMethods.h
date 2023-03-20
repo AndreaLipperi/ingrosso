@@ -2,8 +2,8 @@
 // Created by Andrea Lipperi on 16/11/22.
 //
 
-#ifndef INGROSSO_DB_DB_STOREMETHODS_H
-#define INGROSSO_DB_DB_STOREMETHODS_H
+#ifndef INGROSSO_ONLINE_STOREMETHODS_H
+#define INGROSSO_ONLINE_STOREMETHODS_H
 
 
 #include <string>
@@ -17,8 +17,8 @@ public :
     void operator =(const TableStore& other);
     void add(const Store& store);
     void remove(int id);
-    void changeQuantity(Products *prod, const string &id_prov);
-    void changeDesc(Products *prod, const string &id_prov);
+    void changeQuantity(Subcategories *prod, const string &id_prov);
+    void changeDesc(Subcategories *prod, const string &id_prov);
     void save(ostream& outs);
     void load(istream& ins);
 private:
@@ -28,4 +28,4 @@ private:
     int used;
 };
 
-#endif // INGROSSO_DB_DB_STOREMETHODS_H
+#endif // INGROSSO_ONLINE_STOREMETHODS_H

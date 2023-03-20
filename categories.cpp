@@ -11,3 +11,7 @@ using namespace std;
 Categories::Categories(const std::string &new_name) {
     name= new_name;
 }
+
+Categories::Categories() {
+
+}

@@ -13,7 +13,7 @@
 #define registrazione 1
 using namespace std;
 
-SQLite::Database db("C:/Users/dario/CLionProjects/ingrosso/DT.db");
+SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");
 
 TableUsers::TableUsers() {
     string query ="CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, type TEXT NOT NULL,business_name TEXT NOT NULL, address TEXT NOT NULL,city TEXT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL,username TEXT NOT NULL);";
