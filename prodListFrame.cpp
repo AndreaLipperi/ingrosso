@@ -25,21 +25,58 @@ prodListFrame::prodListFrame(const wxString &title):
     wxPanel *panel = new wxPanel(this, -1);
 
     wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL);
+
+    wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
+
     wxGrid *grid = new wxGrid(this, wxID_ANY);
     grid->CreateGrid(5, 6);
     grid->SetColLabelValue(0, "Sottocategoria");
     grid->SetColLabelValue(1, "Categoria");
     grid->SetColLabelValue(2, "Nome");
     grid->SetColLabelValue(3, "Costo");
-    grid->SetColLabelValue(4, "Quantità Disponibile");
-    grid->SetColLabelValue(4, "Favorito");
+    grid->SetColLabelValue(4, "Disponibilità");
+    grid->SetColLabelValue(5, "Favorito");
 
     for (int row = 0; row < 5; row++) {
-        for (int col = 0; col < 5; col++) {
+        for (int col = 0; col < 4; col++) {
             grid->SetCellValue(row, col, wxString::Format("(%d, %d)", row, col));
         }
+        wxGridCellBoolRenderer *renderer = new wxGridCellBoolRenderer();
+        grid->SetCellRenderer(row, 5, renderer);
+        grid->SetCellEditor(row, 5, new wxGridCellBoolEditor());
     }
     grid->AutoSize();
+
+    Confirm=new wxButton (panel,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
+    Back=new wxButton(panel,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
+
+    /*hbox2->Add(fgs, 1, wxDOWN, 10);
+    hbox2->AddStretchSpacer(1); // Aggiunge uno spazio vuoto espandibile
+    hbox2->Add(Confirm, 0, wxRIGHT, 10);
+    hbox2->Add(Back, 0);
+
+    hbox->Add(grid, 1, wxEXPAND | wxALL, 20);
+    hbox->Add(hbox2, 0, wxALIGN_RIGHT | wxALL, 20);
+
+    panel->SetSizer(hbox);*/
+    fgs->Add(Confirm,0);
+    fgs->Add(Back,0);
+
+
+    fgs->AddGrowableRow(1, 1);
+    fgs->AddGrowableCol(1, 1);
+
+
+    hbox2->Add(fgs, 1, wxDOWN, 10);
+
+    panel->SetSizer(hbox);
+
+    //this->SetSizer(MainBox);
+
+    Centre();
+
+
 }
 
 
@@ -48,63 +85,6 @@ void prodListFrame::IsConfirm(wxCommandEvent &event) {
 }
 
 void prodListFrame::ComeBack(wxCommandEvent &event) {
-
+    Close();
 }
 
-
-
-
-/*wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
-
-//wxBoxSizer *MainBox=new wxBoxSizer(wxHORIZONTAL);
-
-Confirm=new wxButton (panel,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
-Back=new wxButton(panel,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
-
-
-
-
-fgs->Add(Confirm,0);
-fgs->Add(Back,0);
-
-fgs->AddGrowableRow(1, 1);
-fgs->AddGrowableCol(1, 1);
-
-
-hbox->Add(fgs, 1, wxALL, 10);
-
-
-
-panel->SetSizer(hbox);
-//this->SetSizer(MainBox);
-
-Centre();
-}
-
-
-}
-
-
-void prodListFrame::Register(wxCommandEvent &event) {
-Close();
-
-b_n = tcB_n->GetValue().ToStdString();
-a = tcA->GetValue().ToStdString();
-c = tcC->GetValue().ToStdString();
-u = tcU->GetValue().ToStdString();
-em = tcEm->GetValue().ToStdString();
-psw = m_passwordText->GetValue().ToStdString();
-TableUsers table;
-int numResult;
-numResult = table.access_reg(em, psw, 1);
-Users *user;
-
-if (numResult == 0) {
-    user = new Users(t, b_n, c, a, em, psw, u);
-    table.add(*user);
-    cout << table.select_type(em);
-} else {
-    wxLogMessage("There is already an account with this email");
-}
-
-}*/
