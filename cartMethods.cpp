@@ -40,7 +40,7 @@ void TableCart::add(const Cart& cart) {
     }
     query_user.reset();
 
-    string query_insert="INSERT INTO cart (quantity, id_sub, id_prov) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(i) + ","+
+    string query_insert="INSERT INTO cart (quantity, id_sub,id_user, id_prov) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(i) + ","+
                                                                                                                                          to_string(k)+","+
                                                                                                                                                       to_string(j)+");";
     db.exec(query_insert);

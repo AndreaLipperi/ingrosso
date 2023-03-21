@@ -3,15 +3,16 @@
 //
 
 #include "NewProductsFrame.h"
+#include <vector>
+
 
 const long NewProductsFrame::IdButtonInsert =::wxNewId();
 const long NewProductsFrame::IdButtonComeBack =::wxNewId();
 
-
 BEGIN_EVENT_TABLE (NewProductsFrame, wxFrame)
 
-          EVT_BUTTON(IdButtonInsert, NewProductsFrame::InsertProduct)
-          EVT_BUTTON(IdButtonComeBack, NewProductsFrame::ComeBack)
+                EVT_BUTTON(IdButtonInsert, NewProductsFrame::InsertProduct)
+                EVT_BUTTON(IdButtonComeBack, NewProductsFrame::ComeBack)
 
 END_EVENT_TABLE()
 
@@ -24,12 +25,27 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
 
-    wxFlexGridSizer *fgs=new wxFlexGridSizer(2,2, 20,5);
+    wxFlexGridSizer *fgs=new wxFlexGridSizer(6,2,20,5);
 
+    TableCategories *table_cat;
 
-    //wxBoxSizer *MainBox=new wxBoxSizer(wxHORIZONTAL);
+    std::vector<std::string> categories;
 
-    wxStaticText *Category = new wxStaticText(Mainpanel, -1, wxT("Type"));
+    categories=table_cat->select();
+    wxVector<string> choices;
+    for (int k=0; k<table_cat->number_of_cat(); k++){
+        choices.push_back(categories[k]);
+    }
+    wxString myString[table_cat->number_of_cat()];
+    for (int i=0;i<table_cat->number_of_cat();i++) {
+        myString[i].Append(choices[i]);
+    }
+
+    categories.clear();
+    choices.clear();
+
+    wxStaticText *Category = new wxStaticText(Mainpanel, -1, wxT("Category"));
+    wxStaticText *SubCategory = new wxStaticText(Mainpanel, -1, wxT("Subcategory"));
     wxStaticText *Name = new wxStaticText(Mainpanel, -1, wxT("Product's name"));
     wxStaticText *Qty_avb= new wxStaticText(Mainpanel, -1, wxT("Quantity available"));
     wxStaticText *Cost= new wxStaticText(Mainpanel, -1, wxT("$"));
@@ -37,16 +53,25 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     Insert=new wxButton (Mainpanel,IdButtonInsert,_T ("Insert"),wxDefaultPosition,wxDefaultSize,0);
     Back=new wxButton(Mainpanel,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
 
+    choiceC=new wxChoice(Mainpanel, wxID_ANY,wxDefaultPosition, wxDefaultSize);
+    choiceC->Set(table_cat->number_of_cat(),myString);
+
+    choiceC->Bind(wxEVT_CHOICE, &NewProductsFrame::OnChoice, this);
+
+    choiceSubC=new wxChoice(Mainpanel, wxID_ANY,wxDefaultPosition, wxDefaultSize);
 
 
-    tcCategory = new wxTextCtrl(Mainpanel, -1);
+
     tcName = new wxTextCtrl(Mainpanel, -1);
     tcCost = new wxTextCtrl(Mainpanel, -1);
     tcQ_a= new wxTextCtrl(Mainpanel, -1);
 
 
     fgs->Add(Category,0);
-    fgs->Add(tcCategory,1, wxEXPAND);
+    fgs->Add(choiceC,1, wxEXPAND);
+    fgs->Add(SubCategory,0);
+    fgs->Add(choiceSubC,1, wxEXPAND);
+
     fgs->Add(Name,0);
     fgs->Add(tcName,1, wxEXPAND);
 
@@ -75,13 +100,36 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     Centre();
 
 }
-
+void NewProductsFrame::OnChoice(wxCommandEvent& event) {
+    wxVector<string> choices2;
+    TableProducts *table_sub;
+    std::vector<std::string> subcategories;
+    string cat=event.GetString().ToStdString();
+    subcategories = table_sub->select(cat);
+    for (int k=0; k<subcategories.size(); k++){
+        choices2.push_back(subcategories[k]);
+    }
+    wxString myString[choices2.size()];
+    for (int i=0;i<choices2.size();i++) {
+        myString[i].Append(choices2[i]);
+    }
+    choiceSubC->Set(subcategories.size(), myString);
+    subcategories.clear();
+    choices2.clear();
+}
 void NewProductsFrame::InsertProduct(wxCommandEvent &event) {
+    int Id_subcategory= choiceSubC->GetSelection();
+    std::string Sub_category=choiceSubC->GetString(Id_subcategory).ToStdString();
+    int Id_category = choiceC->GetSelection();
+    std::string Category=choiceC->GetString(Id_category).ToStdString();
+    std::string Name = tcName->GetValue().ToStdString();
+    std::string  Quantity = tcQ_a->GetValue().ToStdString();
+    std::string Price = tcCost->GetValue().ToStdString();
 
 }
 
 void NewProductsFrame::ComeBack(wxCommandEvent &event) {
 
-   Hide();
+    Close();
 
 }

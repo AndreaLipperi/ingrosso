@@ -7,7 +7,11 @@
 
 #include "wx/wx.h"
 #include "wx/wxhtml.h"
+#include "wx/string.h"
+#include <string>
 #include "ProvidersFrame.h"
+#include "categoriesMethods.h"
+#include "subcategoriesMethods.h"
 
 class NewProductsFrame:public wxFrame {
 public:
@@ -21,12 +25,15 @@ DECLARE_EVENT_TABLE()
 private:
     void ComeBack(wxCommandEvent& event);
     void InsertProduct(wxCommandEvent& event);
+    void OnChoice(wxCommandEvent& event);
     wxButton *Insert;
     wxButton *Back;
     wxTextCtrl *tcCategory;
     wxTextCtrl *tcName;
     wxTextCtrl *tcQ_a;
     wxTextCtrl *tcCost;
+    wxChoice* choiceC;
+    wxChoice* choiceSubC;
 };
 
 #endif //INGROSSO_ONLINE_NEWPRODUCTSFRAME_H

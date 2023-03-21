@@ -8,20 +8,16 @@
 #include "favourites.h"
 using namespace std;
 class TableFavourites {
+    public :
     TableFavourites();
-    ~TableFavourites();
-    TableFavourites(const TableFavourites& other);
-    void operator =(const TableFavourites& other);
-    void add(const Favourites& fav);
-    void remove_prod(Subcategories *prod, const string &IDcust);
-    void changeData(const string &IDcust, Subcategories *prod);
+    void add(const Favourites& cart);
+    void remove_all(const string &IDuser);
+    void remove_prod(Subcategories &prod, const string &IDuser);
+    void changeData(const string &IDuser, Subcategories &prod, const string &new_IDprov, const int &new_quantity);
     void sort_id_prod();
     void sort_id_provider();
-private:
-    void make_bigger();
-    int capacity;
-    Favourites *data;
-    int used;
-};
+    private:
+        Favourites data;
+    };
 
 #endif // INGROSSO_ONLINE_FAVOURITESMETHODS_H

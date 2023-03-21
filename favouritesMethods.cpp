@@ -1,8 +1,10 @@
-///
-// Created by Andrea Lipperi on 16/11/22.
+//
+// Created by Andrea Lipperi on 14/11/22.
 //
 
 #include "favouritesMethods.h"
+#include "subcategories.h"
+#include "database.h"
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
 #include <SQLiteCpp/Database.h>
@@ -11,60 +13,109 @@
 using namespace std;
 
 TableFavourites::TableFavourites() {
-    used = 0;
-    capacity = 5;
-    data = new Favourites[capacity];
+    string query="CREATE TABLE IF NOT EXISTS favourites (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_sub INT NOT NULL, id_cust INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_sub) REFERENCES subcategories (id) NOT NULL, FOREIGN KEY (id_cust) REFERENCES users (id) NOT NULL, FOREIGN KEY (id_prov) REFERENCES users (id) NOT NULL);";
+    db.exec(query);
 }
-TableFavourites::~TableFavourites() {
-    delete []data;
-}
-
-
-void TableFavourites::add(const Favourites& fav) {
-    if (used>=capacity) {
-        make_bigger();
-    }
-    data[used]= fav;
-    used++;
-}
-void TableFavourites::remove_prod(Subcategories *prod, const string &IDcust) {
-    for (int i=0; i<used; i++) {
-        if (data[i].get_prod() == prod && data[i].get_id_cust()==IDcust) {
-
-            used++;
+void TableFavourites::add(const Favourites& cart) {
+    data=cart;
+    Subcategories *prod = data.get_prod();
+    int i=1;
+    int k=1;
+    int j=1;
+    SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
+    while (query_sub.executeStep()) {
+        if (query_sub.getColumn(1).getText() != prod->get_name()) {
+            i++;
         }
     }
-}
-void TableFavourites::sort_id_provider() {
-    bool done = false;
-    Favourites tmp;
-    while(!done) {
-        done = true;
-        for(int i=0; i<used; i++) {
-            if (data[i].get_id_prov() > data[i+1].get_id_prov()) {
-                done = false;
-            }
+    query_sub.reset();
+    SQLite::Statement query_user(db, "SELECT * FROM user");
+    while (query_user.executeStep()) {
+        if (query_user.getColumn(2).getText() != data.get_id_prov()) {
+            k++;
+        }
+        if (query_user.getColumn(2).getText() != data.get_id_cust()){
+            j++;
         }
     }
+    query_user.reset();
+
+    string query_insert="INSERT INTO favourites (quantity, id_sub,id_cust, id_prov) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(i) + ","+
+                        to_string(j)+","+
+                        to_string(k)+");";
+    db.exec(query_insert);
 }
-void TableFavourites::changeData(const string &IDcust, Subcategories *prod) {
+void TableFavourites::remove_all(const string &IDuser) {
+
+    string query="DELETE FROM favourites WHERE id_cust = '"+IDuser+"'";
+    db.exec(query);
+}
+void TableFavourites::remove_prod(Subcategories &prod,const string &IDuser) {
+    int i=1;
+    int k=1;
+    SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
+    while (query_sub.executeStep()) {
+        if (query_sub.getColumn(1).getText() != prod.get_name()) {
+            i++;
+        }
+    }
+    query_sub.reset();
+    SQLite::Statement query_user(db, "SELECT * FROM user");
+    while (query_user.executeStep()) {
+        if (query_user.getColumn(2).getText() != IDuser) {
+            k++;
+        }
+    }
+    query_user.reset();
+
+    string query="DELETE FROM favourites WHERE id_cust = '"+ to_string(k)+"' AND id_sub = "+ to_string(i)+"";
+    db.exec(query);
+}/*
+void TableCart::sort_id_prod() {
+  bool done = false;
+  Cart tmp;
+  while(!done) {
+    done = true;
+    for(int i=0; i<used; i++) {
+      if (data[i].get_prod() > data[i+1].get_prod()) {
+        done = false;
+        tmp = data[i];
+        data[i] = data[i+1];
+        data[i+1] = tmp;
+      }
+    }
+  }
+}
+void TableCart::sort_id_provider() {
+  bool done = false;
+  Cart tmp;
+  while(!done) {
+    done = true;
+    for(int i=0; i<used; i++) {
+      if (data[i].get_id_prov() > data[i+1].get_id_prov()) {
+        done = false;
+        tmp = data[i];
+        data[i] = data[i+1];
+        data[i+1] = tmp;
+      }
+    }
+  }
+}*/
+void TableFavourites::changeData(const string& IDuser, Subcategories &prod, const string &new_IDprov, const int &new_quantity) {
     int num_result = 0;
-    int save;
-    for (int i=0; i<used; i++) {
-        if (data[i].get_prod() == prod && data[i].get_id_cust()==IDcust) {
+    int i=0;
+    SQLite::Statement query_select(db, "SELECT * FROM subcategories");
+    while (query_select.executeStep()){
+        if (query_select.getColumn(1).getText() == prod.get_name()) {
             num_result++;
-            save=i;
-            i=used;
+        } else {
+            i++;
         }
     }
+    query_select.reset();
     if (num_result>0) {
-        int new_quantity;
-        string new_provider;
-        cout << "Enter new quantity: ";
-        cin >> new_quantity;
-        data[save].set_name(new_quantity);
-        cout << "enter provider business name: ";
-        cin >> new_provider;
-        data[save].set_IDprov(new_provider);
+        string query="UPDATE favourites SET quantity = "+ to_string(new_quantity)+", id_prov='"+new_IDprov+"' WHERE id = '"+ IDuser+"' AND id_sub = "+
+                     to_string(i)+";";
+        db.exec(query);
     }
 }
