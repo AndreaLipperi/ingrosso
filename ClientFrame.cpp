@@ -8,6 +8,7 @@
 //
 
 #include "ClientFrame.h"
+#include "prodListFrame.h"
 
 const long ClientFrame::IdButtonCart =::wxNewId();
 const long ClientFrame::IdButtonProfile =::wxNewId();
@@ -77,6 +78,8 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
 }
 
 void ClientFrame::OpenProductsList(wxCommandEvent &event) {
+    prodListFrame *List = new prodListFrame (_T("LISTA"));
+    List->Show(TRUE);
 
 }
 

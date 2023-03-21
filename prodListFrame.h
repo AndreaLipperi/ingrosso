@@ -1,8 +1,8 @@
 //
 // Created by Matilde Tarchi on 20/03/23.
 //
-#ifndef INGROSSO_ONLINE_PRODLIST_H
-#define INGROSSO_ONLINE_PRODLIST_H
+#ifndef INGROSSO_ONLINE_PRODLISTFRAME_H
+#define INGROSSO_ONLINE_PRODLISTFRAME_H
 #include "wx/wxhtml.h"
 #include "wx/wx.h"
 #include <string>
@@ -17,13 +17,14 @@
 #include "ProvidersFrame.h"
 #include "RegisterFrame.h"
 #include "ClientFrame.h"
+#include "wx/grid.h"
 
 
 
 
-class prodList : public wxDialog {
+class prodListFrame : public wxFrame {
 public:
-    prodList(const wxString &title);
+    prodListFrame(const wxString &title);
 
     static const long IdButtonConfirm;
     static const long IdButtonComeBack;
@@ -44,6 +45,6 @@ private:
     wxTextCtrl *quant;
 };
 
-#endif //INGROSSO_ONLINE_PRODLIST_H
+#endif //INGROSSO_ONLINE_PRODLISTFRAME_H
 
 
