@@ -6,8 +6,8 @@
 //
 // Created by dario on 30/11/2022.
 //
+#include "ProdList.h"
 
-#include "ClientFrame.h"
 
 const long ClientFrame::IdButtonCart =::wxNewId();
 const long ClientFrame::IdButtonProfile =::wxNewId();
@@ -77,7 +77,8 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
 }
 
 void ClientFrame::OpenProductsList(wxCommandEvent &event) {
-
+    ProdListFrame *List = new ProdListFrame (_T("LISTA"));
+    List->Show(TRUE);
 }
 
 void ClientFrame::OpenProfile(wxCommandEvent &event) {

@@ -1,4 +1,4 @@
-
+#include "wx/wx.h"
 #include"MyApp.h"
 #include "SelectFrame.h"
 #include "Menu.h"

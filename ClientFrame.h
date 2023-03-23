@@ -3,12 +3,10 @@
 //
 
 
-
+#include <wx/wx.h>
 
 #ifndef INGROSSO_ONLINE_CLIENTFRAME_H
 #define INGROSSO_ONLINE_CLIENTFRAME_H
-#include "wx/wx.h"
-#include "wx/wxhtml.h"
 #include "SelectFrame.h"
 class ClientFrame:public wxFrame {
 public:

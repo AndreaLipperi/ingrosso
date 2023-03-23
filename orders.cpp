@@ -6,8 +6,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
-Orders::Orders(int new_id, int new_quantity, Subcategories *new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov) : prod(new_prod) {
-    ID=new_id;
+Orders::Orders(int new_quantity, Store *new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov) : store(new_prod) {
     quantity=new_quantity;
     IDcust=new_id_cust;
     status=new_status;

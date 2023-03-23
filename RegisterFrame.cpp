@@ -2,6 +2,8 @@
 // Created by dario on 23/11/2022.
 //
 
+
+#include "wx/wx.h"
 #include "RegisterFrame.h"
 
 std::string t;
@@ -107,7 +109,7 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 
 void RegisterFrame::Register(wxCommandEvent &event) {
-    Hide();
+    Close();
 
     b_n = tcB_n->GetValue().ToStdString();
     a = tcA->GetValue().ToStdString();

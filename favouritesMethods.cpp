@@ -13,7 +13,7 @@
 using namespace std;
 
 TableFavourites::TableFavourites() {
-    string query="CREATE TABLE IF NOT EXISTS favourites (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_sub INT NOT NULL, id_cust INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_sub) REFERENCES subcategories (id) NOT NULL, FOREIGN KEY (id_cust) REFERENCES users (id) NOT NULL, FOREIGN KEY (id_prov) REFERENCES users (id) NOT NULL);";
+    string query="CREATE TABLE IF NOT EXISTS favourites (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_sub INT NOT NULL, id_cust INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_sub) REFERENCES subcategories (id), FOREIGN KEY (id_cust) REFERENCES users (id), FOREIGN KEY (id_prov) REFERENCES users (id));";
     db.exec(query);
 }
 void TableFavourites::add(const Favourites& cart) {
@@ -70,37 +70,7 @@ void TableFavourites::remove_prod(Subcategories &prod,const string &IDuser) {
 
     string query="DELETE FROM favourites WHERE id_cust = '"+ to_string(k)+"' AND id_sub = "+ to_string(i)+"";
     db.exec(query);
-}/*
-void TableCart::sort_id_prod() {
-  bool done = false;
-  Cart tmp;
-  while(!done) {
-    done = true;
-    for(int i=0; i<used; i++) {
-      if (data[i].get_prod() > data[i+1].get_prod()) {
-        done = false;
-        tmp = data[i];
-        data[i] = data[i+1];
-        data[i+1] = tmp;
-      }
-    }
-  }
 }
-void TableCart::sort_id_provider() {
-  bool done = false;
-  Cart tmp;
-  while(!done) {
-    done = true;
-    for(int i=0; i<used; i++) {
-      if (data[i].get_id_prov() > data[i+1].get_id_prov()) {
-        done = false;
-        tmp = data[i];
-        data[i] = data[i+1];
-        data[i+1] = tmp;
-      }
-    }
-  }
-}*/
 void TableFavourites::changeData(const string& IDuser, Subcategories &prod, const string &new_IDprov, const int &new_quantity) {
     int num_result = 0;
     int i=0;

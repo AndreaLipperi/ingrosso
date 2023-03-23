@@ -11,15 +11,10 @@ using namespace std;
 class TableOrders {
 public :
     TableOrders();
-    ~TableOrders();
-    TableOrders(const TableOrders& other);
-    void operator =(const TableOrders& other);
-    void add(const Orders& ord);
-    void changeStatus(const string &IDcust, const string &IDprov);
+    void add(const Orders& order);
+    void changeStatus(const string &IDuser, const string &new_IDprov, const string &new_status);
+
 private:
-    void make_bigger();
-    int capacity;
-    Orders *data;
-    int used;
+    Orders data;
 };
 #endif // INGROSSO_ONLINE_ORDERSMETHODS_H

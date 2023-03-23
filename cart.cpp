@@ -9,7 +9,7 @@
 using namespace std;
 
 
-Cart::Cart(int new_quantity, Subcategories *new_name_prod,  const string &new_id_user,  const string &new_id_prov) : prod(new_name_prod) {
+Cart::Cart(int new_quantity, Store *new_name_prod,  const string &new_id_user,  const string &new_id_prov) : prod(new_name_prod) {
 
   quantity= new_quantity;
   IDuser=new_id_user;

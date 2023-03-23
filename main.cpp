@@ -12,13 +12,13 @@
 #include <vector>
 #include <sqlite3.h>
 #include <stdio.h>
-//#include "wx/wx.h"
-//#include "MyApp.h"
+#include "wx/wx.h"
+#include "MyApp.h"
 #include <string>
 using namespace std;
 
-//IMPLEMENT_APP(MyApp)
-
+IMPLEMENT_APP(MyApp)
+/*
   int main() {
     TableCategories table_cat;
 
@@ -40,5 +40,5 @@ using namespace std;
         cout << i << " " << subcategories[i] << endl;
     }
 
-}
+}*/
 

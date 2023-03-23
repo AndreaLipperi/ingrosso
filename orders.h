@@ -7,20 +7,20 @@
 
 #include "subcategoriesMethods.h"
 #include "usersMethods.h"
+#include "storeMethods.h"
+
 #include <string>
 using namespace std;
 class Orders{
 public:
     Orders();
-    Orders(int new_id, int new_quantity, Subcategories *new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov);
-    int get_id() {
-        return ID;
-    }
+    Orders(int new_quantity, Store *new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov);
+
     int get_quantity() {
         return quantity;
     }
-    Subcategories* get_prod(){
-        return prod;
+    Store* get_prod(){
+        return store;
     }
     string get_status(){
         return status;
@@ -39,9 +39,8 @@ public:
     }
 
 private:
-    int ID;
     int quantity;
-    Subcategories *prod;
+    Store *store;
     string status;
     string date_order;
     string IDcust;
