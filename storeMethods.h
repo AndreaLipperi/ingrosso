@@ -16,7 +16,8 @@ public :
     void remove(const int &id_inter, const string &id_prov);
     void changeQuantity(const int &id_inter, const string &id_prov,const int &new_quantity);
     void changeDesc(const int &id_inter, const string &id_prov, const string &new_desc);
-    string** select(Subcategories &sub);
+    string** select(const string &sub_name);
+    int select_count(const string &sub_name);
 private:
     Store data;
 };

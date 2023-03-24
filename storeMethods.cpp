@@ -97,21 +97,16 @@ void TableStore::remove(const int &id_inter, const string &id_prov) {
     db.exec(query);
 }
 
-string** TableStore::select(Subcategories &sub) {
+string** TableStore::select(const string &sub_name) {
 
-    int i=1;
-    SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
-    while (query_sub.executeStep()) {
-        if (query_sub.getColumn(1).getText() != sub.get_name()) {
-            i++;
-        }
-    }
-    query_sub.reset();
+
+    string query_sub="SELECT id FROM subcategories WHERE name='"+sub_name+"'";
+    int i = db.execAndGet(query_sub).getInt();
     string query_select_count="SELECT count(*) FROM store WHERE id_sub ="+ to_string(i)+"";
     int count = db.execAndGet(query_select_count).getInt();
-    string** matrice=new string *[count];
+    string** mat=new string *[count];
     for (int k = 0; k < count; k++) {
-        matrice[k] = new string[4];
+        mat[k] = new string[4];
     }
     SQLite::Statement query(db,"SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END FROM users,store WHERE id_prov=users.id AND id_sub="+
                  to_string(i)+";");
@@ -119,11 +114,22 @@ string** TableStore::select(Subcategories &sub) {
     int n=0;
     while (query.executeStep()){
         while (n<4) {
-            matrice[m][n]=query.getColumn(n).getText();
+            mat[m][n]=query.getColumn(n).getText();
+            cout << mat[m][n];
             n++;
         }
         n=0;
         m++;
     }
-    return matrice;
+    return mat;
+}
+
+
+int TableStore::select_count(const string &sub_name) {
+
+    string query_sub="SELECT id FROM subcategories WHERE name='"+sub_name+"'";
+    int i = db.execAndGet(query_sub).getInt();
+    string query_select_count="SELECT count(*) FROM store WHERE id_sub ="+ to_string(i)+"";
+    int count = db.execAndGet(query_select_count).getInt();
+    return count;
 }

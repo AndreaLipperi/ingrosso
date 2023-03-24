@@ -2,18 +2,19 @@
 // Created by Andrea Lipperi on 22/03/23.
 //
 
-#ifndef INGROSSO_ONLINE_PRODLIST_H
-#define INGROSSO_ONLINE_PRODLIST_H
+#ifndef INGROSSO_ONLINE_PRODLISTFRAME_H
+#define INGROSSO_ONLINE_PRODLISTFRAME_H
 #include "wx/wxhtml.h"
 #include "wx/wx.h"
 #include <string>
 #include "usersMethods.h"
 #include "users.h"
+#include "storeMethods.h"
 #include <iostream>
 #include <fstream>
 #include "MyApp.h"
 #include "SelectFrame.h"
-#include "Menu.h"
+#include "SelectSubFrame.h"
 #include "Enter.h"
 #include "ProvidersFrame.h"
 #include "RegisterFrame.h"
@@ -34,7 +35,8 @@ DECLARE_EVENT_TABLE()
 
 private:
     void IsConfirm(wxCommandEvent &event);
-
+    void OnChoice(wxCommandEvent& event);
+    void SetGrid(wxCommandEvent& event);
     void ComeBack(wxCommandEvent& event);
 
     wxButton *Confirm;
@@ -44,6 +46,9 @@ private:
     wxTextCtrl *name;
     wxTextCtrl *cost;
     wxTextCtrl *quant;
+    wxChoice* choiceC;
+    wxChoice* choiceSubC;
+    wxGrid *grid;
 };
 
-#endif //INGROSSO_ONLINE_PRODLIST_H
+#endif //INGROSSO_ONLINE_PRODLISTFRAME_H

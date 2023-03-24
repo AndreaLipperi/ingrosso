@@ -2,7 +2,8 @@
 // Created by Andrea Lipperi on 22/03/23.
 //
 
-#include "ProdList.h"
+#include "ProdListFrame.h"
+#include "SelectSubFrame.h"
 
 std::string sub;
 std::string cat;
@@ -22,7 +23,8 @@ END_EVENT_TABLE()
 ProdListFrame::ProdListFrame(const wxString &title):
         wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
 
-
+    SelectSubFrame* select_sub_name = (SelectSubFrame*)wxTheApp->GetTopWindow();
+    string sub=select_sub_name->sub_name;
     wxPanel *panel = new wxPanel(this, -1);
 
     wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
@@ -31,19 +33,27 @@ ProdListFrame::ProdListFrame(const wxString &title):
     wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
 
     wxGrid *grid = new wxGrid(this, wxID_ANY);
-    grid->CreateGrid(5, 4);
+
+    TableStore store;
+    int row = store.select_count(sub);
+    string** mat_store=new string *[row];
+    for (int k = 0; k < row; k++) {
+        mat_store[k] = new string[4];
+    }
+    mat_store=store.select(sub);
+    grid->CreateGrid(row, 4);
     grid->SetColLabelValue(0, "Prodotto");
     grid->SetColLabelValue(1, "Prezzo");
     grid->SetColLabelValue(2, "Fornitore");
     grid->SetColLabelValue(3, "Disponibilità");
 
-    for (int row = 0; row < 5; row++) {
+    for (int i = 0; i < row; i++) {
         for (int col = 0; col < 4; col++) {
-            grid->SetCellValue(row, col, wxString::Format("(%d, %d)", row, col));
+            grid->SetCellValue(i, col,  mat_store[i][col]);
         }
         wxGridCellBoolRenderer *renderer = new wxGridCellBoolRenderer();
-        grid->SetCellRenderer(row, 5, renderer);
-        grid->SetCellEditor(row, 5, new wxGridCellBoolEditor());
+        grid->SetCellRenderer(i, 4, renderer);
+        grid->SetCellEditor(i, 4, new wxGridCellBoolEditor());
     }
     grid->AutoSize();
 
@@ -76,11 +86,14 @@ ProdListFrame::ProdListFrame(const wxString &title):
 
 }
 
-
 void ProdListFrame::IsConfirm(wxCommandEvent &event) {
 
 }
 
 void ProdListFrame::ComeBack(wxCommandEvent &event) {
     Close();
+}
+
+void ProdListFrame::SetGrid(wxCommandEvent &event) {
+
 }
