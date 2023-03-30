@@ -13,23 +13,14 @@
 using namespace std;
 
 TableFavourites::TableFavourites() {
-    string query="CREATE TABLE IF NOT EXISTS favourites (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_sub INT NOT NULL, id_cust INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_sub) REFERENCES subcategories (id), FOREIGN KEY (id_cust) REFERENCES users (id), FOREIGN KEY (id_prov) REFERENCES users (id));";
+    string query="CREATE TABLE IF NOT EXISTS favourites (id INTEGER PRIMARY KEY autoincrement, id_store INT NOT NULL, id_cust INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_cust) REFERENCES users (id), FOREIGN KEY (id_prov) REFERENCES users (id));";
     db.exec(query);
 }
 void TableFavourites::add(const Favourites& cart) {
     data=cart;
-    Subcategories *prod = data.get_prod();
-    int i=1;
     int k=1;
     int j=1;
-    SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
-    while (query_sub.executeStep()) {
-        if (query_sub.getColumn(1).getText() != prod->get_name()) {
-            i++;
-        }
-    }
-    query_sub.reset();
-    SQLite::Statement query_user(db, "SELECT * FROM user");
+    SQLite::Statement query_user(db, "SELECT * FROM users");
     while (query_user.executeStep()) {
         if (query_user.getColumn(2).getText() != data.get_id_prov()) {
             k++;
@@ -39,10 +30,8 @@ void TableFavourites::add(const Favourites& cart) {
         }
     }
     query_user.reset();
-
-    string query_insert="INSERT INTO favourites (quantity, id_sub,id_cust, id_prov) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(i) + ","+
-                        to_string(j)+","+
-                        to_string(k)+");";
+    int id=std::stoi(data.get_id_store());
+    string query_insert="INSERT INTO favourites (id_store,id_cust, id_prov) VALUES ("+to_string(id)+", "+to_string(j)+","+to_string(k)+");";
     db.exec(query_insert);
 }
 void TableFavourites::remove_all(const string &IDuser) {

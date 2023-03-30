@@ -12,15 +12,10 @@ using namespace std;
 class Favourites{
 public:
 Favourites();
-  Favourites(int new_id, int new_quantity, Subcategories *new_prod, const string &new_id_cust, const string &new_id_prov);
-  int get_id() {
-    return ID;
-  }
-  int get_quantity() {
-    return quantity;
-  }
-    Subcategories* get_prod(){
-    return prod;
+  Favourites(const string &new_id_store, const string &new_id_cust, const string &new_id_prov);
+
+  string get_id_store(){
+    return id_store;
   }
   string get_id_cust(){
     return IDcustomer;
@@ -28,11 +23,8 @@ Favourites();
   string get_id_prov(){
     return IDprovider;
   }
-  void set_name(int new_quantity){
-    Favourites::quantity=new_quantity;
-  }
-  void set_prod(Subcategories *new_prod){
-    Favourites::prod=new_prod;
+  void set_id_store(string new_id_store){
+    Favourites::id_store=new_id_store;
   }
   void set_IDuser(string new_id_cust){
     Favourites::IDcustomer=new_id_cust;
@@ -42,9 +34,7 @@ Favourites();
   }
 
 private :
-  int ID;
-  int quantity;
-  Subcategories *prod;
+  string id_store;
   string IDcustomer;
   string IDprovider;
 

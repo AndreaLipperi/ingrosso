@@ -27,20 +27,20 @@
 class ProdListFrame : public wxFrame {
 public:
     ProdListFrame(const wxString &title, const std::string &sub, const std::string &disp);
-    static const long IdButtonConfirm;
-    static const long IdButtonComeBack;
+    static const long IdButtonFav;
+    static const long IdButtonCart;
     static const long IdButtonSelection;
 DECLARE_EVENT_TABLE()
 
 
 private:
-    void IsConfirm(wxCommandEvent &event);
+    void IsFavourites(wxCommandEvent &event);
     void selection_data(wxCommandEvent& event);
     void OnCellLeftClick(wxGridEvent& event);
     void ComeBack(wxCommandEvent& event);
     void OnChoice(wxCommandEvent& event);
-    wxButton *Confirm;
-    wxButton *Back;
+    wxButton *FavButton;
+    wxButton *CartButton;
     wxTextCtrl *sub;
     wxTextCtrl *cat;
     wxTextCtrl *name;

@@ -8,9 +8,8 @@
 using namespace std;
 
 
-Favourites:: Favourites(int new_id, int new_quantity, Subcategories *new_prod, const string &new_id_cust, const string &new_id_prov) : prod(new_prod) {
-    ID = new_id;
-    quantity= new_quantity;
+Favourites:: Favourites(const string &new_id_store, const string &new_id_cust, const string &new_id_prov) {
+    id_store=new_id_store;
     IDcustomer=new_id_cust;
     IDprovider=new_id_prov;
 }
