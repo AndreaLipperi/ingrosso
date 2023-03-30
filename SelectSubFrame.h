@@ -12,7 +12,6 @@ public:
 
     static const long IdButtonInsert;
     static const long IdButtonComeBack;
-    std::string sub_name;
 
 
 DECLARE_EVENT_TABLE()
@@ -25,5 +24,6 @@ private:
     wxTextCtrl *tcCategory;
     wxChoice* choiceC;
     wxChoice* choiceSubC;
+    wxChoice* choiceDisp;
 };
 #endif //BUTTON_WXWIDGETS_FRAME_H

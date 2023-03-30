@@ -26,19 +26,19 @@
 
 class ProdListFrame : public wxFrame {
 public:
-    ProdListFrame(const wxString &title);
-
+    ProdListFrame(const wxString &title, const std::string &sub, const std::string &disp);
     static const long IdButtonConfirm;
     static const long IdButtonComeBack;
+    static const long IdButtonSelection;
 DECLARE_EVENT_TABLE()
 
 
 private:
     void IsConfirm(wxCommandEvent &event);
-    void OnChoice(wxCommandEvent& event);
-    void SetGrid(wxCommandEvent& event);
+    void selection_data(wxCommandEvent& event);
+    void OnCellLeftClick(wxGridEvent& event);
     void ComeBack(wxCommandEvent& event);
-
+    void OnChoice(wxCommandEvent& event);
     wxButton *Confirm;
     wxButton *Back;
     wxTextCtrl *sub;
@@ -46,9 +46,12 @@ private:
     wxTextCtrl *name;
     wxTextCtrl *cost;
     wxTextCtrl *quant;
-    wxChoice* choiceC;
-    wxChoice* choiceSubC;
     wxGrid *grid;
+    wxRadioButton *selection;
+    std::string sub_name;
+    std::string disponibility;
+    wxChoice* choiceOrder;
+    string** mat_store;
 };
 
 #endif //INGROSSO_ONLINE_PRODLISTFRAME_H

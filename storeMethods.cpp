@@ -97,7 +97,7 @@ void TableStore::remove(const int &id_inter, const string &id_prov) {
     db.exec(query);
 }
 
-string** TableStore::select(const string &sub_name) {
+string** TableStore::select(const string &sub_name, const string &disp, const string &order) {
 
 
     string query_sub="SELECT id FROM subcategories WHERE name='"+sub_name+"'";
@@ -106,16 +106,34 @@ string** TableStore::select(const string &sub_name) {
     int count = db.execAndGet(query_select_count).getInt();
     string** mat=new string *[count];
     for (int k = 0; k < count; k++) {
-        mat[k] = new string[4];
+        mat[k] = new string[5];
     }
-    SQLite::Statement query(db,"SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END FROM users,store WHERE id_prov=users.id AND id_sub="+
-                 to_string(i)+";");
+    string select;
+    int n_disp;
+    if (disp=="Solo Disponibili") {
+        n_disp=1;
+    } else {
+        n_disp=0;
+    }
+    if (order=="prodotto") {
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+                                   to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY desc_prod;";
+    } else if (order=="prezzo") {
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+                                   to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY price_product;";
+    } else if (order=="fornitore"){
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END, id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+                                   to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY username;";
+    } else {
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+                                   to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY '"+order+"';";
+    }
+    SQLite::Statement query(db,select);
     int m=0;
     int n=0;
     while (query.executeStep()){
-        while (n<4) {
+        while (n<5) {
             mat[m][n]=query.getColumn(n).getText();
-            cout << mat[m][n];
             n++;
         }
         n=0;
@@ -125,11 +143,17 @@ string** TableStore::select(const string &sub_name) {
 }
 
 
-int TableStore::select_count(const string &sub_name) {
+int TableStore::select_count(const string &sub_name, const string &disp) {
 
     string query_sub="SELECT id FROM subcategories WHERE name='"+sub_name+"'";
     int i = db.execAndGet(query_sub).getInt();
-    string query_select_count="SELECT count(*) FROM store WHERE id_sub ="+ to_string(i)+"";
+    int n_disp;
+    if (disp=="Solo Disponibili") {
+        n_disp=1;
+    } else {
+        n_disp=0;
+    }
+    string query_select_count="SELECT count(*) FROM store WHERE id_sub ="+ to_string(i)+" AND available_quantity>="+to_string(n_disp)+"";
     int count = db.execAndGet(query_select_count).getInt();
     return count;
 }
