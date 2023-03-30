@@ -7,10 +7,11 @@
 //
 
 #include "SelectFrame.h"
+#include "UsernameGlobal.h"
 #include "wx/wx.h"
 #include "Enter.h"
 #include "MyApp.h"
-#include "Menu.h"
+#include "SelectSubFrame.h"
 #include "usersMethods.h"
 #include "ClientFrame.h"
 #include "ProvidersFrame.h"
@@ -91,6 +92,7 @@ void Enter::Access(wxCommandEvent &event) {
     } else {
         std::string TypeUser;
         TypeUser = table.select_type(e);
+        UsernameGlobal::GetInstance().SetValue(e);
         if (TypeUser == "F") {
             ProvidersFrame *ProvidersWin = new ProvidersFrame(_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
             ProvidersWin->Show(TRUE);

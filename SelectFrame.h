@@ -24,6 +24,7 @@ private:
     void OnRegister(wxCommandEvent& event);
     wxButton *HelloWorld;
     wxButton *Register;
+    static std::string username_actual_user;
 };
 
 enum

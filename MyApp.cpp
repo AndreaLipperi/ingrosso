@@ -1,10 +1,9 @@
 #include "wx/wx.h"
 #include"MyApp.h"
 #include "SelectFrame.h"
-#include "Menu.h"
+#include "SelectSubFrame.h"
 #include "Enter.h"
 #include "RegisterFrame.h"
-
 
 bool MyApp::OnInit()
 {

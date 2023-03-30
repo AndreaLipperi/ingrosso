@@ -6,7 +6,7 @@
 //
 // Created by dario on 30/11/2022.
 //
-#include "ProdList.h"
+#include "SelectSubFrame.h"
 
 
 const long ClientFrame::IdButtonCart =::wxNewId();
@@ -77,7 +77,7 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
 }
 
 void ClientFrame::OpenProductsList(wxCommandEvent &event) {
-    ProdListFrame *List = new ProdListFrame (_T("LISTA"));
+    SelectSubFrame *List = new SelectSubFrame (_T("LISTA"));
     List->Show(TRUE);
 }
 

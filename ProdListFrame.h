@@ -29,28 +29,29 @@ public:
     ProdListFrame(const wxString &title, const std::string &sub, const std::string &disp);
     static const long IdButtonFav;
     static const long IdButtonCart;
-    static const long IdButtonSelection;
+    static const long IdButtonInsert;
 DECLARE_EVENT_TABLE()
 
 
 private:
     void IsFavourites(wxCommandEvent &event);
-    void selection_data(wxCommandEvent& event);
-    void OnCellLeftClick(wxGridEvent& event);
-    void ComeBack(wxCommandEvent& event);
+    void IsCart(wxCommandEvent& event);
+    void IsInsert(wxCommandEvent& event);
     void OnChoice(wxCommandEvent& event);
     wxButton *FavButton;
     wxButton *CartButton;
+    wxButton *InsertButton;
     wxTextCtrl *sub;
     wxTextCtrl *cat;
     wxTextCtrl *name;
     wxTextCtrl *cost;
-    wxTextCtrl *quant;
+    wxBoxSizer *sizer;
+    wxSpinCtrl* spinCtrl;
     wxGrid *grid;
-    wxRadioButton *selection;
     std::string sub_name;
     std::string disponibility;
     wxChoice* choiceOrder;
+    wxChoice* choiceQuantity;
     string** mat_store;
 };
 

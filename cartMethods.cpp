@@ -13,36 +13,28 @@
 using namespace std;
 
 TableCart::TableCart() {
-    string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_prod INT NOT NULL, id_user INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_prod) REFERENCES store (id), FOREIGN KEY (id_user) REFERENCES users (id), FOREIGN KEY (id_prov) REFERENCES users (id));";
+    string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_store INT NOT NULL, id_user INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_user) REFERENCES users (id), FOREIGN KEY (id_prov) REFERENCES users (id));";
     db.exec(query);
 }
 void TableCart::add(const Cart& cart) {
     data=cart;
-    Store *prod = data.get_prod();
-    int i=1;
     int k=1;
     int j=1;
-    SQLite::Statement query_user(db, "SELECT * FROM user");
+    SQLite::Statement query_user(db, "SELECT * FROM users");
     while (query_user.executeStep()) {
-        if (query_user.getColumn(2).getText() != data.get_id_user()) {
+        if (query_user.getColumn(2).getText() != data.get_id_prov()) {
             k++;
         }
-        if (query_user.getColumn(2).getText() != data.get_id_prov()){
+        if (query_user.getColumn(2).getText() != data.get_id_user()){
             j++;
         }
     }
     query_user.reset();
+    int id=std::stoi(data.get_id_store());
 
-    SQLite::Statement query_sub(db, "SELECT * FROM store WHERE id_prov="+ to_string(j)+"" );
-    while (query_sub.executeStep()) {
-        if (query_sub.getColumn(1).getText() != prod->get_desc()) {
-            i++;
-        }
-    }
-    query_sub.reset();
-    string query_insert="INSERT INTO cart (quantity, id_prod,id_user, id_prov) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(i) + ","+
-                                                                                                                                         to_string(k)+","+
-                                                                                                                                                      to_string(j)+");";
+    string query_insert="INSERT INTO cart (quantity, id_store,id_user, id_prov) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(id) + ","+
+                                                                                                                                         to_string(j)+","+
+                                                                                                                                                      to_string(k)+");";
     db.exec(query_insert);
 }
 void TableCart::remove_all(const string &IDuser) {

@@ -6,7 +6,7 @@
 #include "wx/wx.h"
 #include "Enter.h"
 #include "MyApp.h"
-#include "Menu.h"
+#include "SelectSubFrame.h"
 #include "RegisterFrame.h"
 
 
@@ -21,7 +21,7 @@ BEGIN_EVENT_TABLE (SelectFrame, wxFrame)
 END_EVENT_TABLE() // The button is pressed
 
 
-
+std::string SelectFrame::username_actual_user="";
 SelectFrame::SelectFrame(const wxString &title, const wxPoint &pos, const wxSize
 &size): wxFrame(NULL,  - 1, title, pos, size)
 
