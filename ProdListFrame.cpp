@@ -98,7 +98,7 @@ void ProdListFrame::IsFavourites(wxCommandEvent &event) {
     for (size_t i = 0; i < selectedRows.GetCount(); i++) {
         row = selectedRows[i];
     }
-    std::string username_cust=UsernameGlobal::GetInstance().GetValue();
+    std::string username_cust=UsernameGlobal::GetInstance().GetValueUsername();
     Favourites* fav=new Favourites(mat_store[row][4],username_cust,mat_store[row][2]);
     TableFavourites table;
     table.add(*fav);
@@ -122,7 +122,7 @@ void ProdListFrame::IsInsert(wxCommandEvent &event) {
     for (size_t i = 0; i < selectedRows.GetCount(); i++) {
         row = selectedRows[i];
     }
-    std::string username_cust=UsernameGlobal::GetInstance().GetValue();
+    std::string username_cust=UsernameGlobal::GetInstance().GetValueUsername();
     TableCart table;
     int quantity = spinCtrl->GetValue();
     Cart *cart = new Cart(quantity,mat_store[row][4], username_cust, mat_store[row][2]);

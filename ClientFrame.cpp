@@ -7,6 +7,7 @@
 // Created by dario on 30/11/2022.
 //
 #include "SelectSubFrame.h"
+#include "ManageProFrame.h"
 
 
 const long ClientFrame::IdButtonCart =::wxNewId();
@@ -82,7 +83,8 @@ void ClientFrame::OpenProductsList(wxCommandEvent &event) {
 }
 
 void ClientFrame::OpenProfile(wxCommandEvent &event) {
-
+    ManageProFrame *manage = new ManageProFrame (_T("LISTA"));
+    manage->Show(TRUE);
 }
 
 void ClientFrame::OpenCart(wxCommandEvent &event) {

@@ -14,8 +14,10 @@ public :
     int access_reg(const string &email, const string &psw, int control);
     void add(const Users& emp);
     void remove(const string &business_name);
-    int changePsw(const string &psw,const string &new_psw);
-    string select_username(const string &business_name);
+    int changeData(const string &email, Users &user);
+    string** select_data(const string &username);
+    string select_username(const string &email);
+    string select_email(const string &username);
     string select_type(const string &email);
 private:
     Users data;

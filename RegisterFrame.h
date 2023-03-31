@@ -40,6 +40,7 @@ private:
     wxButton *Confirm;
     wxRadioButton *Provider;
     wxRadioButton *Client;
+    std::string t;
     wxTextCtrl *tcB_n;
     wxTextCtrl *tcA;
     wxTextCtrl *tcC;

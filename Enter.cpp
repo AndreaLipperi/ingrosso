@@ -92,7 +92,9 @@ void Enter::Access(wxCommandEvent &event) {
     } else {
         std::string TypeUser;
         TypeUser = table.select_type(e);
-        UsernameGlobal::GetInstance().SetValue(e);
+        std::string username=table.select_username(e);
+        UsernameGlobal::GetInstance().SetValueUsername(username);
+        UsernameGlobal::GetInstance().SetValueType(TypeUser);
         if (TypeUser == "F") {
             ProvidersFrame *ProvidersWin = new ProvidersFrame(_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
             ProvidersWin->Show(TRUE);

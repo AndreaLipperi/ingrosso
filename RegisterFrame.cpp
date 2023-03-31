@@ -6,15 +6,6 @@
 #include "wx/wx.h"
 #include "RegisterFrame.h"
 
-std::string t;
-std::string b_n;
-std::string a;
-std::string c;
-std::string em;
-std::string psw;
-std::string u;
-
-
 const long RegisterFrame::IdButtonConfirm =::wxNewId();
 const long RegisterFrame::IdButtonProvider =::wxNewId();
 const long RegisterFrame::IdButtonClient =::wxNewId();
@@ -111,12 +102,12 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 void RegisterFrame::Register(wxCommandEvent &event) {
     Close();
 
-    b_n = tcB_n->GetValue().ToStdString();
-    a = tcA->GetValue().ToStdString();
-    c = tcC->GetValue().ToStdString();
-    u = tcU->GetValue().ToStdString();
-    em = tcEm->GetValue().ToStdString();
-    psw = m_passwordText->GetValue().ToStdString();
+    std::string b_n = tcB_n->GetValue().ToStdString();
+    std::string a = tcA->GetValue().ToStdString();
+    std::string c = tcC->GetValue().ToStdString();
+    std::string u = tcU->GetValue().ToStdString();
+    std::string em = tcEm->GetValue().ToStdString();
+    std::string psw = m_passwordText->GetValue().ToStdString();
     TableUsers table;
     int numResult;
     numResult = table.access_reg(em, psw, 1);

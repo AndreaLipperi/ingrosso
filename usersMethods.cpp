@@ -30,7 +30,7 @@ int TableUsers::access_reg(const string &email, const string &psw, int control) 
     query.reset();
     if (control==accesso) {
        while (query.executeStep()){
-            if (query.getColumn(4).getText() == email && query.getColumn(5).getText() == psw) {
+            if (query.getColumn(5).getText() == email && query.getColumn(6).getText() == psw) {
                 num_found++;
             }
         }
@@ -41,7 +41,7 @@ int TableUsers::access_reg(const string &email, const string &psw, int control) 
         }
     } else if(control==registrazione){
         while (query.executeStep()){
-            if (query.getColumn(4).getText() == email) {
+            if (query.getColumn(5).getText() == email) {
                 num_found++;
             }
         }
@@ -63,23 +63,16 @@ void TableUsers::remove(const string &business_name) {
     string query="DELETE FROM users WHERE business_name = '"+business_name+"'";
     db.exec(query);
 }
-int TableUsers::changePsw(const string &email, const string &new_psw) {
-    int num_result = 0;
-    int i=1;
+int TableUsers::changeData(const string &email, Users &user) {
+    int num_result;
+    int i;
 
-    SQLite::Statement query_select(db, "SELECT * FROM users");
-
-    while (query_select.executeStep()){
-        if (query_select.getColumn(5).getText() == email) {
-            num_result++;
-        }
-        else {
-            i++;
-        }
-    }
-    query_select.reset();
+    string query_count="Select count(*) FROM users WHERE email='"+email+"'";
+    num_result=db.execAndGet(query_count).getInt();
     if (num_result>0) {
-        string query="UPDATE users SET password = '"+new_psw+"' WHERE id = "+ to_string(i)+"";
+        string query_id="Select id FROM users WHERE email='"+email+"'";
+        i=db.execAndGet(query_id).getInt();
+        string query="UPDATE users SET address='"+user.get_address()+"', city='"+user.get_city()+"', email='"+user.get_email()+"', password = '"+user.get_psw()+"', username='"+user.get_username()+"' WHERE id = "+ to_string(i)+"";
         db.exec(query);
         return 1;
     } else {
@@ -87,10 +80,35 @@ int TableUsers::changePsw(const string &email, const string &new_psw) {
     }
 }
 
-string TableUsers::select_username(const string &business_name) {
-    string username;
-    string query="SELECT username FROM users WHERE business_name='"+business_name+"'";
+string TableUsers::select_username(const string &email) {
+    string query="SELECT username FROM users WHERE email='"+email+"'";
     return db.execAndGet(query);
+}
+string TableUsers::select_email(const string &username) {
+    string query="SELECT email FROM users WHERE username='"+username+"'";
+    return db.execAndGet(query);
+}
+string** TableUsers::select_data(const string &username) {
+
+    string** mat=new string *[1];
+    for (int k = 0; k < 1; k++) {
+        mat[k] = new string[4];
+    }
+    string select;
+    select="SELECT address, city, email, password, business_name FROM users WHERE username='"+username+"';";
+
+    SQLite::Statement query(db,select);
+    int m=0;
+    int n=0;
+    while (query.executeStep()){
+        while (n<4) {
+            mat[m][n]=query.getColumn(n).getText();
+            n++;
+        }
+        n=0;
+        m++;
+    }
+    return mat;
 }
 
 string TableUsers::select_type(const std::string &email) {

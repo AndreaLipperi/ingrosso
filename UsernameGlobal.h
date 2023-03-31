@@ -10,13 +10,16 @@
 class UsernameGlobal {
 public:
     static UsernameGlobal& GetInstance();
-    std::string GetValue();
-    void SetValue(std::string value);
+    std::string GetValueType();
+    std::string GetValueUsername();
+    void SetValueUsername(std::string value_u);
+    void SetValueType(std::string value_t);
 private:
     UsernameGlobal();
     UsernameGlobal(const UsernameGlobal&) = delete;
     UsernameGlobal& operator=(const UsernameGlobal&) = delete;
-    std::string value_;
+    std::string value_username;
+    std::string value_type;
 };
 
 
