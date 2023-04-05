@@ -14,13 +14,13 @@ using namespace std;
 class Orders{
 public:
     Orders();
-    Orders(int new_quantity, Store *new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov);
+    Orders(int new_quantity, int new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov);
 
     int get_quantity() {
         return quantity;
     }
-    Store* get_prod(){
-        return store;
+    int get_prod(){
+        return id_store;
     }
     string get_status(){
         return status;
@@ -40,7 +40,7 @@ public:
 
 private:
     int quantity;
-    Store *store;
+    int id_store;
     string status;
     string date_order;
     string IDcust;

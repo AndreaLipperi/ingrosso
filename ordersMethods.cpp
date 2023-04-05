@@ -15,48 +15,51 @@ using namespace std;
 
 
 TableOrders::TableOrders() {
-    string query="CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL,satus VARCHAR NOT NULL, date_order DATE NOT NULL, id_prod INT NOT NULL, id_cust INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_prod) REFERENCES store (id), FOREIGN KEY (id_cust) REFERENCES users (id), FOREIGN KEY (id_prov) REFERENCES users (id));";
+    string query="CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL,status VARCHAR NOT NULL, date_order VARCHAR NOT NULL, id_prod INT NOT NULL, id_cust INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_prod) REFERENCES favourites (id), FOREIGN KEY (id_cust) REFERENCES users (id), FOREIGN KEY (id_prov) REFERENCES users (id));";
     db.exec(query);
 }
 void TableOrders::add(const Orders& order) {
     data=order;
-    Store *prod = data.get_prod();
-    int i=1;
+    int control_prov=0;
+    int control_cust=0;
     int k=1;
     int j=1;
-    SQLite::Statement query_user(db, "SELECT * FROM user");
+    SQLite::Statement query_user(db, "SELECT * FROM users");
     while (query_user.executeStep()) {
-        if (query_user.getColumn(2).getText() != data.get_id_cust()) {
+        if (query_user.getColumn(7).getText() != data.get_id_prov() && control_prov==0) {
             k++;
+        } else {
+            control_prov=1;
         }
-        if (query_user.getColumn(2).getText() != data.get_id_prov()){
+        if (query_user.getColumn(7).getText() != data.get_id_cust() && control_cust==0){
             j++;
+        } else {
+            control_cust=1;
         }
     }
     query_user.reset();
-
-    SQLite::Statement query_sub(db, "SELECT * FROM store WHERE id_prov = "+ to_string(j)+"");
-    while (query_sub.executeStep()) {
-        if (query_sub.getColumn(1).getText() != prod->get_desc()) {
-            i++;
-        }
-    }
-    query_sub.reset();
-    string query_insert="INSERT INTO orders (quantity,status, id_prod,id_cust, id_prov) VALUES (" + to_string(data.get_quantity()) + ",'S', " + to_string(i) + ","+
-                        to_string(k)+","+
-                        to_string(j)+");";
+    string query_insert="INSERT INTO orders (quantity,status, date_order, id_prod,id_cust, id_prov) VALUES (" + to_string(data.get_quantity()) + ",'S','"+data.get_date()+"', " + to_string(data.get_prod()) + ","+
+                        to_string(j)+","+
+                        to_string(k)+");";
     db.exec(query_insert);
 }
 void TableOrders::changeStatus(const string& IDuser, const string &IDprov, const string &new_status) {
     int k=1;
     int j=1;
+
+    int control_prov=0;
+    int control_cust=0;
     SQLite::Statement query_user(db, "SELECT * FROM user");
     while (query_user.executeStep()) {
-        if (query_user.getColumn(2).getText() != IDuser) {
+        if (query_user.getColumn(7).getText() != data.get_id_prov() && control_prov==0) {
             k++;
+        } else {
+            control_prov=1;
         }
-        if (query_user.getColumn(2).getText() != IDprov){
+        if (query_user.getColumn(7).getText() != data.get_id_cust() && control_cust==0){
             j++;
+        } else {
+            control_cust=1;
         }
     }
     query_user.reset();

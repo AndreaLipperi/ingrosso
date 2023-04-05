@@ -12,10 +12,12 @@ class TableFavourites {
     TableFavourites();
     void add(const Favourites& cart);
     void remove_all(const string &IDuser);
-    void remove_prod(Subcategories &prod, const string &IDuser);
+    void remove_prod(int id);
     void changeData(const string &IDuser, Subcategories &prod, const string &new_IDprov, const int &new_quantity);
-    void sort_id_prod();
-    void sort_id_provider();
+    string** select(const string &username);
+    int select_count(const string &username);
+
+
     private:
         Favourites data;
     };

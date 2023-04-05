@@ -93,38 +93,49 @@ void ProdListFrame::OnChoice(wxCommandEvent& event) {
     grid->AutoSize();
 }
 void ProdListFrame::IsFavourites(wxCommandEvent &event) {
-    wxArrayInt selectedRows = grid->GetSelectedRows();
-    int row;
-    for (size_t i = 0; i < selectedRows.GetCount(); i++) {
-        row = selectedRows[i];
-    }
-    std::string username_cust=UsernameGlobal::GetInstance().GetValueUsername();
-    Favourites* fav=new Favourites(mat_store[row][4],username_cust,mat_store[row][2]);
-    TableFavourites table;
-    table.add(*fav);
+    if (grid->GetSelectedRows() == 0) {
+        wxMessageBox("Choose a product", "Error", wxICON_ERROR);
+    } else {
+        wxArrayInt selectedRows = grid->GetSelectedRows();
+        int row;
+        for (size_t i = 0; i < selectedRows.GetCount(); i++) {
+            row = selectedRows[i];
+        }
+        std::string username_cust = UsernameGlobal::GetInstance().GetValueUsername();
 
+        Favourites *fav = new Favourites(mat_store[row][4], username_cust, mat_store[row][2]);
+        TableFavourites table;
+        table.add(*fav);
+    }
 }
 
 void ProdListFrame::IsCart(wxCommandEvent &event)  {
-    sizer->Hide(FavButton);
-    sizer->Hide(CartButton);
-    wxStaticText *q = new wxStaticText(this, -1, wxT("Insert Quantity"));
-    sizer->Add(q, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    spinCtrl = new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 0);
-    sizer->Add(spinCtrl, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    wxButton *insert=new wxButton(this,IdButtonInsert,_T ("Add to cart"),wxDefaultPosition,wxDefaultSize,0);
-    sizer->Add(insert, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-
+    if (grid->GetSelectedRows() == 0) {
+        wxMessageBox("Choose a product", "Error", wxICON_ERROR);
+    } else {
+        sizer->Hide(FavButton);
+        sizer->Hide(CartButton);
+        wxStaticText *q = new wxStaticText(this, -1, wxT("Insert Quantity"));
+        sizer->Add(q, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+        spinCtrl = new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 0);
+        sizer->Add(spinCtrl, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+        wxButton *insert=new wxButton(this,IdButtonInsert,_T ("Add to cart"),wxDefaultPosition,wxDefaultSize,0);
+        sizer->Add(insert, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+    }
 }
 void ProdListFrame::IsInsert(wxCommandEvent &event) {
-    wxArrayInt selectedRows = grid->GetSelectedRows();
-    int row;
-    for (size_t i = 0; i < selectedRows.GetCount(); i++) {
-        row = selectedRows[i];
+    if (spinCtrl->GetValue()<1){
+        wxMessageBox("Insert a valid quantity", "Error", wxICON_ERROR);
+    } else {
+        wxArrayInt selectedRows = grid->GetSelectedRows();
+        int row;
+        for (size_t i = 0; i < selectedRows.GetCount(); i++) {
+            row = selectedRows[i];
+        }
+        std::string username_cust=UsernameGlobal::GetInstance().GetValueUsername();
+        TableCart table;
+        int quantity = spinCtrl->GetValue();
+        Cart *cart = new Cart(quantity,mat_store[row][4], username_cust, mat_store[row][2]);
+        table.add(*cart);
     }
-    std::string username_cust=UsernameGlobal::GetInstance().GetValueUsername();
-    TableCart table;
-    int quantity = spinCtrl->GetValue();
-    Cart *cart = new Cart(quantity,mat_store[row][4], username_cust, mat_store[row][2]);
-    table.add(*cart);
 }

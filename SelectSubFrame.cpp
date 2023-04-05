@@ -58,15 +58,15 @@ SelectSubFrame::SelectSubFrame( const wxString &title) :
     Back=new wxButton(Mainpanel,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
 
     choiceC=new wxChoice(Mainpanel, wxID_ANY,wxDefaultPosition, wxDefaultSize);
-    choiceC->Append("Seleziona");
+    choiceC->Append("Select");
     choiceC->Append(table_cat->number_of_cat(),myString);
 
     choiceC->Bind(wxEVT_CHOICE, &SelectSubFrame::OnChoice, this);
 
     choiceSubC=new wxChoice(Mainpanel, wxID_ANY,wxDefaultPosition, wxDefaultSize);
-    wxString myDisp[]={"Solo Disponibili", "Tutti"};
+    wxString myDisp[]={"Only Available", "All"};
     choiceDisp=new wxChoice(Mainpanel, wxID_ANY,wxDefaultPosition, wxDefaultSize);
-    choiceDisp->Append("Seleziona");
+    choiceDisp->Append("Select");
     choiceDisp->Append(2,myDisp);
 
     fgs->Add(Category,0);
@@ -99,7 +99,7 @@ SelectSubFrame::SelectSubFrame( const wxString &title) :
 }
 void SelectSubFrame::OnChoice(wxCommandEvent& event) {
     choiceSubC->Clear();
-    choiceSubC->Append("Seleziona");
+    choiceSubC->Append("Select");
     wxVector<string> choices2;
     TableProducts *table_sub;
     std::vector<std::string> subcategories;
@@ -118,14 +118,18 @@ void SelectSubFrame::OnChoice(wxCommandEvent& event) {
     myString->clear();
 }
 void SelectSubFrame::InsertProduct(wxCommandEvent &event) {
-    int Id_subcategory= choiceSubC->GetSelection();
-    int Id_disp= choiceDisp->GetSelection();
-    string sub_name=choiceSubC->GetString(Id_subcategory).ToStdString();
-    string disp=choiceDisp->GetString(Id_disp).ToStdString();
-    ProdListFrame *prodList = new ProdListFrame (_T("PRODUCT"), sub_name, disp);
-    // Passa la stringa alla classe wxFrame di destinazione.
-    prodList->Show(TRUE);
-
+    if (choiceC->GetSelection() == wxNOT_FOUND || choiceSubC->GetSelection() < 1 || choiceDisp->GetSelection() == wxNOT_FOUND)
+    {
+        wxMessageBox("Choose an option", "Error", wxICON_ERROR);
+    } else {
+        int Id_subcategory = choiceSubC->GetSelection();
+        int Id_disp = choiceDisp->GetSelection();
+        string sub_name = choiceSubC->GetString(Id_subcategory).ToStdString();
+        string disp = choiceDisp->GetString(Id_disp).ToStdString();
+        ProdListFrame *prodList = new ProdListFrame(_T("PRODUCT"), sub_name, disp);
+        // Passa la stringa alla classe wxFrame di destinazione.
+        prodList->Show(TRUE);
+    }
 }
 
 void SelectSubFrame::ComeBack(wxCommandEvent &event) {

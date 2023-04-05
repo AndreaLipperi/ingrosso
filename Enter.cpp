@@ -79,28 +79,31 @@ Enter::Enter(const wxString &title)
 }
 
 void Enter::Access(wxCommandEvent &event) {
-
-    Close();
-
-    e = tc1->GetValue().ToStdString();
-    p = m_passwordText->GetValue().ToStdString();
-    int result;
-    TableUsers table;
-    result = table.access_reg(e, p, 0);
-    if (result == 0) {
-        wxLogMessage("Incorrect email or password");
+    if (tc1->IsEmpty() || m_passwordText->IsEmpty()){
+        wxMessageBox("Insert every value", "Error", wxICON_ERROR);
     } else {
-        std::string TypeUser;
-        TypeUser = table.select_type(e);
-        std::string username=table.select_username(e);
-        UsernameGlobal::GetInstance().SetValueUsername(username);
-        UsernameGlobal::GetInstance().SetValueType(TypeUser);
-        if (TypeUser == "F") {
-            ProvidersFrame *ProvidersWin = new ProvidersFrame(_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
-            ProvidersWin->Show(TRUE);
+        Close();
+
+        e = tc1->GetValue().ToStdString();
+        p = m_passwordText->GetValue().ToStdString();
+        int result;
+        TableUsers table;
+        result = table.access_reg(e, p, 0);
+        if (result == 0) {
+            wxLogMessage("Incorrect email or password");
         } else {
-            ClientFrame *ClientWin = new ClientFrame(_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
-            ClientWin->Show(TRUE);
+            std::string TypeUser;
+            TypeUser = table.select_type(e);
+            std::string username=table.select_username(e);
+            UsernameGlobal::GetInstance().SetValueUsername(username);
+            UsernameGlobal::GetInstance().SetValueType(TypeUser);
+            if (TypeUser == "F") {
+                ProvidersFrame *ProvidersWin = new ProvidersFrame(_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
+                ProvidersWin->Show(TRUE);
+            } else {
+                ClientFrame *ClientWin = new ClientFrame(_T("HOME"), wxPoint(50, 20), wxSize(500, 300));
+                ClientWin->Show(TRUE);
+            }
         }
     }
 }

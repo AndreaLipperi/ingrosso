@@ -110,22 +110,22 @@ string** TableStore::select(const string &sub_name, const string &disp, const st
     }
     string select;
     int n_disp;
-    if (disp=="Solo Disponibili") {
+    if (disp=="Only Available") {
         n_disp=1;
     } else {
         n_disp=0;
     }
     if (order=="prodotto") {
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
                                    to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY desc_prod;";
     } else if (order=="prezzo") {
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
                                    to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY price_product;";
     } else if (order=="fornitore"){
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END, id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END, id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
                                    to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY username;";
     } else {
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Disponibile' ELSE 'Non Disponibile' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not DispoAvailablenibile' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
                                    to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY '"+order+"';";
     }
     SQLite::Statement query(db,select);
@@ -148,7 +148,7 @@ int TableStore::select_count(const string &sub_name, const string &disp) {
     string query_sub="SELECT id FROM subcategories WHERE name='"+sub_name+"'";
     int i = db.execAndGet(query_sub).getInt();
     int n_disp;
-    if (disp=="Solo Disponibili") {
+    if (disp=="Only Available") {
         n_disp=1;
     } else {
         n_disp=0;

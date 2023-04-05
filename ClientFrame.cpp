@@ -8,6 +8,8 @@
 //
 #include "SelectSubFrame.h"
 #include "ManageProFrame.h"
+#include "FavouritesFrame.h"
+#include "UsernameGlobal.h"
 
 
 const long ClientFrame::IdButtonCart =::wxNewId();
@@ -92,7 +94,8 @@ void ClientFrame::OpenCart(wxCommandEvent &event) {
 }
 
 void ClientFrame::OpenFavoritesList(wxCommandEvent &event) {
-
+    FavouritesFrame *fav=new FavouritesFrame(_T("Favoutites"));
+    fav->Show(TRUE);
 }
 
 void ClientFrame::OpenOrdersList(wxCommandEvent &event) {
@@ -100,7 +103,8 @@ void ClientFrame::OpenOrdersList(wxCommandEvent &event) {
 }
 
 void ClientFrame::ComeBack(wxCommandEvent &event) {
-
+    UsernameGlobal::GetInstance().SetValueUsername("");
+    UsernameGlobal::GetInstance().SetValueType("");
     Hide();
 
 }

@@ -100,25 +100,30 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 
 void RegisterFrame::Register(wxCommandEvent &event) {
-    Close();
-
-    std::string b_n = tcB_n->GetValue().ToStdString();
-    std::string a = tcA->GetValue().ToStdString();
-    std::string c = tcC->GetValue().ToStdString();
-    std::string u = tcU->GetValue().ToStdString();
-    std::string em = tcEm->GetValue().ToStdString();
-    std::string psw = m_passwordText->GetValue().ToStdString();
-    TableUsers table;
-    int numResult;
-    numResult = table.access_reg(em, psw, 1);
-    Users *user;
-
-    if (numResult == 0) {
-        user = new Users(t, b_n, c, a, em, psw, u);
-        table.add(*user);
-        cout << table.select_type(em);
+    if (t=="" || tcB_n->IsEmpty() || tcA->IsEmpty() || tcC->IsEmpty() || tcU->IsEmpty() || tcEm->IsEmpty() || m_passwordText->IsEmpty()){
+        wxMessageBox("Insert every data.", "Error", wxICON_ERROR);
     } else {
-        wxLogMessage("There is already an account with this email");
+
+        Close();
+
+        std::string b_n = tcB_n->GetValue().ToStdString();
+        std::string a = tcA->GetValue().ToStdString();
+        std::string c = tcC->GetValue().ToStdString();
+        std::string u = tcU->GetValue().ToStdString();
+        std::string em = tcEm->GetValue().ToStdString();
+        std::string psw = m_passwordText->GetValue().ToStdString();
+        TableUsers table;
+        int numResult;
+        numResult = table.access_reg(em, psw, 1);
+        Users *user;
+
+        if (numResult == 0) {
+            user = new Users(t, b_n, c, a, em, psw, u);
+            table.add(*user);
+            cout << table.select_type(em);
+        } else {
+            wxLogMessage("There is already an account with this email");
+        }
     }
 
 }
