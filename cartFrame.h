@@ -1,9 +1,9 @@
 //
-// Created by Matilde Tarchi on 30/03/23.
+// Created by Matilde Tarchi on 20/04/23.
 //
 
-#ifndef INGROSSO_ONLINE_FAVOURITESFRAME_H
-#define INGROSSO_ONLINE_FAVOURITESFRAME_H
+#ifndef INGROSSO_ONLINE_CARTFRAME_H
+#define INGROSSO_ONLINE_CARTFRAME_H
 #include "wx/wxhtml.h"
 #include "wx/wx.h"
 #include <string>
@@ -20,9 +20,9 @@
 #include "ClientFrame.h"
 #include "wx/grid.h"
 
-class FavouritesFrame : public wxFrame {
+class cartFrame : public wxFrame {
 public:
-    FavouritesFrame(const wxString &title);
+    cartFrame(const wxString &title);
     static const long IdButtonRemove;
     static const long IdButtonOrder;
     static const long IdButtonComeBack;
@@ -42,12 +42,9 @@ private:
     wxTextCtrl *name;
     wxTextCtrl *cost;
     std::string username;
-    std::string** mat_fav;
+    std::string** mat_cart;
     wxGrid *grid;
     wxSpinCtrl* spinCtrl;
-
 };
-
-
 
 #endif //INGROSSO_ONLINE_FAVOURITESFRAME_H

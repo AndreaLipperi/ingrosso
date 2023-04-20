@@ -1,34 +1,35 @@
 //
-// Created by Matilde Tarchi on 30/03/23.
+// Created by Matilde Tarchi on 20/04/23.
 //
-#include "FavouritesFrame.h"
+
+#include "cartFrame.h"
 #include "ordersMethods.h"
 #include "UsernameGlobal.h"
 #include "orders.h"
-#include "favouritesMethods.h"
+#include "cartMethods.h"
 #include "wx/grid.h"
 
 #include <wx/spinctrl.h>
 
-const long FavouritesFrame::IdButtonRemove =::wxNewId();
-const long FavouritesFrame::IdButtonOrder =::wxNewId();
-const long FavouritesFrame::IdButtonComeBack =::wxNewId();
+const long cartFrame::IdButtonRemove =::wxNewId();
+const long cartFrame::IdButtonOrder =::wxNewId();
+const long cartFrame::IdButtonComeBack =::wxNewId();
 
-BEGIN_EVENT_TABLE (FavouritesFrame, wxFrame)
-                EVT_BUTTON(IdButtonRemove, FavouritesFrame::IsRemove)
-                EVT_BUTTON(IdButtonOrder, FavouritesFrame::IsOrder)
-                EVT_BUTTON(IdButtonComeBack, FavouritesFrame::ComeBack)
+BEGIN_EVENT_TABLE (cartFrame, wxFrame)
+                EVT_BUTTON(IdButtonRemove, cartFrame::IsRemove)
+                EVT_BUTTON(IdButtonOrder, cartFrame::IsOrder)
+                EVT_BUTTON(IdButtonComeBack, cartFrame::ComeBack)
 END_EVENT_TABLE()
 
-FavouritesFrame::FavouritesFrame(const wxString &title):
+cartFrame::cartFrame(const wxString &title):
         wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
 
     username=UsernameGlobal::GetInstance().GetValueUsername();
-    TableFavourites fav;
-    int row = fav.select_count(username);
-    mat_fav=new string *[row];
+    TableCart cart;
+    int row = cart.select_count(username);
+    mat_cart=new string *[row];
     for (int k = 0; k < row; k++) {
-        mat_fav[k] = new string[4];
+        mat_cart[k] = new string[4];
     }
     grid = new wxGrid(this, wxID_ANY);
     grid->CreateGrid(row, 4);
@@ -36,14 +37,14 @@ FavouritesFrame::FavouritesFrame(const wxString &title):
     grid->SetColLabelValue(1, "Price");
     grid->SetColLabelValue(2, "Provider Name");
     grid->SetColLabelValue(3, "Quantity to Order");
-    mat_fav=fav.select(username);
+    mat_cart=cart.select(username);
 
     //selection=new wxRadioButton(grid, wxID_ANY, wxT(""));
-    for (int i = 0; i < fav.select_count(username); i++) {
+    for (int i = 0; i < cart.select_count(username); i++) {
 
         for (int col = 0; col < 3; col++) {
             grid->SetReadOnly(i, col, true);
-            grid->SetCellValue(i, col,  mat_fav[i][col]);
+            grid->SetCellValue(i, col,  mat_cart[i][col]);
         }
         grid->SetColFormatNumber(3);
         grid->SetCellValue(i, 3, "0");
@@ -70,7 +71,7 @@ FavouritesFrame::FavouritesFrame(const wxString &title):
 
 }
 
-void FavouritesFrame::IsRemove(wxCommandEvent &event) {
+void cartFrame::IsRemove(wxCommandEvent &event) {
     if (grid->GetSelectedRows() == 0) {
         wxMessageBox("Choose a product", "Error", wxICON_ERROR);
     } else {
@@ -79,16 +80,16 @@ void FavouritesFrame::IsRemove(wxCommandEvent &event) {
         for (size_t i = 0; i < selectedRows.GetCount(); i++) {
             row = selectedRows[i];
         }
-        TableFavourites table;
-        int id = stoi(mat_fav[row][3]);
+        TableCart table;
+        int id = stoi(mat_cart[row][3]);
         table.remove_prod(id);
         grid->DeleteRows(row);
     }
 }
 
-void FavouritesFrame::IsOrder(wxCommandEvent &event) {
-    TableFavourites fav;
-    int row = fav.select_count(username);
+void cartFrame::IsOrder(wxCommandEvent &event) {
+    TableCart cart;
+    int row = cart.select_count(username);
     int k=0;
     int control=1;
     string quantity;
@@ -110,7 +111,7 @@ void FavouritesFrame::IsOrder(wxCommandEvent &event) {
         int i=0;
         while (i<row){
             quantity = grid->GetCellValue(i, 3).ToStdString();
-            Orders *order = new Orders(stoi(quantity),stoi(mat_fav[i][3]), "S",data,username,mat_fav[i][2]);
+            Orders *order = new Orders(stoi(quantity),stoi(mat_cart[i][3]), "S",data,username,mat_cart[i][2]);
             table.add(*order);
             i++;
         }
@@ -119,6 +120,6 @@ void FavouritesFrame::IsOrder(wxCommandEvent &event) {
     }
 }
 
-void FavouritesFrame::ComeBack(wxCommandEvent &event) {
+void cartFrame::ComeBack(wxCommandEvent &event) {
     Close();
 }
