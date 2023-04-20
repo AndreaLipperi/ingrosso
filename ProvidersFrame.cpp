@@ -65,7 +65,8 @@ void ProvidersFrame::OpenRequests(wxCommandEvent &event) {
 }
 
 void ProvidersFrame::OpenProfile(wxCommandEvent &event) {
-
+ ManageProFrame *profile = new ManageProFrame (_T("PROFILE"));
+ profile->Show(TRUE);
 }
 
 void ProvidersFrame::OpenStore(wxCommandEvent &event) {
