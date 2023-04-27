@@ -27,6 +27,7 @@ ProdListFrame::ProdListFrame(const wxString &title, const std::string &sub, cons
         wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
     sub_name=sub;
     disponibility=disp;
+    username=UsernameGlobal::GetInstance().GetValueUsername();
 
     wxStaticText *order = new wxStaticText(this, -1, wxT("Order By"));
     wxString myString[]={"Name Product", "Price", "Provider Name"};
@@ -101,9 +102,8 @@ void ProdListFrame::IsFavourites(wxCommandEvent &event) {
         for (size_t i = 0; i < selectedRows.GetCount(); i++) {
             row = selectedRows[i];
         }
-        std::string username_cust = UsernameGlobal::GetInstance().GetValueUsername();
 
-        Favourites *fav = new Favourites(mat_store[row][4], username_cust, mat_store[row][2]);
+        Favourites *fav = new Favourites(mat_store[row][4], username, mat_store[row][2]);
         TableFavourites table;
         table.add(*fav);
     }

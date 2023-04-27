@@ -3,7 +3,13 @@
 //
 
 #include "NewProductsFrame.h"
+#include "UsernameGlobal.h"
+#include "storeMethods.h"
+#include "subcategories.h"
+#include "categories.h"
+#include "store.h"
 #include <vector>
+#include <wx/spinctrl.h>
 
 
 const long NewProductsFrame::IdButtonInsert =::wxNewId();
@@ -18,14 +24,6 @@ END_EVENT_TABLE()
 
 NewProductsFrame::NewProductsFrame( const wxString &title) :
         wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)){
-
-
-    wxPanel *Mainpanel = new wxPanel(this, -1);
-
-    wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
-
-
-    wxFlexGridSizer *fgs=new wxFlexGridSizer(6,2,20,5);
 
     TableCategories *table_cat;
 
@@ -44,63 +42,53 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     categories.clear();
     choices.clear();
 
-    wxStaticText *Category = new wxStaticText(Mainpanel, -1, wxT("Category"));
-    wxStaticText *SubCategory = new wxStaticText(Mainpanel, -1, wxT("Subcategory"));
-    wxStaticText *Name = new wxStaticText(Mainpanel, -1, wxT("Product's name"));
-    wxStaticText *Qty_avb= new wxStaticText(Mainpanel, -1, wxT("Quantity available"));
-    wxStaticText *Cost= new wxStaticText(Mainpanel, -1, wxT("$"));
+    wxStaticText *Category = new wxStaticText(this, -1, wxT("Category"));
+    wxStaticText *SubCategory = new wxStaticText(this, -1, wxT("Subcategory"));
+    wxStaticText *Name = new wxStaticText(this, -1, wxT("Product's name"));
+    wxStaticText *Qty_avb= new wxStaticText(this, -1, wxT("Quantity available"));
+    wxStaticText *Cost= new wxStaticText(this, -1, wxT("$"));
 
-    Insert=new wxButton (Mainpanel,IdButtonInsert,_T ("Insert"),wxDefaultPosition,wxDefaultSize,0);
-    Back=new wxButton(Mainpanel,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
+    Insert=new wxButton (this,IdButtonInsert,_T ("Insert"),wxDefaultPosition,wxDefaultSize,0);
+    Back=new wxButton(this,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
 
-    choiceC=new wxChoice(Mainpanel, wxID_ANY,wxDefaultPosition, wxDefaultSize);
-    choiceC->Set(table_cat->number_of_cat(),myString);
+    choiceC=new wxChoice(this, wxID_ANY,wxDefaultPosition, wxDefaultSize);
+    choiceC->Append("Select");
+    choiceC->Append(table_cat->number_of_cat(),myString);
 
     choiceC->Bind(wxEVT_CHOICE, &NewProductsFrame::OnChoice, this);
 
-    choiceSubC=new wxChoice(Mainpanel, wxID_ANY,wxDefaultPosition, wxDefaultSize);
+    choiceSubC=new wxChoice(this, wxID_ANY,wxDefaultPosition, wxDefaultSize);
+    choiceSubC->Append("Select");
+    tcQ = new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 0);
 
 
 
-    tcName = new wxTextCtrl(Mainpanel, -1);
-    tcCost = new wxTextCtrl(Mainpanel, -1);
-    tcQ_a= new wxTextCtrl(Mainpanel, -1);
+    tcName = new wxTextCtrl(this, -1);
 
+    sizer = new wxBoxSizer(wxVERTICAL);
 
-    fgs->Add(Category,0);
-    fgs->Add(choiceC,1, wxEXPAND);
-    fgs->Add(SubCategory,0);
-    fgs->Add(choiceSubC,1, wxEXPAND);
-
-    fgs->Add(Name,0);
-    fgs->Add(tcName,1, wxEXPAND);
-
-    fgs->Add(Qty_avb,0);
-    fgs->Add(tcQ_a,1);
-    fgs->Add(Cost,0);
-    fgs->Add(tcCost, 1);
-    fgs->Add(Insert,0);
-    fgs->Add(Back,0);
-
-
-
-    fgs->AddGrowableRow(1, 1);
-    fgs->AddGrowableCol(1, 1);
-
-
-
-
-    hbox->Add(fgs, 1, wxALL, 10);
-
-
-
-    Mainpanel->SetSizer(hbox);
+    sizer->Add(Category, 0, wxALL, 5);
+    sizer->Add(choiceC, 0, wxALL, 5);
+    sizer->Add(SubCategory, 1, wxEXPAND | wxALL, 5);
+    sizer->Add(choiceSubC, 0, wxALL, 5);
+    sizer->Add(Name, 1, wxEXPAND | wxALL, 5);
+    sizer->Add(tcName, 1, wxALL, 5);
+    sizer->Add(Qty_avb, 1, wxEXPAND | wxALL, 5);
+    sizer->Add(tcQ, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+    sizer->Add(Cost, 1, wxEXPAND | wxALL, 5);
+    tcC = new wxSpinCtrlDouble(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 0, 0.01);
+    sizer->Add(tcC, 0, wxALL, 5);
+    sizer->Add(Insert, 1, wxEXPAND | wxALL, 5);
+    sizer->Add(Back, 1, wxEXPAND | wxALL, 5);
+    SetSizer(sizer);
     //this->SetSizer(MainBox);
 
     Centre();
 
 }
 void NewProductsFrame::OnChoice(wxCommandEvent& event) {
+    choiceSubC->Clear();
+    choiceSubC->Append("Select");
     wxVector<string> choices2;
     TableProducts *table_sub;
     std::vector<std::string> subcategories;
@@ -113,21 +101,29 @@ void NewProductsFrame::OnChoice(wxCommandEvent& event) {
     for (int i=0;i<choices2.size();i++) {
         myString[i].Append(choices2[i]);
     }
-    choiceSubC->Set(subcategories.size(), myString);
+    choiceSubC->Append(subcategories.size(), myString);
     subcategories.clear();
     choices2.clear();
 }
 void NewProductsFrame::InsertProduct(wxCommandEvent &event) {
-    int Id_subcategory= choiceSubC->GetSelection();
-    std::string Sub_category=choiceSubC->GetString(Id_subcategory).ToStdString();
-    int Id_category = choiceC->GetSelection();
-    std::string Category=choiceC->GetString(Id_category).ToStdString();
-    std::string Name = tcName->GetValue().ToStdString();
-    std::string  Quantity = tcQ_a->GetValue().ToStdString();
-    std::string Price = tcCost->GetValue().ToStdString();
 
+    if (choiceC->GetSelection() == wxNOT_FOUND || choiceSubC->GetSelection() < 1 || tcName->IsEmpty() || tcQ->GetValue()==0||
+        tcC->GetValue()==0.00) {
+        wxMessageBox("Inset Every Value", "Error", wxICON_ERROR);
+    } else {
+        int Id_subcategory = choiceSubC->GetSelection();
+        std::string Sub_category = choiceSubC->GetString(Id_subcategory).ToStdString();
+        int Id_category = choiceC->GetSelection();
+        std::string Category = choiceC->GetString(Id_category).ToStdString();
+        std::string Name = tcName->GetValue().ToStdString();
+        std::string Quantity = to_string(tcQ->GetValue());
+        std::string Price = to_string(tcC->GetValue());
+        std::string username = UsernameGlobal::GetInstance().GetValueUsername();
+        Store *store = new Store(Quantity, Sub_category, Price, Name, username);
+        TableStore table;
+        table.add(*store);
+    }
 }
-
 void NewProductsFrame::ComeBack(wxCommandEvent &event) {
 
     Close();

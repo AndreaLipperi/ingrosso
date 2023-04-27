@@ -8,6 +8,8 @@
 #include "wx/wx.h"
 #include "wx/wxhtml.h"
 #include "wx/string.h"
+#include "wx/grid.h"
+#include <wx/spinctrl.h>
 #include <string>
 #include "ProvidersFrame.h"
 #include "categoriesMethods.h"
@@ -30,10 +32,12 @@ private:
     wxButton *Back;
     wxTextCtrl *tcCategory;
     wxTextCtrl *tcName;
-    wxTextCtrl *tcQ_a;
+    wxBoxSizer *sizer;
     wxTextCtrl *tcCost;
     wxChoice* choiceC;
     wxChoice* choiceSubC;
+    wxSpinCtrl* tcQ;
+    wxSpinCtrlDouble *tcC;
 };
 
 #endif //INGROSSO_ONLINE_NEWPRODUCTSFRAME_H

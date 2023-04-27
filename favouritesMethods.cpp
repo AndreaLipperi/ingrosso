@@ -18,28 +18,12 @@ TableFavourites::TableFavourites() {
 }
 void TableFavourites::add(const Favourites& cart) {
     data=cart;
-    int k=1;
-    int j=1;
-    int control_prov=0;
-    int control_cust=0;
-    /*cout << data.get_id_cust();
-    cout << data.get_id_prov()*/
-    SQLite::Statement query_user(db, "SELECT * FROM users");
-    while (query_user.executeStep()) {
-        if (query_user.getColumn(7).getText() != data.get_id_prov() && control_prov==0) {
-            k++;
-        } else {
-            control_prov=1;
-        }
-        if (query_user.getColumn(7).getText() != data.get_id_cust() && control_cust==0){
-            j++;
-        } else {
-            control_cust=1;
-        }
-    }
-    query_user.reset();
+    string query_cust="SELECT id FROM users WHERE username='"+data.get_id_cust()+"'";
+    int id_cust=db.execAndGet(query_cust).getInt();
+    string query_prov="SELECT id FROM users WHERE username='"+data.get_id_prov()+"'";
+    int id_prov=db.execAndGet(query_prov).getInt();
     int id=std::stoi(data.get_id_store());
-    string query_insert="INSERT INTO favourites (id_store,id_cust, id_prov) VALUES ("+to_string(id)+", "+to_string(j)+","+to_string(k)+");";
+    string query_insert="INSERT INTO favourites (id_store,id_cust, id_prov) VALUES ("+to_string(id)+", "+to_string(id_cust)+","+to_string(id_prov)+");";
 
     db.exec(query_insert);
 }
@@ -51,7 +35,6 @@ void TableFavourites::remove_all(const string &IDuser) {
 void TableFavourites::remove_prod(int id) {
 
     string query="DELETE FROM favourites WHERE id = "+ to_string(id)+"";
-    cout << query;
     db.exec(query);
 }
 void TableFavourites::changeData(const string& IDuser, Subcategories &prod, const string &new_IDprov, const int &new_quantity) {
@@ -81,17 +64,17 @@ string** TableFavourites::select(const string &username) {
 
     string** mat=new string *[select_count(username)];
     for (int k = 0; k < select_count(username); k++) {
-        mat[k] = new string[4];
+        mat[k] = new string[5];
     }
     string select;
     int n_disp;
-    select="SELECT desc_prod, price_product, username, favourites.id FROM users,favourites,store WHERE favourites.id_prov=users.id AND id_store=store.id AND id_cust="+to_string(id) +" ORDER BY username;";
+    select="SELECT desc_prod, price_product, username, store.id, favourites.id FROM users,favourites,store WHERE favourites.id_prov=users.id AND id_store=store.id AND id_cust="+to_string(id) +" ORDER BY username;";
 
     SQLite::Statement query(db,select);
     int m=0;
     int n=0;
     while (query.executeStep()){
-        while (n<4) {
+        while (n<5) {
             mat[m][n]=query.getColumn(n).getText();
             n++;
         }

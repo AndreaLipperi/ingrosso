@@ -50,6 +50,7 @@ private:
     wxGrid *grid;
     std::string sub_name;
     std::string disponibility;
+    std::string username;
     wxChoice* choiceOrder;
     wxChoice* choiceQuantity;
     string** mat_store;

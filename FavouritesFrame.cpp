@@ -29,7 +29,7 @@ FavouritesFrame::FavouritesFrame(const wxString &title):
     int row = fav.select_count(username);
     mat_fav=new string *[row];
     for (int k = 0; k < row; k++) {
-        mat_fav[k] = new string[4];
+        mat_fav[k] = new string[5];
     }
     grid = new wxGrid(this, wxID_ANY);
     grid->CreateGrid(row, 4);
@@ -81,7 +81,7 @@ void FavouritesFrame::IsRemove(wxCommandEvent &event) {
             row = selectedRows[i];
         }
         TableFavourites table;
-        int id = stoi(mat_fav[row][3]);
+        int id = stoi(mat_fav[row][4]);
         table.remove_prod(id);
         grid->DeleteRows(row);
     }
@@ -109,9 +109,15 @@ void FavouritesFrame::IsOrder(wxCommandEvent &event) {
         int day = now->tm_mday; // giorno attuale del mese
         string data = ""+to_string(year)+"/"+ to_string(month)+"/"+ to_string(day)+"";
         int i=0;
+        int j=0;
+        int id_order[row];
+        while (j<row) {
+            id_order[j]=table.select_id(mat_fav[j][2])+1;
+            j++;
+        }
         while (i<row){
             quantity = grid->GetCellValue(i, 3).ToStdString();
-            Orders *order = new Orders(stoi(quantity),stoi(mat_fav[i][3]), "S",data,username,mat_fav[i][2]);
+            Orders *order = new Orders(stoi(quantity),stoi(mat_fav[i][3]), "S",data,username,mat_fav[i][2],id_order[i]);
             table.add(*order);
             i++;
         }

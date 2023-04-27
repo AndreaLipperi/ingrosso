@@ -20,62 +20,42 @@ ManageProFrame::ManageProFrame(const wxString &title):
     type=UsernameGlobal::GetInstance().GetValueType();
 
 
-    wxPanel *panel = new wxPanel(this, -1);
 
-    wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+    wxStaticText *address = new wxStaticText(this, -1, wxT("Address"));
+    wxStaticText *city = new wxStaticText(this, -1, wxT("City"));
+    wxStaticText *password = new wxStaticText(this, -1, wxT("Password"));
+    wxStaticText *usernameText = new wxStaticText(this, -1, wxT("Username"));
+    wxStaticText *email=new wxStaticText(this, -1, wxT("Email"));
 
-    wxFlexGridSizer *fgs1=new wxFlexGridSizer(1,2, 12,-5);
-
-
-
-    wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
-
-    //wxBoxSizer *MainBox=new wxBoxSizer(wxHORIZONTAL);
-
-    wxStaticText *address = new wxStaticText(panel, -1, wxT("Address"));
-    wxStaticText *city = new wxStaticText(panel, -1, wxT("City"));
-    wxStaticText *password = new wxStaticText(panel, -1, wxT("Password"));
-    wxStaticText *usernameText = new wxStaticText(panel, -1, wxT("Username"));
-    wxStaticText *email=new wxStaticText(panel, -1, wxT("Email"));
-
-    Confirm=new wxButton (panel,IdButtonConfirm,_T ("Conferma"),wxDefaultPosition,wxDefaultSize,0);
+    Confirm=new wxButton (this,IdButtonConfirm,_T ("Conferma"),wxDefaultPosition,wxDefaultSize,0);
     TableUsers table;
     data_user=new string *[1];
     for (int k = 0; k < 1; k++) {
         data_user[k] = new string[5];
     }
     data_user=table.select_data(username);
-    tcA = new wxTextCtrl(panel, wxID_ANY,data_user[0][0]);
-    tcC = new wxTextCtrl(panel, wxID_ANY,data_user[0][1]);
-    tcU= new wxTextCtrl(panel, wxID_ANY,username);
-    tcEm=new wxTextCtrl(panel, wxID_ANY,data_user[0][2]);
-    m_passwordText = new wxTextCtrl(panel, wxID_ANY, data_user[0][3], wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+    tcA = new wxTextCtrl(this, wxID_ANY,data_user[0][0]);
+    tcC = new wxTextCtrl(this, wxID_ANY,data_user[0][1]);
+    tcU= new wxTextCtrl(this, wxID_ANY,username);
+    tcEm=new wxTextCtrl(this, wxID_ANY,data_user[0][2]);
+    m_passwordText = new wxTextCtrl(this, wxID_ANY, data_user[0][3], wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+
+    sizer = new wxBoxSizer(wxVERTICAL);
+
+    sizer->Add(address);
+    sizer->Add(tcA, 1, wxALL, 5);
+    sizer->Add(city);
+    sizer->Add(tcC,1, wxALL, 5);
+    sizer->Add(usernameText);
+    sizer->Add(tcU, 1, wxALL, 5);
+    sizer->Add(email);
+    sizer->Add(tcEm, 1, wxALL, 5);
+    sizer->Add(password);
+    sizer->Add(m_passwordText,1, wxALL, 5);
+    sizer->Add(Confirm,0);
 
 
-    fgs->Add(fgs1);
-    fgs->Add(address);
-    fgs->Add(tcA, 1, wxEXPAND);
-    fgs->Add(city);
-    fgs->Add(tcC, 1);
-    fgs->Add(usernameText);
-    fgs->Add(tcU, 1, wxEXPAND);
-    fgs->Add(email);
-    fgs->Add(tcEm, 1, wxEXPAND);
-    fgs->Add(password);
-    fgs->Add(m_passwordText, 1);
-    fgs->Add(Confirm,0);
-
-
-    fgs->AddGrowableRow(1, 1);
-    fgs->AddGrowableCol(1, 1);
-
-
-    hbox->Add(fgs, 1, wxALL, 10);
-
-
-
-    panel->SetSizer(hbox);
-    //this->SetSizer(MainBox);
+    SetSizer(sizer);
 
     Centre();
 }

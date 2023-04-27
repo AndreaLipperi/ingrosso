@@ -50,35 +50,17 @@ void TableStore::changeDesc(const int &id_inter, const string &id_prov, const st
 
 void TableStore::add(const Store &store) {
     data=store;
-    Subcategories *sub = data.get_prod();
-    int i=1;
-    SQLite::Statement query_sub(db, "SELECT * FROM subcategories");
-    while (query_sub.executeStep()) {
-        if (query_sub.getColumn(1).getText() != sub->get_name()) {
-            i++;
-        }
-    }
-    query_sub.reset();
-
-    int k=1;
-    SQLite::Statement query_prov(db, "SELECT * FROM users");
-    while (query_prov.executeStep()) {
-        if (query_prov.getColumn(2).getText() != data.get_id_prov()) {
-            i++;
-        }
-    }
-    query_prov.reset();
-    int j=1;
-    SQLite::Statement query_id_inter(db, "SELECT * FROM users");
-    while (query_id_inter.executeStep()) {
-            j=query_id_inter.getColumn(6).getInt();
-    }
-    query_id_inter.reset();
-    string query_insert="INSERT INTO store (available_quantity, price_product, desc_product,id_sub, id_prov, id_intern) VALUES (" +
-            to_string(data.get_quantity()) + ", " + to_string(data.get_price()) + ", '"+data.get_desc()+"', "+
+    string query_sub="SELECT id FROM subcategories WHERE name='"+data.get_prod()+"'";
+    int i=db.execAndGet(query_sub);
+    string query_prov="SELECT id FROM users WHERE username = '"+data.get_id_prov()+"'";
+    int k=db.execAndGet(query_prov).getInt();
+    std::string query_id_inter="SELECT MAX(id_intern) FROM store WHERE id_prov="+ to_string(k)+"";
+    int id_intern=db.execAndGet(query_id_inter).getInt();
+    string query_insert="INSERT INTO store (available_quantity, price_product, desc_prod,id_sub, id_prov, id_intern) VALUES (" +
+                        data.get_quantity() + ", " + data.get_price() + ", '"+data.get_desc()+"', "+
                                                                                                         to_string(i)+", "+
                                                                                                                      to_string(k)+", "+
-                                                                                                                                  to_string(j+1)+");";
+                                                                                                                                  to_string(id_intern+1)+");";
     db.exec(query_insert);
 }
 
@@ -115,17 +97,17 @@ string** TableStore::select(const string &sub_name, const string &disp, const st
     } else {
         n_disp=0;
     }
-    if (order=="prodotto") {
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+    if (order=="Name Product") {
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END,store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
                                    to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY desc_prod;";
-    } else if (order=="prezzo") {
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+    } else if (order=="Price") {
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END,store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
                                    to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY price_product;";
-    } else if (order=="fornitore"){
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END, id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+    } else if (order=="Provider Name"){
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END, store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
                                    to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY username;";
     } else {
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not DispoAvailablenibile' END,id_intern FROM users,store WHERE id_prov=users.id AND id_sub="+
+        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not DispoAvailablenibile' END,store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
                                    to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY '"+order+"';";
     }
     SQLite::Statement query(db,select);

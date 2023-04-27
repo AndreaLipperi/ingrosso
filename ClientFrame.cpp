@@ -10,6 +10,7 @@
 #include "ManageProFrame.h"
 #include "FavouritesFrame.h"
 #include "UsernameGlobal.h"
+#include "CartFrame.h"
 
 
 const long ClientFrame::IdButtonCart =::wxNewId();
@@ -90,7 +91,8 @@ void ClientFrame::OpenProfile(wxCommandEvent &event) {
 }
 
 void ClientFrame::OpenCart(wxCommandEvent &event) {
-
+    CartFrame *cart=new CartFrame(_T("Cart"));
+    cart->Show(TRUE);
 }
 
 void ClientFrame::OpenFavoritesList(wxCommandEvent &event) {

@@ -27,6 +27,7 @@ private:
     void OnConfirm(wxCommandEvent& event);
     wxButton *Confirm;
     std::string username;
+    wxBoxSizer *sizer;
     std::string type;
     string** data_user;
     wxTextCtrl *tcA;

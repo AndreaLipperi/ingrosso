@@ -14,11 +14,11 @@ class TableCart {
 public :
     TableCart();
     void add(const Cart& cart);
-    void remove_all(const string &IDuser);
-    void remove_prod(Store &prod, const string &IDuser, const string &IDprov);
+    void remove_all(const string &username);
+    void remove_prod(int id);
     void changeData(const string &IDuser, Store &prod, const string &new_IDprov, const int &new_quantity);
-    void sort_id_prod();
-    void sort_id_provider();
+    int select_count(const string &username);
+    string** select(const string &username);
 private:
     Cart data;
 };

@@ -14,7 +14,7 @@ using namespace std;
 class Orders{
 public:
     Orders();
-    Orders(int new_quantity, int new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov);
+    Orders(int new_quantity, int new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov, int id_order);
 
     int get_quantity() {
         return quantity;
@@ -34,6 +34,9 @@ public:
     string get_id_prov(){
         return IDprovider;
     }
+    int get_id(){
+        return IDorder;
+    }
     void set_status(const string &new_status){
         Orders::status=new_status;
     }
@@ -45,6 +48,7 @@ private:
     string date_order;
     string IDcust;
     string IDprovider;
+    int IDorder;
 };
 
 #endif // INGROSSO_ONLINE_ORDERS_H

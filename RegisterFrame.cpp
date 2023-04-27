@@ -62,7 +62,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
     fgs->Add(address);
     fgs->Add(tcA, 1, wxEXPAND);
     fgs->Add(city);
-    fgs->Add(tcC, 1);
+    fgs->Add(tcC, 1, wxEXPAND);
     fgs->Add(username);
     fgs->Add(tcU, 1, wxEXPAND);
     fgs->Add(email);

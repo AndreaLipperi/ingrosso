@@ -17,6 +17,7 @@ public:
     static const long IdButtonProfile;
     static const long IdButtonStore;
     static const long IdButtonInsProd;
+    static const long IdButtonBack;
 
 DECLARE_EVENT_TABLE()
 
@@ -25,10 +26,12 @@ private:
     void OpenProfile(wxCommandEvent& event);
     void OpenStore(wxCommandEvent& event);
     void OpenInsProd(wxCommandEvent& event);
+    void ComeBack(wxCommandEvent& event);
     wxButton *Requests;
     wxButton *Profile;
     wxButton *Store;
     wxButton *InsProd;
+    wxButton *Back;
 
 };
 
