@@ -4,6 +4,7 @@
 
 #include "ProvidersFrame.h"
 #include "ManageRequestFrame.h"
+#include "StoreFrame.h"
 #include "UsernameGlobal.h"
 #include "ManageProFrame.h"
 
@@ -78,7 +79,8 @@ void ProvidersFrame::OpenProfile(wxCommandEvent &event) {
 }
 
 void ProvidersFrame::OpenStore(wxCommandEvent &event) {
-
+    StoreFrame *store = new StoreFrame(_T("STORE"));
+    store->Show(TRUE);
 }
 
 void ProvidersFrame::OpenInsProd(wxCommandEvent &event) {

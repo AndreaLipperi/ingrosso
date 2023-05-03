@@ -17,34 +17,11 @@ TableStore::TableStore() {
     db.exec(query);
 }
 
-void TableStore::changeQuantity(const int &id_inter, const string &id_prov,const int &new_quantity){
 
-    int k=1;
-    SQLite::Statement query_prov(db, "SELECT * FROM users");
-    while (query_prov.executeStep()) {
-        if (query_prov.getColumn(2).getText() != id_prov) {
-            k++;
-        }
-    }
-    query_prov.reset();
-    string query="UPDATE store SET available_quantity = "+ to_string(new_quantity)+" WHERE id_prov = "+to_string(k)+" AND id_intern="+
-                                                                                                                    to_string(id_inter)+"";
-    db.exec(query);
-
-}
-
-void TableStore::changeDesc(const int &id_inter, const string &id_prov, const string &new_desc){
-    int num_result = 0;
-    int k=1;
-    SQLite::Statement query_prov(db, "SELECT * FROM users");
-    while (query_prov.executeStep()) {
-        if (query_prov.getColumn(2).getText() != id_prov) {
-            k++;
-        }
-    }
-    query_prov.reset();
-    string query="UPDATE store SET desc_prod = '"+ new_desc+"' WHERE id_prov = "+
-                 to_string(k)+" AND id_intern = "+ to_string(id_inter)+"";
+void TableStore::changeData(const int &id_store, const string &new_desc, const string &new_price, int new_quantity){
+    string query="UPDATE store SET desc_prod = '"+ new_desc+"', price_product="+new_price+", available_quantity="+
+                                                                                          to_string(new_quantity)+" WHERE id = "+
+                 to_string(id_store)+"";
     db.exec(query);
 }
 
@@ -64,18 +41,8 @@ void TableStore::add(const Store &store) {
     db.exec(query_insert);
 }
 
-void TableStore::remove(const int &id_inter, const string &id_prov) {
-
-    int k=1;
-    SQLite::Statement query_prov(db, "SELECT * FROM users");
-    while (query_prov.executeStep()) {
-        if (query_prov.getColumn(2).getText() != id_prov) {
-            k++;
-        }
-    }
-    query_prov.reset();
-    string query="DELETE FROM store WHERE id_prov = "+
-                 to_string(k)+" AND id_intern = "+ to_string(id_inter)+"";
+void TableStore::remove(const int &id_store) {
+    string query="DELETE FROM store WHERE id = "+ to_string(id_store)+"";
     db.exec(query);
 }
 
@@ -138,4 +105,70 @@ int TableStore::select_count(const string &sub_name, const string &disp) {
     string query_select_count="SELECT count(*) FROM store WHERE id_sub ="+ to_string(i)+" AND available_quantity>="+to_string(n_disp)+"";
     int count = db.execAndGet(query_select_count).getInt();
     return count;
+}
+
+string** TableStore::select_for_prov(const string &username, const string &order) {
+    string query_select_prov="SELECT id FROM users WHERE username='"+username+"'";
+    int id_prov=db.execAndGet(query_select_prov).getInt();
+    string query_select_count="SELECT count(*) FROM store WHERE id_prov ="+ to_string(id_prov)+"";
+    int count = db.execAndGet(query_select_count).getInt();
+    string** mat=new string *[count];
+    for (int k = 0; k < count; k++) {
+        mat[k] = new string[4];
+    }
+    string select;
+    if (order=="Name Product") {
+        select = "SELECT desc_prod, price_product, available_quantity, id FROM store WHERE id_prov=" +
+                 to_string(id_prov) + " ORDER BY desc_prod;";
+    } else if (order=="Price") {
+        select = "SELECT desc_prod, price_product, available_quantity, id FROM store WHERE id_prov=" +
+                 to_string(id_prov) + " ORDER BY price_product;";
+    } else if (order=="Quantity Available") {
+        select = "SELECT desc_prod, price_product, available_quantity, id FROM store WHERE id_prov=" +
+                 to_string(id_prov) + " ORDER BY available_quantity;";
+    } else {
+        select = "SELECT desc_prod, price_product, available_quantity, id FROM store WHERE id_prov=" +
+                 to_string(id_prov) + ";";
+    }
+    SQLite::Statement query(db,select);
+
+    int m=0;
+    int n=0;
+    while (query.executeStep()){
+        while (n<4) {
+            mat[m][n]=query.getColumn(n).getText();
+            n++;
+        }
+        n=0;
+        m++;
+    }
+    return mat;
+}
+int TableStore::select_count_for_prov(const string &username) {
+
+    string query_user="SELECT id FROM users WHERE username='"+username+"'";
+    int i = db.execAndGet(query_user).getInt();
+    string query_select_count="SELECT count(*) FROM store WHERE id_prov ="+ to_string(i)+"";
+    int count = db.execAndGet(query_select_count).getInt();
+    return count;
+}
+string** TableStore::select_to_modify(int id_store) {
+    string** mat=new string *[1];
+    for (int k = 0; k < 1; k++) {
+        mat[k] = new string[3];
+    }
+    string select;
+    select="SELECT desc_prod, price_product, available_quantity FROM store WHERE id="+ to_string(id_store)+";";
+    SQLite::Statement query(db,select);
+    int m=0;
+    int n=0;
+    while (query.executeStep()){
+        while (n<3) {
+            mat[m][n]=query.getColumn(n).getText();
+            n++;
+        }
+        n=0;
+        m++;
+    }
+    return mat;
 }
