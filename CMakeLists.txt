@@ -3,6 +3,7 @@ project(ingrosso_online)
 
 set(CMAKE_CXX_STANDARD 11)
 
+enable_testing()
 add_subdirectory(test)
 add_subdirectory(SQLiteCpp)
 
