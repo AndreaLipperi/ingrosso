@@ -16,9 +16,9 @@ BEGIN_EVENT_TABLE (OrderListClient, wxDialog)
 
 END_EVENT_TABLE()
 
-OrderListClient::OrderListClient(const wxString &title):
+OrderListClient::OrderListClient(const wxString &title, int control):
         wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
-
+    ctrl=control;
     username=UsernameGlobal::GetInstance().GetValueUsername();
     wxStaticText *order_txt = new wxStaticText(this, -1, wxT("Order By"));
     wxString myString[]={"Code Order", "Provider Name", "Date Order"};
@@ -28,23 +28,43 @@ OrderListClient::OrderListClient(const wxString &title):
     choiceOrder->Bind(wxEVT_CHOICE, &OrderListClient::OnChoice, this);
 
     TableOrders order;
-    int row = order.select_count_for_client(username);
+    int row = order.select_count_for_client(username, ctrl);
     mat_order=new std::string *[row];
     for (int k = 0; k < row; k++) {
-        mat_order[k] = new std::string[3];
+        if (ctrl==0) {
+            mat_order[k] = new std::string[3];
+        }else {
+            mat_order[k] = new std::string[4];
+        }
     }
     grid = new wxGrid(this, wxID_ANY);
-    grid->CreateGrid(row, 3);
-    grid->SetColLabelValue(0, "Code order");
-    grid->SetColLabelValue(1, "Provider");
-    grid->SetColLabelValue(2, "Date");
-    mat_order=order.select_for_client(username);
+    if (ctrl==0) {
+        grid->CreateGrid(row, 3);
+        grid->SetColLabelValue(0, "Code order");
+        grid->SetColLabelValue(1, "Provider");
+        grid->SetColLabelValue(2, "Date");
+    } else {
 
-    for (int i = 0; i < order.select_count_for_client(username); i++) {
+        grid->CreateGrid(row, 4);
+        grid->SetColLabelValue(0, "Code order");
+        grid->SetColLabelValue(1, "Provider");
+        grid->SetColLabelValue(2, "Date");
+        grid->SetColLabelValue(3, "Status");
 
-        for (int col = 0; col < 3; col++) {
-            grid->SetReadOnly(i, col, true);
-            grid->SetCellValue(i, col,  mat_order[i][col]);
+    }
+    mat_order=order.select_for_client(username,ctrl);
+
+    for (int i = 0; i < order.select_count_for_client(username,ctrl); i++) {
+        if (ctrl==0) {
+            for (int col = 0; col < 3; col++) {
+                grid->SetReadOnly(i, col, true);
+                grid->SetCellValue(i, col, mat_order[i][col]);
+            }
+        } else {
+            for (int col = 0; col < 4; col++) {
+                grid->SetReadOnly(i, col, true);
+                grid->SetCellValue(i, col, mat_order[i][col]);
+            }
         }
     }
     grid->SetSelectionMode(wxGrid::wxGridSelectRows);
@@ -69,14 +89,16 @@ OrderListClient::OrderListClient(const wxString &title):
 }
 
 void OrderListClient::CancelOrder(wxCommandEvent &event) {
+    wxArrayInt selectedRows = grid->GetSelectedRows();
+    int row;
+    for (size_t i = 0; i < selectedRows.GetCount(); i++) {
+        row = selectedRows[i];
+    }
     if (grid->GetSelectedRows() == 0) {
         wxMessageBox("Choose a order", "Error", wxICON_ERROR);
+    } else if (ctrl==1 && mat_order[row][3]!="Pending") {
+        wxMessageBox("The one you choosed it's already confirmed or denied, you can't cancel it", "Error", wxICON_ERROR);
     } else {
-        wxArrayInt selectedRows = grid->GetSelectedRows();
-        int row;
-        for (size_t i = 0; i < selectedRows.GetCount(); i++) {
-            row = selectedRows[i];
-        }
         TableOrders table;
         table.cancel_order(username,mat_order[row][0],mat_order[row][1]);
         grid->DeleteRows(row);
@@ -102,11 +124,18 @@ void OrderListClient::ViewOrder(wxCommandEvent &event) {
 void OrderListClient::OnChoice(wxCommandEvent& event) {
     TableOrders table;
     string order_choice=event.GetString().ToStdString();
-    mat_order=table.select_for_client(username,order_choice);
-    for (int i = 0; i < table.select_count_for_client(username); i++) {
-        for (int col = 0; col < 4; col++) {
-            grid->SetReadOnly(i, col, true);
-            grid->SetCellValue(i, col,  mat_order[i][col]);
+    mat_order=table.select_for_client(username,ctrl,order_choice);
+    for (int i = 0; i < table.select_count_for_client(username,ctrl); i++) {
+        if (ctrl==0) {
+            for (int col = 0; col < 3; col++) {
+                grid->SetReadOnly(i, col, true);
+                grid->SetCellValue(i, col, mat_order[i][col]);
+            }
+        } else {
+            for (int col = 0; col < 4; col++) {
+                grid->SetReadOnly(i, col, true);
+                grid->SetCellValue(i, col, mat_order[i][col]);
+            }
         }
     }
     grid->SetSelectionMode(wxGrid::wxGridSelectRows);

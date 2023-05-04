@@ -3,7 +3,7 @@
 //
 
 #include "ProvidersFrame.h"
-#include "ManageRequestFrame.h"
+#include "ChooseStatusFrame.h"
 #include "StoreFrame.h"
 #include "UsernameGlobal.h"
 #include "ManageProFrame.h"
@@ -73,7 +73,7 @@ ProvidersFrame::ProvidersFrame(const wxString& title, const wxPoint& pos, const 
 }
 
 void ProvidersFrame::OpenRequests(wxCommandEvent &event) {
-    ManageRequestFrame *EnterWin = new ManageRequestFrame (_T("REQUESTS"));
+    ChooseStatusFrame *EnterWin = new ChooseStatusFrame (_T("REQUESTS"));
     EnterWin->Show(TRUE);
 }
 

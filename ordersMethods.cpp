@@ -2,8 +2,8 @@
 // Created by Andrea Lipperi on 14/11/22.
 //
 
-#define from_customer 0
-#define from_provider 1
+#define all_order 1
+#define only_pending 0
 #include "ordersMethods.h"
 #include "database.h"
 #include <SQLiteCpp/SQLiteCpp.h>
@@ -20,10 +20,6 @@ TableOrders::TableOrders() {
 }
 void TableOrders::add(const Orders& order) {
     data=order;
-    int control_prov=0;
-    int control_cust=0;
-    int k=1;
-    int j=1;
     string query_prov="SELECT id FROM users WHERE username='"+data.get_id_prov()+"'";
     int id_prov=db.execAndGet(query_prov);
 
@@ -46,53 +42,104 @@ void TableOrders::changeStatus(const string& username,const string &cod_order, c
 
 }
 
-int TableOrders::select_count(const string &username) {
+int TableOrders::select_count(const string &username, int control) {
     string query="SELECT id FROM users WHERE username ='"+ username+"'";
     int id = db.execAndGet(query).getInt();
-    string query_select_count="SELECT count(DISTINCT id_single_order) FROM orders WHERE id_prov ="+ to_string(id)+" AND status='S'";
+    string query_select_count;
+    if (control==only_pending) {
+        query_select_count =
+                "SELECT count(DISTINCT id_single_order) FROM orders WHERE id_prov =" + to_string(id) +
+                " AND status='S'";
+    } else {
+        query_select_count =
+                "SELECT count(DISTINCT id_single_order) FROM orders WHERE id_prov =" + to_string(id) +
+                "";
+    }
     int count = db.execAndGet(query_select_count).getInt();
     return count;
 }
-int TableOrders::select_count_for_client(const string &username) {
+int TableOrders::select_count_for_client(const string &username, int control) {
     string query="SELECT id FROM users WHERE username ='"+ username+"'";
     int id = db.execAndGet(query).getInt();
-    string query_select_count="SELECT count(DISTINCT id_single_order) FROM orders WHERE id_cust ="+ to_string(id)+" AND status='S'";
+    string query_select_count;
+    if (control==only_pending) {
+        query_select_count = "SELECT count(DISTINCT id_single_order) FROM orders WHERE id_cust =" + to_string(id) +
+                             " AND status='S'";
+    } else {
+
+        query_select_count = "SELECT count(DISTINCT id_single_order) FROM orders WHERE id_cust =" + to_string(id) +
+                             "";
+    }
     int count = db.execAndGet(query_select_count).getInt();
     return count;
 }
 
-string** TableOrders::select(const string &username, const string &order) {
+string** TableOrders::select(const string &username, int control, const string &order) {
     string query_user="SELECT id FROM users WHERE username ='"+username+"'";
     int id = db.execAndGet(query_user).getInt();
 
-    string** mat=new string *[select_count(username)];
-    for (int k = 0; k < select_count(username); k++) {
-        mat[k] = new string[3];
-    }
+    string** mat=new string *[select_count(username, control)];
     string select;
-    if (order=="Code Order") {
-        select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
-                to_string(id) + " ORDER BY id_single_order";
-    } else if   (order=="Customer Name") {
-        select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
-                to_string(id) + " ORDER BY username";
-    } else if (order=="Date Order") {
-        select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
-                to_string(id) + " ORDER BY date_order";
-    } else {
-        select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
-                to_string(id) + "";
-    }
-    SQLite::Statement query(db,select);
-    int m=0;
-    int n=0;
-    while (query.executeStep()){
-        while (n<3) {
-            mat[m][n]=query.getColumn(n).getText();
-            n++;
+    if (control==only_pending) {
+        for (int k = 0; k < select_count(username, control); k++) {
+            mat[k] = new string[3];
         }
-        n=0;
-        m++;
+        if (order == "Code Order") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
+                    to_string(id) + " ORDER BY id_single_order";
+        } else if (order == "Customer Name") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
+                    to_string(id) + " ORDER BY username";
+        } else if (order == "Date Order") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
+                    to_string(id) + " ORDER BY date_order";
+        } else {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
+                    to_string(id) + "";
+        }
+        SQLite::Statement query(db, select);
+        int m = 0;
+        int n = 0;
+        while (query.executeStep()) {
+            while (n < 3) {
+                mat[m][n] = query.getColumn(n).getText();
+                n++;
+            }
+            n = 0;
+            m++;
+        }
+    } else {
+        for (int k = 0; k < select_count(username, control); k++) {
+            mat[k] = new string[4];
+        }
+        if (order == "Code Order") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_cust=users.id AND id_prov="+to_string(id)+" ORDER BY id_single_order";
+        } else if (order == "Customer Name") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_cust=users.id AND id_prov="+to_string(id)+" ORDER BY username";
+        } else if (order == "Date Order") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_cust=users.id AND id_prov="+to_string(id)+" ORDER BY date_order";
+        } else {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_cust=users.id AND id_prov="+to_string(id)+"";
+        }
+        SQLite::Statement query(db, select);
+        int m = 0;
+        int n = 0;
+        while (query.executeStep()) {
+            while (n < 4) {
+                mat[m][n] = query.getColumn(n).getText();
+                n++;
+            }
+            n = 0;
+            m++;
+        }
     }
     return mat;
 }
@@ -142,38 +189,74 @@ int TableOrders::select_count_single_order(const string &username, const string 
     return count;
 }
 
-string **TableOrders::select_for_client(const string &username, const string &order) {
+string **TableOrders::select_for_client(const string &username, int control, const string &order) {
     string query_user="SELECT id FROM users WHERE username ='"+username+"'";
     int id = db.execAndGet(query_user).getInt();
 
-    string** mat=new string *[select_count_for_client(username)];
-    for (int k = 0; k < select_count_for_client(username); k++) {
-        mat[k] = new string[3];
-    }
+    string** mat=new string *[select_count_for_client(username, control)];
+
     string select;
-    if (order=="Code Order") {
-        select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
-                to_string(id) + " ORDER BY id_single_order";
-    } else if   (order=="Provider Name") {
-        select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
-                to_string(id) + " ORDER BY username";
-    } else if (order=="Date Order") {
-        select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
-                to_string(id) + " ORDER BY date_order";
-    } else {
-        select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
-                to_string(id) + "";
-    }
-    SQLite::Statement query(db,select);
-    int m=0;
-    int n=0;
-    while (query.executeStep()){
-        while (n<3) {
-            mat[m][n]=query.getColumn(n).getText();
-            n++;
+    if (control==only_pending) {
+        for (int k = 0; k < select_count_for_client(username, control); k++) {
+            mat[k] = new string[3];
         }
-        n=0;
-        m++;
+        if (order == "Code Order") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
+                    to_string(id) + " ORDER BY id_single_order";
+        } else if (order == "Provider Name") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
+                    to_string(id) + " ORDER BY username";
+        } else if (order == "Date Order") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
+                    to_string(id) + " ORDER BY date_order";
+        } else {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
+                    to_string(id) + "";
+        }
+        SQLite::Statement query(db, select);
+        int m = 0;
+        int n = 0;
+        while (query.executeStep()) {
+            while (n < 3) {
+                mat[m][n] = query.getColumn(n).getText();
+                n++;
+            }
+            n = 0;
+            m++;
+        }
+    } else {
+        for (int k = 0; k < select_count_for_client(username, control); k++) {
+            mat[k] = new string[4];
+        }
+        if (order == "Code Order") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_prov=users.id AND id_cust="+to_string(id)+" ORDER BY id_single_order";
+        } else if (order == "Customer Name") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_prov=users.id AND id_cust="+to_string(id)+" ORDER BY username";
+        } else if (order == "Date Order") {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_prov=users.id AND id_cust="+to_string(id)+" ORDER BY date_order";
+        } else {
+            select =
+                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_prov=users.id AND id_cust="+to_string(id)+"";
+        }
+        SQLite::Statement query(db, select);
+        int m = 0;
+        int n = 0;
+        while (query.executeStep()) {
+            while (n < 4) {
+                mat[m][n] = query.getColumn(n).getText();
+                n++;
+            }
+            n = 0;
+            m++;
+        }
+
     }
     return mat;
 

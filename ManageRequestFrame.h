@@ -12,7 +12,7 @@
 
 class ManageRequestFrame: public wxDialog{
 public:
-    ManageRequestFrame(const wxString& title);
+    ManageRequestFrame(const wxString& title, int control);
 
     static const long IdButtonConfirm;
     static const long IdButtonDeny;
@@ -40,6 +40,7 @@ private:
     std::string username;
     wxChoice* choiceOrder;
     std::string** mat_order;
+    int ctrl;
 };
 
 

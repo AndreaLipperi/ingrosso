@@ -12,7 +12,7 @@
 
 class OrderListClient : public wxDialog{
 public:
-    OrderListClient(const wxString& title);
+    OrderListClient(const wxString& title, int control);
 
     static const long IdButtonCancel;
     static const long IdButtonView;
@@ -37,6 +37,7 @@ private:
     std::string username;
     wxChoice* choiceOrder;
     std::string** mat_order;
+    int ctrl;
 };
 
 

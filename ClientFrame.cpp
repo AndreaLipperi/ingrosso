@@ -7,7 +7,7 @@
 // Created by dario on 30/11/2022.
 //
 #include "SelectSubFrame.h"
-#include "OrderListClient.h"
+#include "ChooseStatusFrame.h"
 #include "ManageProFrame.h"
 #include "FavouritesFrame.h"
 #include "UsernameGlobal.h"
@@ -107,7 +107,7 @@ void ClientFrame::OpenFavoritesList(wxCommandEvent &event) {
 }
 
 void ClientFrame::OpenOrdersList(wxCommandEvent &event) {
-    OrderListClient *ord= new OrderListClient(_T("Orders"));
+    ChooseStatusFrame *ord= new ChooseStatusFrame(_T("Orders"));
     ord->Show(TRUE);
 }
 
