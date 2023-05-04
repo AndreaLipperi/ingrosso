@@ -13,28 +13,20 @@
 using namespace std;
 
 TableCart::TableCart() {
-    string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_store INT NOT NULL, id_user INT NOT NULL, FOREIGN KEY (id_user) REFERENCES users (id), FOREIGN KEY (id_store) REFERENCES store (id));";
+    string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_store INT NOT NULL, id_user INT NOT NULL, id_prov, FOREIGN KEY (id_user) REFERENCES users (id),FOREIGN KEY (id_prov) REFERENCES users (id), FOREIGN KEY (id_store) REFERENCES store (id));";
     db.exec(query);
 }
 void TableCart::add(const Cart& cart) {
     data=cart;
-    int k=1;
-    int j=1;
-    SQLite::Statement query_user(db, "SELECT * FROM users");
-    while (query_user.executeStep()) {
-        if (query_user.getColumn(2).getText() != data.get_id_prov()) {
-            k++;
-        }
-        if (query_user.getColumn(2).getText() != data.get_id_user()){
-            j++;
-        }
-    }
-    query_user.reset();
+    string query_user="SELECT id FROM users WHERE username='"+data.get_id_user()+"'";
+    int id_user=db.execAndGet(query_user);
+    string query_prov="SELECT id FROM users WHERE username='"+data.get_id_prov()+"'";
+    int id_prov=db.execAndGet(query_prov);
     int id=std::stoi(data.get_id_store());
 
-    string query_insert="INSERT INTO cart (quantity, id_store,id_user) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(id) + ","+
-                                                                                                                                         to_string(j)+");";
-    cout << query_insert;
+    string query_insert="INSERT INTO cart (quantity, id_store,id_user, id_prov) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(id) + ","+
+                                                                                                                                                    to_string(id_user)+","+to_string(id_prov)+"";
+
     db.exec(query_insert);
 }
 void TableCart::remove_all(const string &username) {

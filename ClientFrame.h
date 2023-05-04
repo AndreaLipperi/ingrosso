@@ -17,6 +17,7 @@ public:
     static const long IdButtonOrders;
     static const long IdButtonCart;
     static const long IdButtonProfile;
+    static const long IdButtonRemove;
     static const long IdButtonComeBack;
 
 DECLARE_EVENT_TABLE()
@@ -27,13 +28,17 @@ private:
     void OpenCart(wxCommandEvent& event);
     void OpenFavoritesList(wxCommandEvent& event);
     void OpenOrdersList(wxCommandEvent& event);
+    void RemoveUser(wxCommandEvent& event);
     void ComeBack(wxCommandEvent& event);
     wxButton *Cart;
     wxButton *Profile;
     wxButton *Favorites;
     wxButton *Products;
     wxButton *Orders;
+    wxButton *Remove;
     wxButton *Back;
+    std::string username;
+    std::string type;
 
 
 

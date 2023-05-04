@@ -10,11 +10,7 @@
 class TableProducts {
 public :
     TableProducts();
-    void add(const Subcategories& prod);
     std::vector<std::string> select(const string &categories_name);
-    void remove(const string &name);
-    void changeData(const string &name, const string &new_name);
-    void sort_id();
 private:
     Subcategories data;
 };

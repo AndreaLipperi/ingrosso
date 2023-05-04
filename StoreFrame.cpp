@@ -88,8 +88,12 @@ void StoreFrame::DeleteProduct(wxCommandEvent &event) {
         for (size_t i = 0; i < selectedRows.GetCount(); i++) {
             row = selectedRows[i];
         }
-        obj.remove(stoi(mat_store[row][3]));
-        grid->DeleteRows(row);
+        if (obj.remove(stoi(mat_store[row][3]))==0) {
+            wxMessageBox("You can't remove this product from your store because is in someone's cart or favourites list or not accepted/denied order", "Error", wxICON_ERROR);
+        } else {
+            obj.remove(stoi(mat_store[row][3]));
+            grid->DeleteRows(row);
+        }
     }
 }
 void StoreFrame::ModifyProduct(wxCommandEvent &event) {

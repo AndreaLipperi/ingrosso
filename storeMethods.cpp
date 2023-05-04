@@ -41,9 +41,25 @@ void TableStore::add(const Store &store) {
     db.exec(query_insert);
 }
 
-void TableStore::remove(const int &id_store) {
+int TableStore::remove(const int &id_store) {
+    string query_count_in_fav="SELECT count(*) FROM favourites WHERE id_store="+ to_string(id_store)+"";
+    int count_fav=db.execAndGet(query_count_in_fav);
+    if (count_fav>0) {
+        return 0;
+    }
+    string query_count_in_ord="SELECT count(*) FROM orders WHERE id_store="+ to_string(id_store)+" AND status='S'";
+    int count_orders=db.execAndGet(query_count_in_ord);
+    if (count_orders>0) {
+        return 0;
+    }
+    string query_count_in_cart="SELECT count(*) FROM cart WHERE id_store="+ to_string(id_store)+"";
+    int count_cart=db.execAndGet(query_count_in_cart);
+    if (count_cart>0) {
+        return 0;
+    }
     string query="DELETE FROM store WHERE id = "+ to_string(id_store)+"";
     db.exec(query);
+    return 1;
 }
 
 string** TableStore::select(const string &sub_name, const string &disp, const string &order) {

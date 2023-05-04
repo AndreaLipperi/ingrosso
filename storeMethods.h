@@ -13,7 +13,7 @@ class TableStore {
 public :
     TableStore();
     void add(const Store& store);
-    void remove(const int &id_store);
+    int remove(const int &id_store);
     void changeData(const int &id_store, const string &new_desc, const string &new_price, int new_quantity);
     string** select_to_modify(int id_store);
     string** select(const string &sub_name, const string &disp, const string &order="id");

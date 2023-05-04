@@ -18,6 +18,7 @@ const long ClientFrame::IdButtonProfile =::wxNewId();
 const long ClientFrame::IdButtonFavorites =::wxNewId();
 const long ClientFrame::IdButtonOrders =::wxNewId();
 const long ClientFrame::IdButtonProducts =::wxNewId();
+const long ClientFrame::IdButtonRemove =::wxNewId();
 const long ClientFrame::IdButtonComeBack =::wxNewId();
 
 
@@ -30,6 +31,7 @@ BEGIN_EVENT_TABLE (ClientFrame, wxFrame)
            EVT_BUTTON(IdButtonProducts, ClientFrame::OpenProductsList)
            EVT_BUTTON(IdButtonOrders, ClientFrame::OpenOrdersList)
            EVT_BUTTON(IdButtonFavorites, ClientFrame::OpenFavoritesList)
+           EVT_BUTTON(IdButtonRemove, ClientFrame::RemoveUser)
            EVT_BUTTON(IdButtonComeBack, ClientFrame::ComeBack)
 
 END_EVENT_TABLE()
@@ -37,7 +39,8 @@ END_EVENT_TABLE()
 
 ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
         : wxFrame(NULL, wxID_ANY, title, pos, size){
-
+    username=UsernameGlobal::GetInstance().GetValueUsername();
+    type=UsernameGlobal::GetInstance().GetValueType();
 
 
     wxPanel *panelHome = new wxPanel(this, -1);
@@ -53,6 +56,7 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
     Products=new wxButton(panelHome, IdButtonProducts, _T("Products' list"), wxDefaultPosition, wxSize(180,40), 0);
     Cart=new wxButton(panelHome, IdButtonCart, _T("Cart"),wxDefaultPosition, wxSize(180,40),0);
     Favorites=new wxButton(panelHome, IdButtonFavorites, _T("Favorites"),wxDefaultPosition, wxSize(180,40),0);
+    Remove=new wxButton(panelHome, IdButtonRemove, _T("Delete Account"),wxDefaultPosition, wxSize(180,40),0);
     Back=new wxButton(panelHome,IdButtonComeBack,_T ("Logout"),wxDefaultPosition,wxDefaultSize,0);
 
 
@@ -63,6 +67,7 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
     MainGrid->Add(Orders,0);
     MainGrid->Add(Cart,0,wxLEFT, 10);
     MainGrid->Add(Profile,0,wxLEFT,130);
+    MainGrid->Add(Remove,0,wxLEFT,130);
     MainGrid->Add(Back,0,wxLEFT, 90);
 
     MainGrid->AddGrowableRow(1, 1);
@@ -109,4 +114,17 @@ void ClientFrame::ComeBack(wxCommandEvent &event) {
     UsernameGlobal::GetInstance().SetValueType("");
     Hide();
 
+}
+
+void ClientFrame::RemoveUser(wxCommandEvent &event) {
+    TableUsers table;
+    if (table.remove(username, type)==0){
+        wxMessageBox("You can't delete your account because you have orders not accepted/denied", "Error", wxICON_ERROR);
+    } else {
+        //table.remove(username, type);
+        wxMessageBox("Account removed, you'll be sent to registracion page", "Error", wxICON_ERROR);
+        UsernameGlobal::GetInstance().SetValueUsername("");
+        UsernameGlobal::GetInstance().SetValueType("");
+        Close();
+    }
 }
