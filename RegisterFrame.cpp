@@ -104,25 +104,38 @@ void RegisterFrame::Register(wxCommandEvent &event) {
         wxMessageBox("Insert every data.", "Error", wxICON_ERROR);
     } else {
 
-        Close();
-
         std::string b_n = tcB_n->GetValue().ToStdString();
         std::string a = tcA->GetValue().ToStdString();
         std::string c = tcC->GetValue().ToStdString();
         std::string u = tcU->GetValue().ToStdString();
         std::string em = tcEm->GetValue().ToStdString();
         std::string psw = m_passwordText->GetValue().ToStdString();
-        TableUsers table;
-        int numResult;
-        numResult = table.access_reg(em, psw, 1);
-        Users *user;
+        int control_digit=0;
+        int control_upper=0;
+        for(int i=0; i<psw.length();i++){
+            if (isdigit(psw[i])){
+                control_digit=control_digit+1;
+            }
+            if (isupper(psw[i])) {
+                control_upper=control_upper+1;
+            }
+        }
+        if (control_digit>0 && psw.length()>=8 && control_upper>0) {
+            TableUsers table;
+            int numResult;
+            numResult = table.access_reg(em, psw, 1);
+            Users *user;
 
-        if (numResult == 0) {
-            user = new Users(t, b_n, c, a, em, psw, u);
-            table.add(*user);
-            cout << table.select_type(em);
+            if (numResult == 0) {
+                user = new Users(t, b_n, c, a, em, psw, u);
+                table.add(*user);
+
+                Close();
+            } else {
+                wxLogMessage("There is already an account with this email");
+            }
         } else {
-            wxLogMessage("There is already an account with this email");
+            wxLogMessage("The password should contain a number, a capital letter and a lenght >= of 8 characters");
         }
     }
 

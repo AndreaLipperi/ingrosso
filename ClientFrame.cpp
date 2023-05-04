@@ -7,6 +7,7 @@
 // Created by dario on 30/11/2022.
 //
 #include "SelectSubFrame.h"
+#include "OrderListClient.h"
 #include "ManageProFrame.h"
 #include "FavouritesFrame.h"
 #include "UsernameGlobal.h"
@@ -106,7 +107,8 @@ void ClientFrame::OpenFavoritesList(wxCommandEvent &event) {
 }
 
 void ClientFrame::OpenOrdersList(wxCommandEvent &event) {
-
+    OrderListClient *ord= new OrderListClient(_T("Orders"));
+    ord->Show(TRUE);
 }
 
 void ClientFrame::ComeBack(wxCommandEvent &event) {
@@ -121,7 +123,6 @@ void ClientFrame::RemoveUser(wxCommandEvent &event) {
     if (table.remove(username, type)==0){
         wxMessageBox("You can't delete your account because you have orders not accepted/denied", "Error", wxICON_ERROR);
     } else {
-        //table.remove(username, type);
         wxMessageBox("Account removed, you'll be sent to registracion page", "Error", wxICON_ERROR);
         UsernameGlobal::GetInstance().SetValueUsername("");
         UsernameGlobal::GetInstance().SetValueType("");

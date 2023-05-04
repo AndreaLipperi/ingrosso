@@ -13,7 +13,7 @@
 using namespace std;
 
 TableCart::TableCart() {
-    string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_store INT NOT NULL, id_user INT NOT NULL, id_prov, FOREIGN KEY (id_user) REFERENCES users (id),FOREIGN KEY (id_prov) REFERENCES users (id), FOREIGN KEY (id_store) REFERENCES store (id));";
+    string query="CREATE TABLE IF NOT EXISTS cart (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL, id_store INT NOT NULL, id_user INT NOT NULL, id_prov INT NOT NULL, FOREIGN KEY (id_user) REFERENCES users (id),FOREIGN KEY (id_prov) REFERENCES users (id), FOREIGN KEY (id_store) REFERENCES store (id));";
     db.exec(query);
 }
 void TableCart::add(const Cart& cart) {

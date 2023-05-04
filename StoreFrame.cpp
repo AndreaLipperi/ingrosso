@@ -91,7 +91,6 @@ void StoreFrame::DeleteProduct(wxCommandEvent &event) {
         if (obj.remove(stoi(mat_store[row][3]))==0) {
             wxMessageBox("You can't remove this product from your store because is in someone's cart or favourites list or not accepted/denied order", "Error", wxICON_ERROR);
         } else {
-            obj.remove(stoi(mat_store[row][3]));
             grid->DeleteRows(row);
         }
     }

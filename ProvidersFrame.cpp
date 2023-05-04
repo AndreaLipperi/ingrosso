@@ -101,7 +101,6 @@ void ProvidersFrame::RemoveUser(wxCommandEvent &event)  {
     if (table.remove(username, type)==0){
         wxMessageBox("You can't delete your account because you have orders not accepted/denied or some of your product are in someone's favourites or cart", "Error", wxICON_ERROR);
     } else {
-        //table.remove(username, type);
         wxMessageBox("Account removed, you'll be sent to registracion page", "Error", wxICON_ERROR);
         UsernameGlobal::GetInstance().SetValueUsername("");
         UsernameGlobal::GetInstance().SetValueType("");
