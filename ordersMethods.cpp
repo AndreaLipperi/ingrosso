@@ -6,46 +6,68 @@
 #define only_pending 0
 #include "ordersMethods.h"
 #include "database.h"
-#include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
-#include <SQLiteCpp/Database.h>
 #include <iostream>
 #include <string>
 using namespace std;
 
 
 TableOrders::TableOrders() {
+
+    //metodo che crea la tebbela degli ordini nel db se questa non esiste
     string query="CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY autoincrement, quantity INT NOT NULL,status VARCHAR NOT NULL, date_order VARCHAR NOT NULL, id_store INT NOT NULL, id_cust INT NOT NULL, id_prov INT NOT NULL, id_single_order INT NOT NULL, FOREIGN KEY (id_store) REFERENCES store (id), FOREIGN KEY (id_cust) REFERENCES users (id), FOREIGN KEY (id_prov) REFERENCES users (id));";
     db.exec(query);
+
 }
 void TableOrders::add(const Orders& order) {
+
+    //metodo che aggiunge un ordine al database
     data=order;
+
+    //seleziono i valori id dell'utente che usa il programma
+    // e del fornitore a cui sarà inviato l'ordine
     string query_prov="SELECT id FROM users WHERE username='"+data.get_id_prov()+"'";
     int id_prov=db.execAndGet(query_prov);
 
     string query_cust="SELECT id FROM users WHERE username='"+data.get_id_cust()+"'";
     int id_cust=db.execAndGet(query_cust);
 
+    //lancio la query che inserisce l'ordine
     string query_insert="INSERT INTO orders (quantity,status, date_order, id_store,id_cust, id_prov, id_single_order) VALUES (" + to_string(data.get_quantity()) + ",'S','"+data.get_date()+"', " + to_string(data.get_prod()) + ","+
                         to_string(id_cust)+","+
                         to_string(id_prov)+","+ to_string(data.get_id())+");";
 
-
     db.exec(query_insert);
+
 }
+
 void TableOrders::changeStatus(const string& username,const string &cod_order, const string &new_status) {
+    //metodo che cambia lo status dell'ordine da sospeso(S) a approvato(A) o rifiutato(D)
+
+    //prendo l'id dell'utente che sta usando il programma
     string query_user="SELECT id FROM users WHERE username ='"+ username+"'";
     int id = db.execAndGet(query_user).getInt();
     int order=stoi(cod_order);
+
+    //lancio la query di modifica
     string query = "UPDATE orders SET status = '"+new_status+"' WHERE id_single_order = " + to_string(order) + " AND id_prov = " +to_string(id) + ";";
     db.exec(query);
 
 }
 
 int TableOrders::select_count(const string &username, int control) {
+
+    //metodo che prende quanti ordini ci sono in db,
+    // con la scelta di poter vedere o solo quelli in sopseso(only_pending)
+    //o tutti
+
+    //prendo il valore dell'id dell'utente che sta usando il programma
     string query="SELECT id FROM users WHERE username ='"+ username+"'";
     int id = db.execAndGet(query).getInt();
     string query_select_count;
+
+    //controllo di quali ordini si vuole sapere la quantità, lancio la query
+    //e restituisco il valore
     if (control==only_pending) {
         query_select_count =
                 "SELECT count(DISTINCT id_single_order) FROM orders WHERE id_prov =" + to_string(id) +

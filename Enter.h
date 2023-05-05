@@ -12,12 +12,15 @@ class Enter : public wxDialog{
 public:
     Enter(const wxString& title);
     static const long IdButtonConfirm;
+    static const long IdButtonBack;
 
 DECLARE_EVENT_TABLE()
 
 private:
     void Access(wxCommandEvent& event);
+    void ComeBack(wxCommandEvent& event);
     wxButton *Confirm;
+    wxButton *Back;
     wxTextCtrl *m_passwordText;
     wxTextCtrl *tc1;
 };

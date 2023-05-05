@@ -37,22 +37,20 @@ SelectFrame::SelectFrame(const wxString &title, const wxPoint &pos, const wxSize
     MainBox->Add(HelloWorld,0,wxLEFT,210);
     this->SetSizer(MainBox);
     this->Layout();
-//HelloWorld = new wxButton(this, BUTTON_Hello, _T("Enter"),
-// shows a button on this window
-//wxDefaultPosition, wxDefaultSize,0); // with the text "hello World"
+
 }
 
 
 void SelectFrame::OnAccess(wxCommandEvent& event )
 {
-
+    Close();
     Enter *MainWin2 = new Enter(_T("Enter!"));
     MainWin2->ShowModal(); // show the window
     // and finally, set it as the main window
     // Tells the OS to quit running this process
 }
 void SelectFrame::OnRegister(wxCommandEvent& event){
-
+    Close();
     RegisterFrame *MainWin3 = new RegisterFrame(_T("Register!"));
     MainWin3->ShowModal();
 }

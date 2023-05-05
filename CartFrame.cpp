@@ -13,11 +13,13 @@
 
 const long CartFrame::IdButtonRemove =::wxNewId();
 const long CartFrame::IdButtonOrder =::wxNewId();
+const long CartFrame::IdButtonHelp =::wxNewId();
 const long CartFrame::IdButtonComeBack =::wxNewId();
 
 BEGIN_EVENT_TABLE (CartFrame, wxFrame)
                 EVT_BUTTON(IdButtonRemove, CartFrame::IsRemove)
                 EVT_BUTTON(IdButtonOrder, CartFrame::IsOrder)
+                EVT_BUTTON(IdButtonHelp, CartFrame::IsHelp)
                 EVT_BUTTON(IdButtonComeBack, CartFrame::ComeBack)
 END_EVENT_TABLE()
 
@@ -41,10 +43,12 @@ CartFrame::CartFrame(const wxString &title):
 
     for (int i = 0; i < cart.select_count(username); i++) {
 
-        for (int col = 0; col < 4; col++) {
+        for (int col = 0; col < 3; col++) {
             grid->SetReadOnly(i, col, true);
             grid->SetCellValue(i, col,  mat_cart[i][col]);
         }
+        grid->SetColFormatNumber(3);
+        grid->SetCellValue(i, 3,  mat_cart[i][3]);
     }
     grid->SetSelectionMode(wxGrid::wxGridSelectRows);
     grid->AutoSize();
@@ -52,10 +56,12 @@ CartFrame::CartFrame(const wxString &title):
     Remove=new wxButton(this,IdButtonRemove,_T ("Remove"),wxDefaultPosition,wxDefaultSize,0);
     Order=new wxButton(this,IdButtonOrder,_T ("Do Order"),wxDefaultPosition,wxDefaultSize,0);
     Back=new wxButton(this,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
+    Help=new wxButton(this,IdButtonHelp,_T ("?"),wxDefaultPosition,wxDefaultSize,0);
 
 
     sizer = new wxBoxSizer(wxVERTICAL);
 
+    sizer->Add(Help, 0, wxEXPAND | wxALL, 3);
     sizer->Add(grid, 1, wxEXPAND | wxALL, 5);
     sizer->Add(Remove, 1, wxEXPAND | wxALL, 5);
     sizer->Add(Order, 1, wxEXPAND | wxALL, 5);
@@ -102,7 +108,8 @@ void CartFrame::IsOrder(wxCommandEvent &event) {
         j++;
     }
     while (i<row){
-        Orders *order = new Orders(stoi(mat_cart[i][3]),stoi(mat_cart[i][4]),"S",data,username,mat_cart[i][2],id_order[i]);
+        string new_quantity=grid->GetCellValue(i,3).ToStdString();
+        Orders *order = new Orders(stoi(new_quantity),stoi(mat_cart[i][4]),"S",data,username,mat_cart[i][2],id_order[i]);
         table.add(*order);
         i++;
     }
@@ -112,4 +119,9 @@ void CartFrame::IsOrder(wxCommandEvent &event) {
 
 void CartFrame::ComeBack(wxCommandEvent &event) {
     Close();
+}
+
+
+void CartFrame::IsHelp(wxCommandEvent &event) {
+    wxMessageBox("You can change the quantity to order directly in the grid", "Help", wxICON_ERROR);
 }

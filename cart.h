@@ -25,10 +25,10 @@ public:
         return id_store;
     }
   string get_id_user(){
-    return IDuser;
+    return username_user;
   }
   string get_id_prov(){
-    return IDprovider;
+    return username_prov;
   }
   void set_quantity(int new_quantity){
     Cart::quantity=new_quantity;
@@ -37,17 +37,17 @@ public:
       Cart::id_store=new_id_store;
     }
   void set_IDuser(const string &new_id_user){
-    Cart::IDuser=new_id_user;
+    Cart::username_user=new_id_user;
   }
 void set_IDprov(const string &new_id_prov){
-  Cart::IDprovider=new_id_prov;
+  Cart::username_prov=new_id_prov;
 }
 
 private:
     int quantity;
     string id_store;
-    string IDuser;
-    string IDprovider;
+    string username_user;
+    string username_prov;
 };
 
 #endif //INGR_ONLINE_CART_H

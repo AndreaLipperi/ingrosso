@@ -7,6 +7,7 @@
 // Created by dario on 30/11/2022.
 //
 #include "SelectSubFrame.h"
+#include "SelectFrame.h"
 #include "ChooseStatusFrame.h"
 #include "ManageProFrame.h"
 #include "FavouritesFrame.h"
@@ -114,8 +115,9 @@ void ClientFrame::OpenOrdersList(wxCommandEvent &event) {
 void ClientFrame::ComeBack(wxCommandEvent &event) {
     UsernameGlobal::GetInstance().SetValueUsername("");
     UsernameGlobal::GetInstance().SetValueType("");
-    Hide();
-
+    Close();
+    SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+    home->Show(TRUE);
 }
 
 void ClientFrame::RemoveUser(wxCommandEvent &event) {

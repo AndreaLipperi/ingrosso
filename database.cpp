@@ -3,4 +3,5 @@
 //
 #include "database.h"
 
+
 SQLite::Database db("/Users/andrealipperi/CLionProjects/ingrosso/ingrossodb.sqlite");

@@ -12,12 +12,8 @@ using namespace std;
 class TableCategories {
 public :
     TableCategories();
-    int add(const Categories& cat);
-    void remove(const string &name);
     int number_of_cat();
     std::vector<std::string> select();
-    void changeName(const string &name, const string &new_name);
-    void sort_name();
 private:
     Categories data;
 };

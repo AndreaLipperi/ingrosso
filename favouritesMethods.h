@@ -10,10 +10,8 @@ using namespace std;
 class TableFavourites {
     public :
     TableFavourites();
-    void add(const Favourites& cart);
-    void remove_all(const string &IDuser);
+    void add(const Favourites& fav);
     void remove_prod(int id);
-    void changeData(const string &IDuser, Subcategories &prod, const string &new_IDprov, const int &new_quantity);
     string** select(const string &username);
     int select_count(const string &username);
 

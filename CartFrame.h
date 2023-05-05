@@ -26,6 +26,7 @@ public:
     CartFrame(const wxString &title);
     static const long IdButtonRemove;
     static const long IdButtonOrder;
+    static const long IdButtonHelp;
     static const long IdButtonComeBack;
 DECLARE_EVENT_TABLE()
 
@@ -33,10 +34,12 @@ DECLARE_EVENT_TABLE()
 private:
     void IsRemove(wxCommandEvent &event);
     void IsOrder(wxCommandEvent &event);
+    void IsHelp(wxCommandEvent &event);
     void ComeBack(wxCommandEvent& event);
     wxButton *Remove;
     wxBoxSizer *sizer;
     wxButton *Order;
+    wxButton *Help;
     wxButton *Back;
     wxTextCtrl *sub;
     wxTextCtrl *cat;

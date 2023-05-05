@@ -5,53 +5,37 @@
 #include "categoriesMethods.h"
 #include <fstream>
 #include "database.h"
-#include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
-#include <SQLiteCpp/Database.h>
 #include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
 
 TableCategories::TableCategories() {
+
+    //metodo per creare la tabella delle categorie di prodotti nel database
     string query="CREATE TABLE IF NOT EXISTS categories (id INTEGER PRIMARY KEY autoincrement, name VARCHAR NOT NULL);";
     db.exec(query);
-}
-int TableCategories::add(const Categories& cat) {
-    data=cat;
-    int i=0;
-    SQLite::Statement query(db, "SELECT * FROM categories");
-    while (query.executeStep()) {
-        if (query.getColumn(1).getText() == data.get_name()) {
-            i++;
-        }
-    }
-    query.reset();
-    if (i==0){
-        string query_insert="INSERT INTO categories (name) VALUES ('" + data.get_name() + "');";
-        db.exec(query_insert);
-        return 1;
-    } else {
-        return 0;
-    }
 
 }
-void TableCategories::remove(const string &name) {
-    string query="DELETE FROM categories WHERE name = '"+name+"'";
-    db.exec(query);
-}
+
 int TableCategories::number_of_cat(){
+
+    //metodo per sapere il numero di categorie nel db
     int n;
     string query="SELECT count(*) FROM categories";
     n = db.execAndGet(query);
-
     return n;
+
 }
 std::vector<std::string> TableCategories::select() {
 
+    //metodo per prendere i nomi delle categorie dal db
     string category;
     std::vector<std::string> categories;
-    //int i=0;
+
+    //lancio la query
+    // e inserisco i valori in un vettore di stringheche poi restituisco
     SQLite::Statement query(db, "SELECT name FROM categories");
     while (query.executeStep()) {
         category = query.getColumn(0).getString();
@@ -60,21 +44,5 @@ std::vector<std::string> TableCategories::select() {
     }
     query.reset();
     return categories;
-}
-void TableCategories::changeName(const string &name, const string &new_name) {
-    int num_result = 0;
-    int i=0;
-    SQLite::Statement query_select(db, "SELECT * FROM categories");
-    while (query_select.executeStep()){
-        if (query_select.getColumn(1).getText() == name) {
-            num_result++;
-        } else {
-            i++;
-        }
-    }
-    query_select.reset();
-    if (num_result>0) {
-        string query="UPDATE categories SET name = '"+new_name+"' WHERE id = "+ to_string(i)+"";
-        db.exec(query);
-    }
+
 }

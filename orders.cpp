@@ -10,13 +10,13 @@ using namespace std;
 Orders::Orders() {
 
 }
-Orders::Orders(int new_quantity,int new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov, int id_order){
+Orders::Orders(int new_quantity,int new_prod,const string &new_status, const string &new_date, const string &new_cust, const string &new_prov, int id_order){
     quantity=new_quantity;
     id_store=new_prod;
-    IDcust=new_id_cust;
+    username_cust=new_cust;
     status=new_status;
     date_order=new_date;
-    IDprovider=new_id_prov;
+    username_prov=new_prov;
     IDorder=id_order;
 }
 

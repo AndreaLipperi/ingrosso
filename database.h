@@ -7,6 +7,8 @@
 
 #include <SQLiteCpp/SQLiteCpp.h>
 
+//questa pagina contiene l'indirizzo del database sqlite su cui
+//lavorerà il programma
 extern SQLite::Database db;
 
 #endif //INGROSSO_ONLINE_DATABASE_H

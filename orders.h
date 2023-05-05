@@ -14,7 +14,7 @@ using namespace std;
 class Orders{
 public:
     Orders();
-    Orders(int new_quantity, int new_prod,const string &new_status, const string &new_date, const string &new_id_cust, const string &new_id_prov, int id_order);
+    Orders(int new_quantity, int new_prod,const string &new_status, const string &new_date, const string &new_cust, const string &new_prov, int id_order);
 
     int get_quantity() {
         return quantity;
@@ -29,10 +29,10 @@ public:
         return date_order;
     }
     string get_id_cust(){
-        return IDcust;
+        return username_cust;
     }
     string get_id_prov(){
-        return IDprovider;
+        return username_prov;
     }
     int get_id(){
         return IDorder;
@@ -46,8 +46,8 @@ private:
     int id_store;
     string status;
     string date_order;
-    string IDcust;
-    string IDprovider;
+    string username_cust;
+    string username_prov;
     int IDorder;
 };
 

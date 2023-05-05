@@ -5,13 +5,16 @@
 
 #include "wx/wx.h"
 #include "RegisterFrame.h"
+#include "SelectFrame.h"
 
 const long RegisterFrame::IdButtonConfirm =::wxNewId();
 const long RegisterFrame::IdButtonProvider =::wxNewId();
+const long RegisterFrame::IdButtonBack =::wxNewId();
 const long RegisterFrame::IdButtonClient =::wxNewId();
 
 BEGIN_EVENT_TABLE (RegisterFrame, wxDialog)
         EVT_BUTTON(IdButtonConfirm, RegisterFrame::Register)
+        EVT_BUTTON(IdButtonBack, RegisterFrame::ComeBack)
         EVT_RADIOBUTTON(IdButtonClient, RegisterFrame::IsClient)
         EVT_RADIOBUTTON(IdButtonProvider, RegisterFrame::IsProvider)
 END_EVENT_TABLE()
@@ -30,7 +33,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
 
     wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
 
-    //wxBoxSizer *MainBox=new wxBoxSizer(wxHORIZONTAL);
+
 
     wxStaticText *type = new wxStaticText(panel, -1, wxT("Type"));
     wxStaticText *business_name = new wxStaticText(panel, -1, wxT("Business_name"));
@@ -41,6 +44,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
     wxStaticText *email=new wxStaticText(panel, -1, wxT("Email"));
 
     Confirm=new wxButton (panel,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
+    Back=new wxButton (panel,IdButtonBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
     Provider=new wxRadioButton(panel,IdButtonProvider, _T("Provider"), wxDefaultPosition,wxDefaultSize,0 );
     Client=new wxRadioButton(panel, IdButtonClient, _T("Client"), wxDefaultPosition, wxDefaultSize, 0);
 
@@ -70,6 +74,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
     fgs->Add(password);
     fgs->Add(m_passwordText, 1);
     fgs->Add(Confirm,0);
+    fgs->Add(Back,0);
 
 
     fgs->AddGrowableRow(1, 1);
@@ -129,8 +134,9 @@ void RegisterFrame::Register(wxCommandEvent &event) {
             if (numResult == 0) {
                 user = new Users(t, b_n, c, a, em, psw, u);
                 table.add(*user);
-
                 Close();
+                SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+                home->Show(TRUE);
             } else {
                 wxLogMessage("There is already an account with this email");
             }
@@ -139,5 +145,10 @@ void RegisterFrame::Register(wxCommandEvent &event) {
         }
     }
 
+}
+void RegisterFrame::ComeBack(wxCommandEvent &event) {
+    Close();
+    SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+    home->Show(TRUE);
 }
 

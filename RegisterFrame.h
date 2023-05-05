@@ -28,6 +28,7 @@ public:
     RegisterFrame(const wxString& title);
 
     static const long IdButtonConfirm;
+    static const long IdButtonBack;
     static const long IdButtonProvider;
     static const long IdButtonClient;
 DECLARE_EVENT_TABLE()
@@ -37,7 +38,9 @@ private:
     void Register(wxCommandEvent& event);
     void IsProvider(wxCommandEvent& event);
     void IsClient(wxCommandEvent& event);
+    void ComeBack(wxCommandEvent& event);
     wxButton *Confirm;
+    wxButton *Back;
     wxRadioButton *Provider;
     wxRadioButton *Client;
     std::string t;

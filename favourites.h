@@ -12,31 +12,31 @@ using namespace std;
 class Favourites{
 public:
 Favourites();
-  Favourites(const string &new_id_store, const string &new_id_cust, const string &new_id_prov);
+  Favourites(const string &new_id_store, const string &new_cust, const string &new_prov);
 
   string get_id_store(){
     return id_store;
   }
   string get_id_cust(){
-    return IDcustomer;
+    return username_cust;
   }
   string get_id_prov(){
-    return IDprovider;
+    return username_prov;
   }
   void set_id_store(string new_id_store){
     Favourites::id_store=new_id_store;
   }
-  void set_IDuser(string new_id_cust){
-    Favourites::IDcustomer=new_id_cust;
+  void set_IDuser(string new_cust){
+    Favourites::username_cust=new_cust;
   }
-  void set_IDprov(string new_id_prov){
-    Favourites::IDprovider=new_id_prov;
+  void set_IDprov(string new_prov){
+    Favourites::username_prov=new_prov;
   }
 
 private :
   string id_store;
-  string IDcustomer;
-  string IDprovider;
+  string username_cust;
+  string username_prov;
 
 };
 

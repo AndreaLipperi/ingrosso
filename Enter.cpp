@@ -19,20 +19,17 @@
 
 
 const long Enter::IdButtonConfirm =::wxNewId();
+const long Enter::IdButtonBack =::wxNewId();
 
 BEGIN_EVENT_TABLE (Enter, wxDialog)
                 EVT_BUTTON(IdButtonConfirm, Enter::Access)
+                EVT_BUTTON(IdButtonBack, Enter::ComeBack)
 
 END_EVENT_TABLE() // The button is pressed
 
 
-std::string e;
-std::string p;
 Enter::Enter(const wxString &title)
         : wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(365, 250)){
-
-
-
 
     // this->Layout();
 
@@ -49,6 +46,7 @@ Enter::Enter(const wxString &title)
     wxStaticText *thetitle = new wxStaticText(panel, -1, wxT("Email"));
     wxStaticText *password = new wxStaticText(panel, -1, wxT("Password"));
     Confirm=new wxButton (panel,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
+    Back=new wxButton (panel,IdButtonBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
 
 
 
@@ -61,12 +59,13 @@ Enter::Enter(const wxString &title)
     fgs->Add(password);
     fgs->Add(m_passwordText, 1);
     fgs->Add(Confirm,0);
+    fgs->Add(Back,0);
 
     fgs->AddGrowableRow(1, 1);
     fgs->AddGrowableCol(1, 1);
 
 
-    hbox->Add(fgs, 1, wxALL, 10);
+    hbox->Add(fgs, 1, wxALL, 12);
 
 
     panel->SetSizer(hbox);
@@ -84,8 +83,8 @@ void Enter::Access(wxCommandEvent &event) {
     } else {
         Close();
 
-        e = tc1->GetValue().ToStdString();
-        p = m_passwordText->GetValue().ToStdString();
+        std::string e = tc1->GetValue().ToStdString();
+        std::string p = m_passwordText->GetValue().ToStdString();
         int result;
         TableUsers table;
         result = table.access_reg(e, p, 0);
@@ -106,4 +105,10 @@ void Enter::Access(wxCommandEvent &event) {
             }
         }
     }
+}
+
+void Enter::ComeBack(wxCommandEvent &event) {
+    Close();
+    SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+    home->Show(TRUE);
 }

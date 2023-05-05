@@ -7,6 +7,7 @@
 #include "StoreFrame.h"
 #include "UsernameGlobal.h"
 #include "ManageProFrame.h"
+#include "SelectFrame.h"
 
 
 
@@ -94,7 +95,9 @@ void ProvidersFrame::OpenInsProd(wxCommandEvent &event) {
 void ProvidersFrame::ComeBack(wxCommandEvent &event) {
     UsernameGlobal::GetInstance().SetValueUsername("");
     UsernameGlobal::GetInstance().SetValueType("");
-    Hide();
+    Close();
+    SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+    home->Show(TRUE);
 }
 void ProvidersFrame::RemoveUser(wxCommandEvent &event)  {
     TableUsers table;

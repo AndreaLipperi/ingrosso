@@ -27,7 +27,7 @@ ManageProFrame::ManageProFrame(const wxString &title):
     wxStaticText *usernameText = new wxStaticText(this, -1, wxT("Username"));
     wxStaticText *email=new wxStaticText(this, -1, wxT("Email"));
 
-    Confirm=new wxButton (this,IdButtonConfirm,_T ("Conferma"),wxDefaultPosition,wxDefaultSize,0);
+    Confirm=new wxButton (this,IdButtonConfirm,_T ("Confirm"),wxDefaultPosition,wxDefaultSize,0);
     TableUsers table;
     data_user=new string *[1];
     for (int k = 0; k < 1; k++) {
