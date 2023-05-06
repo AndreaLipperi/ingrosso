@@ -7,6 +7,8 @@
 //
 
 #include "SelectFrame.h"
+#include "ForgotPasswordFrame.h"
+#include <wx/hyperlink.h>
 #include "UsernameGlobal.h"
 #include "wx/wx.h"
 #include "Enter.h"
@@ -20,10 +22,12 @@
 
 const long Enter::IdButtonConfirm =::wxNewId();
 const long Enter::IdButtonBack =::wxNewId();
+const long Enter::IdButtonForPsw =::wxNewId();
 
 BEGIN_EVENT_TABLE (Enter, wxDialog)
                 EVT_BUTTON(IdButtonConfirm, Enter::Access)
                 EVT_BUTTON(IdButtonBack, Enter::ComeBack)
+                EVT_BUTTON(IdButtonForPsw, Enter::ForgotPassword)
 
 END_EVENT_TABLE() // The button is pressed
 
@@ -54,12 +58,17 @@ Enter::Enter(const wxString &title)
     m_passwordText = new wxTextCtrl(panel, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
 
 
+    // Creare un controllo wxHyperlinkCtrl che apre il frame di destinazione
+    wxHyperlinkCtrl* hyperlink = new wxHyperlinkCtrl(panel, wxID_ANY, "Forgot Password?", "", wxDefaultPosition, wxDefaultSize, wxHL_ALIGN_LEFT);
+    hyperlink->Bind(wxEVT_HYPERLINK, &Enter::ForgotPassword, this);
+
     fgs->Add(thetitle);
     fgs->Add(tc1, 1, wxEXPAND);
     fgs->Add(password);
     fgs->Add(m_passwordText, 1);
     fgs->Add(Confirm,0);
     fgs->Add(Back,0);
+    fgs->Add(hyperlink,0);
 
     fgs->AddGrowableRow(1, 1);
     fgs->AddGrowableCol(1, 1);
@@ -111,4 +120,9 @@ void Enter::ComeBack(wxCommandEvent &event) {
     Close();
     SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
     home->Show(TRUE);
+}
+void Enter::ForgotPassword(wxCommandEvent &event) {
+    Close();
+    ForgotPasswordFrame *forpsw = new ForgotPasswordFrame(_T("Ingrosso"));
+    forpsw->Show(TRUE);
 }

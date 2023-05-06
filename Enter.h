@@ -13,11 +13,13 @@ public:
     Enter(const wxString& title);
     static const long IdButtonConfirm;
     static const long IdButtonBack;
+    static const long IdButtonForPsw;
 
 DECLARE_EVENT_TABLE()
 
 private:
     void Access(wxCommandEvent& event);
+    void ForgotPassword(wxCommandEvent& event);
     void ComeBack(wxCommandEvent& event);
     wxButton *Confirm;
     wxButton *Back;

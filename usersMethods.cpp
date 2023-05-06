@@ -190,3 +190,7 @@ string TableUsers::select_email(const std::string &username) {
     return email;
 
 }
+void TableUsers::changePsw(const std::string &email, const std::string &new_psw) {
+    string query="UPDATE users SET password='"+new_psw+"' WHERE email='"+email+"'";
+    db.exec(query);
+}

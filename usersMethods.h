@@ -15,6 +15,7 @@ public :
     void add(const Users& emp);
     int remove(const string &username, const string &type);
     int changeData(const string &email, Users &user);
+    void changePsw(const string &email, const string &new_psw);
     string** select_data(const string &username);
     string select_type(const string &email);
     string select_username(const string &email);
