@@ -9,6 +9,7 @@
 #include "SelectSubFrame.h"
 #include "SelectFrame.h"
 #include "ChooseStatusFrame.h"
+#include "SelectCityFrame.h"
 #include "ManageProFrame.h"
 #include "FavouritesFrame.h"
 #include "UsernameGlobal.h"
@@ -20,6 +21,7 @@ const long ClientFrame::IdButtonProfile =::wxNewId();
 const long ClientFrame::IdButtonFavorites =::wxNewId();
 const long ClientFrame::IdButtonOrders =::wxNewId();
 const long ClientFrame::IdButtonProducts =::wxNewId();
+const long ClientFrame::IdButtonProviders =::wxNewId();
 const long ClientFrame::IdButtonRemove =::wxNewId();
 const long ClientFrame::IdButtonComeBack =::wxNewId();
 
@@ -31,6 +33,7 @@ BEGIN_EVENT_TABLE (ClientFrame, wxFrame)
            EVT_BUTTON(IdButtonCart, ClientFrame::OpenCart)
            EVT_BUTTON(IdButtonProfile, ClientFrame::OpenProfile)
            EVT_BUTTON(IdButtonProducts, ClientFrame::OpenProductsList)
+           EVT_BUTTON(IdButtonProviders, ClientFrame::ViewProviders)
            EVT_BUTTON(IdButtonOrders, ClientFrame::OpenOrdersList)
            EVT_BUTTON(IdButtonFavorites, ClientFrame::OpenFavoritesList)
            EVT_BUTTON(IdButtonRemove, ClientFrame::RemoveUser)
@@ -56,6 +59,7 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
     Orders=new wxButton (panelHome,IdButtonOrders,_T ("Orders' list"),wxDefaultPosition,wxSize(180,40),0);
     Profile=new wxButton(panelHome,IdButtonProfile, _T("Manage profile"), wxDefaultPosition,wxSize(180,40),0 );
     Products=new wxButton(panelHome, IdButtonProducts, _T("Products' list"), wxDefaultPosition, wxSize(180,40), 0);
+    Providers=new wxButton(panelHome, IdButtonProviders, _T("View Providers"), wxDefaultPosition, wxSize(180,40), 0);
     Cart=new wxButton(panelHome, IdButtonCart, _T("Cart"),wxDefaultPosition, wxSize(180,40),0);
     Favorites=new wxButton(panelHome, IdButtonFavorites, _T("Favorites"),wxDefaultPosition, wxSize(180,40),0);
     Remove=new wxButton(panelHome, IdButtonRemove, _T("Delete Account"),wxDefaultPosition, wxSize(180,40),0);
@@ -69,6 +73,7 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
     MainGrid->Add(Orders,0);
     MainGrid->Add(Cart,0,wxLEFT, 10);
     MainGrid->Add(Profile,0,wxLEFT,130);
+    MainGrid->Add(Providers,0,wxLEFT,130);
     MainGrid->Add(Remove,0,wxLEFT,130);
     MainGrid->Add(Back,0,wxLEFT, 90);
 
@@ -88,27 +93,27 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
 }
 
 void ClientFrame::OpenProductsList(wxCommandEvent &event) {
-    SelectSubFrame *List = new SelectSubFrame (_T("LISTA"));
+    SelectSubFrame *List = new SelectSubFrame (_T("SELECT SUBCATEGORY"));
     List->Show(TRUE);
 }
 
 void ClientFrame::OpenProfile(wxCommandEvent &event) {
-    ManageProFrame *manage = new ManageProFrame (_T("LISTA"));
+    ManageProFrame *manage = new ManageProFrame (_T("MANAGE YOUR PROFILE"));
     manage->Show(TRUE);
 }
 
 void ClientFrame::OpenCart(wxCommandEvent &event) {
-    CartFrame *cart=new CartFrame(_T("Cart"));
+    CartFrame *cart=new CartFrame(_T("CART"));
     cart->Show(TRUE);
 }
 
 void ClientFrame::OpenFavoritesList(wxCommandEvent &event) {
-    FavouritesFrame *fav=new FavouritesFrame(_T("Favoutites"));
+    FavouritesFrame *fav=new FavouritesFrame(_T("FAVOURITES LIST"));
     fav->Show(TRUE);
 }
 
 void ClientFrame::OpenOrdersList(wxCommandEvent &event) {
-    ChooseStatusFrame *ord= new ChooseStatusFrame(_T("Orders"));
+    ChooseStatusFrame *ord= new ChooseStatusFrame(_T("ORDERS"));
     ord->Show(TRUE);
 }
 
@@ -116,7 +121,7 @@ void ClientFrame::ComeBack(wxCommandEvent &event) {
     UsernameGlobal::GetInstance().SetValueUsername("");
     UsernameGlobal::GetInstance().SetValueType("");
     Close();
-    SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+    SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
     home->Show(TRUE);
 }
 
@@ -129,5 +134,12 @@ void ClientFrame::RemoveUser(wxCommandEvent &event) {
         UsernameGlobal::GetInstance().SetValueUsername("");
         UsernameGlobal::GetInstance().SetValueType("");
         Close();
+        SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
+        home->Show(TRUE);
     }
+}
+
+void ClientFrame::ViewProviders(wxCommandEvent &event) {
+    SelectCityFrame *sel_c = new SelectCityFrame(_T("SELECT CITY"));
+    sel_c->Show(TRUE);
 }

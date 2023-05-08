@@ -52,7 +52,7 @@ SelectSubFrame::SelectSubFrame( const wxString &title) :
 
     wxStaticText *Category = new wxStaticText(Mainpanel, -1, wxT("Category"));
     wxStaticText *SubCategory = new wxStaticText(Mainpanel, -1, wxT("Subcategory"));
-    wxStaticText *Disp = new wxStaticText(Mainpanel, -1, wxT("Disponibilità"));
+    wxStaticText *Disp = new wxStaticText(Mainpanel, -1, wxT("Disponibility"));
 
     Insert=new wxButton (Mainpanel,IdButtonInsert,_T ("Insert"),wxDefaultPosition,wxDefaultSize,0);
     Back=new wxButton(Mainpanel,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
@@ -126,8 +126,7 @@ void SelectSubFrame::InsertProduct(wxCommandEvent &event) {
         int Id_disp = choiceDisp->GetSelection();
         string sub_name = choiceSubC->GetString(Id_subcategory).ToStdString();
         string disp = choiceDisp->GetString(Id_disp).ToStdString();
-        ProdListFrame *prodList = new ProdListFrame(_T("PRODUCT"), sub_name, disp);
-        // Passa la stringa alla classe wxFrame di destinazione.
+        ProdListFrame *prodList = new ProdListFrame(_T("ALL PRODUCT"), sub_name, disp);
         prodList->Show(TRUE);
     }
 }

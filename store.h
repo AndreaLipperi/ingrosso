@@ -11,7 +11,7 @@ using namespace std;
 class Store{
 public:
     Store();
-    Store(const string &new_quantity,const string &new_prod, const string &new_price,const string &new_desc, const string &new_id_prov);
+    Store(const string &new_quantity,const string &new_prod, const string &new_price,const string &new_desc, const string &new_prov);
 
     string get_quantity() {
         return available_quantity;
@@ -28,7 +28,7 @@ public:
         return description_prod;
     }
     string get_id_prov() {
-        return IDprovider;
+        return username_prov;
     }
     void set_quantity(string new_quantity){
         Store::available_quantity=new_quantity;
@@ -46,7 +46,7 @@ private:
     string sub;
     string price_product;
     string description_prod;
-    string IDprovider;
+    string username_prov;
 };
 
 #endif // INGROSSO_ONLINE_STORE_H

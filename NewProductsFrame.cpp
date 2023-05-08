@@ -46,7 +46,7 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     wxStaticText *SubCategory = new wxStaticText(this, -1, wxT("Subcategory"));
     wxStaticText *Name = new wxStaticText(this, -1, wxT("Product's name"));
     wxStaticText *Qty_avb= new wxStaticText(this, -1, wxT("Quantity available"));
-    wxStaticText *Cost= new wxStaticText(this, -1, wxT("$"));
+    wxStaticText *Cost= new wxStaticText(this, -1, wxT("Pirce €"));
 
     Insert=new wxButton (this,IdButtonInsert,_T ("Insert"),wxDefaultPosition,wxDefaultSize,0);
     Back=new wxButton(this,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
@@ -81,7 +81,6 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     sizer->Add(Insert, 1, wxEXPAND | wxALL, 5);
     sizer->Add(Back, 1, wxEXPAND | wxALL, 5);
     SetSizer(sizer);
-    //this->SetSizer(MainBox);
 
     Centre();
 

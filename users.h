@@ -9,7 +9,7 @@ using namespace std;
 class Users {
 public:
     Users();
-    Users(const std::string &new_type, const std::string &new_bus_name, const std::string &new_city, const std::string &new_address, const std::string &new_email, const std::string &new_pass, const std::string &new_username);
+    Users(const std::string &new_type, const std::string &new_bus_name,const std::string &new_address, const std::string &new_email, const std::string &new_pass, const std::string &new_username, int new_city);
     string get_type() {
         return type;
     }
@@ -19,8 +19,8 @@ public:
     string get_address() {
         return address;
     }
-    string get_city() {
-        return city;
+    int get_city() {
+        return id_city;
     }
     string get_email() {
         return email;
@@ -39,7 +39,7 @@ private:
     std::string type;
     string business_name;
     std::string address;
-    std::string city;
+    int id_city;
     std::string email;
     std::string psw;
     std::string username;

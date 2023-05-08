@@ -51,7 +51,6 @@ ProdListFrame::ProdListFrame(const wxString &title, const std::string &sub, cons
     grid->SetColLabelValue(3, "Disponibility");
     mat_store=store.select(sub_name,disponibility);
 
-    //selection=new wxRadioButton(grid, wxID_ANY, wxT(""));
     for (int i = 0; i < store.select_count(sub_name, disponibility); i++) {
 
         for (int col = 0; col < 4; col++) {

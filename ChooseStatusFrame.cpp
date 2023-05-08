@@ -58,11 +58,11 @@ void ChooseStatusFrame::InsertProduct(wxCommandEvent &event) {
     } else {
         int Id_choice = choice->GetSelection()-1;
         if (type=="F") {
-            ManageRequestFrame *req = new ManageRequestFrame(_T("PRODUCT"), Id_choice);
+            ManageRequestFrame *req = new ManageRequestFrame(_T("YOUR REQUESTS"), Id_choice);
             // Passa la stringa alla classe wxFrame di destinazione.
             req->Show(TRUE);
         } else {
-            OrderListClient *ord = new OrderListClient(_T("PRODUCT"), Id_choice);
+            OrderListClient *ord = new OrderListClient(_T("YOUR ORDERS"), Id_choice);
             // Passa la stringa alla classe wxFrame di destinazione.
             ord->Show(TRUE);
         }

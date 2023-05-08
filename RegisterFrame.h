@@ -44,6 +44,7 @@ private:
     wxRadioButton *Provider;
     wxRadioButton *Client;
     std::string t;
+    wxChoice* choiceC;
     wxTextCtrl *tcB_n;
     wxTextCtrl *tcA;
     wxTextCtrl *tcC;

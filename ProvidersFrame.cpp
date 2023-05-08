@@ -9,10 +9,6 @@
 #include "ManageProFrame.h"
 #include "SelectFrame.h"
 
-
-
-
-
 const long ProvidersFrame::IdButtonStore =::wxNewId();
 const long ProvidersFrame::IdButtonProfile =::wxNewId();
 const long ProvidersFrame::IdButtonInsProd =::wxNewId();
@@ -67,7 +63,6 @@ ProvidersFrame::ProvidersFrame(const wxString& title, const wxPoint& pos, const 
 
 
     panelHome->SetSizer(box);
-    //this->SetSizer(MainBox);
 
     Centre();
 
@@ -96,7 +91,7 @@ void ProvidersFrame::ComeBack(wxCommandEvent &event) {
     UsernameGlobal::GetInstance().SetValueUsername("");
     UsernameGlobal::GetInstance().SetValueType("");
     Close();
-    SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+    SelectFrame *home = new SelectFrame(_T("YOUR MARKET"), wxPoint(50, 20), wxSize(500, 300));
     home->Show(TRUE);
 }
 void ProvidersFrame::RemoveUser(wxCommandEvent &event)  {
@@ -108,5 +103,7 @@ void ProvidersFrame::RemoveUser(wxCommandEvent &event)  {
         UsernameGlobal::GetInstance().SetValueUsername("");
         UsernameGlobal::GetInstance().SetValueType("");
         Close();
+        SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
+        home->Show(TRUE);
     }
 }

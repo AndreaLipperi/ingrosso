@@ -12,7 +12,6 @@
 #include "SelectSubFrame.h"
 #include "usersMethods.h"
 #include "ClientFrame.h"
-#include "ProvidersFrame.h"
 
 
 
@@ -101,7 +100,7 @@ void ForgotPasswordFrame::Change(wxCommandEvent &event) {
             table.changePsw(tc1->GetValue().ToStdString(), psw);
             Close();
             wxLogMessage("Password Changed");
-            Enter *MainWin2 = new Enter(_T("Enter!"));
+            Enter *MainWin2 = new Enter(_T("ACCESS"));
             MainWin2->ShowModal();
         } else {
             wxLogMessage("The password should contain a number, a capital letter and a lenght >= of 8 characters");
@@ -111,6 +110,6 @@ void ForgotPasswordFrame::Change(wxCommandEvent &event) {
 
 void ForgotPasswordFrame::ComeBack(wxCommandEvent &event) {
     Close();
-    Enter *MainWin2 = new Enter(_T("Enter!"));
+    Enter *MainWin2 = new Enter(_T("ACCESS"));
     MainWin2->ShowModal();
 }

@@ -7,6 +7,8 @@
 
 #include <string>
 
+//questa classe contiene i metodi per salvare globalmente
+//l'username e il tipo dell'utente che sta usando il programma
 class UsernameGlobal {
 public:
     static UsernameGlobal& GetInstance();

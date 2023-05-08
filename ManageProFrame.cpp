@@ -4,6 +4,7 @@
 
 #include "ManageProFrame.h"
 #include "UsernameGlobal.h"
+#include "cityMethods.h"
 #include "usersMethods.h"
 #include "users.h"
 
@@ -27,7 +28,27 @@ ManageProFrame::ManageProFrame(const wxString &title):
     wxStaticText *usernameText = new wxStaticText(this, -1, wxT("Username"));
     wxStaticText *email=new wxStaticText(this, -1, wxT("Email"));
 
+    TableCity table_city;
+    std::vector<std::string> cities;
+
+    cities=table_city.select();
+    wxVector<string> choices;
+    for (int k=0; k<table_city.number_of_city(); k++){
+        choices.push_back(cities[k]);
+    }
+    wxString myString[table_city.number_of_city()];
+    for (int i=0;i<table_city.number_of_city();i++) {
+        myString[i].Append(choices[i]);
+    }
+    cities.clear();
+    choices.clear();
+
+    choiceC=new wxChoice(this, wxID_ANY,wxDefaultPosition, wxDefaultSize);
+    choiceC->Append("Select");
+    choiceC->Append(table_city.number_of_city(),myString);
+
     Confirm=new wxButton (this,IdButtonConfirm,_T ("Confirm"),wxDefaultPosition,wxDefaultSize,0);
+
     TableUsers table;
     data_user=new string *[1];
     for (int k = 0; k < 1; k++) {
@@ -35,7 +56,6 @@ ManageProFrame::ManageProFrame(const wxString &title):
     }
     data_user=table.select_data(username);
     tcA = new wxTextCtrl(this, wxID_ANY,data_user[0][0]);
-    tcC = new wxTextCtrl(this, wxID_ANY,data_user[0][1]);
     tcU= new wxTextCtrl(this, wxID_ANY,username);
     tcEm=new wxTextCtrl(this, wxID_ANY,data_user[0][2]);
     m_passwordText = new wxTextCtrl(this, wxID_ANY, data_user[0][3], wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
@@ -45,7 +65,7 @@ ManageProFrame::ManageProFrame(const wxString &title):
     sizer->Add(address);
     sizer->Add(tcA, 1, wxALL, 5);
     sizer->Add(city);
-    sizer->Add(tcC,1, wxALL, 5);
+    sizer->Add(choiceC,1, wxALL, 5);
     sizer->Add(usernameText);
     sizer->Add(tcU, 1, wxALL, 5);
     sizer->Add(email);
@@ -62,19 +82,22 @@ ManageProFrame::ManageProFrame(const wxString &title):
 
 
 void ManageProFrame::OnConfirm(wxCommandEvent &event) {
-    Close();
+    if (choiceC->GetSelection() == wxNOT_FOUND)
+    {
+        wxMessageBox("Choose a city", "Error", wxICON_ERROR);
+    } else {
+        Close();
 
-    std::string b_n=data_user[0][4];
-    std::string new_address =tcA->GetValue().ToStdString();
-    std::string new_city=tcC->GetValue().ToStdString();
-    std::string new_username=tcU->GetValue().ToStdString();
-    std::string new_email=tcEm->GetValue().ToStdString();
-    std:string new_pass=m_passwordText->GetValue().ToStdString();
-    Users *user=new Users(type,b_n,new_city,new_address,new_email,new_pass,new_username);
-    TableUsers table;
-    std::string email = table.select_email(username);
-    UsernameGlobal::GetInstance().SetValueUsername(user->get_username());
-    table.changeData(email,*user);
-
-
+        std::string b_n = data_user[0][4];
+        std::string new_address = tcA->GetValue().ToStdString();
+        int id_city = choiceC->GetSelection();
+        std::string new_username = tcU->GetValue().ToStdString();
+        std::string new_email = tcEm->GetValue().ToStdString();
+        std:
+        string new_pass = m_passwordText->GetValue().ToStdString();
+        Users *user = new Users(type, b_n, new_address, new_email, new_pass, new_username, id_city);
+        TableUsers table;
+        table.changeData(username, *user);
+        UsernameGlobal::GetInstance().SetValueUsername(user->get_username());
+    }
 }

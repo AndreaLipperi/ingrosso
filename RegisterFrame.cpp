@@ -5,6 +5,7 @@
 
 #include "wx/wx.h"
 #include "RegisterFrame.h"
+#include "cityMethods.h"
 #include "SelectFrame.h"
 
 const long RegisterFrame::IdButtonConfirm =::wxNewId();
@@ -29,11 +30,26 @@ RegisterFrame::RegisterFrame(const wxString &title):
 
     wxFlexGridSizer *fgs1=new wxFlexGridSizer(1,2, 12,-5);
 
-
-
     wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
 
+    TableCity table;
+    std::vector<std::string> cities;
 
+    cities=table.select();
+    wxVector<string> choices;
+    for (int k=0; k<table.number_of_city(); k++){
+        choices.push_back(cities[k]);
+    }
+    wxString myString[table.number_of_city()];
+    for (int i=0;i<table.number_of_city();i++) {
+        myString[i].Append(choices[i]);
+    }
+    cities.clear();
+    choices.clear();
+
+    choiceC=new wxChoice(panel, wxID_ANY,wxDefaultPosition, wxDefaultSize);
+    choiceC->Append("Select");
+    choiceC->Append(table.number_of_city(),myString);
 
     wxStaticText *type = new wxStaticText(panel, -1, wxT("Type"));
     wxStaticText *business_name = new wxStaticText(panel, -1, wxT("Business_name"));
@@ -66,7 +82,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
     fgs->Add(address);
     fgs->Add(tcA, 1, wxEXPAND);
     fgs->Add(city);
-    fgs->Add(tcC, 1, wxEXPAND);
+    fgs->Add(choiceC, 1, wxEXPAND);
     fgs->Add(username);
     fgs->Add(tcU, 1, wxEXPAND);
     fgs->Add(email);
@@ -86,7 +102,6 @@ RegisterFrame::RegisterFrame(const wxString &title):
 
 
     panel->SetSizer(hbox);
-    //this->SetSizer(MainBox);
 
     Centre();
 }
@@ -105,13 +120,13 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 
 void RegisterFrame::Register(wxCommandEvent &event) {
-    if (t=="" || tcB_n->IsEmpty() || tcA->IsEmpty() || tcC->IsEmpty() || tcU->IsEmpty() || tcEm->IsEmpty() || m_passwordText->IsEmpty()){
+    if (t=="" || tcB_n->IsEmpty() || tcA->IsEmpty() || choiceC->GetSelection() == wxNOT_FOUND || tcU->IsEmpty() || tcEm->IsEmpty() || m_passwordText->IsEmpty()){
         wxMessageBox("Insert every data.", "Error", wxICON_ERROR);
     } else {
 
         std::string b_n = tcB_n->GetValue().ToStdString();
         std::string a = tcA->GetValue().ToStdString();
-        std::string c = tcC->GetValue().ToStdString();
+        int id_city = choiceC->GetSelection();
         std::string u = tcU->GetValue().ToStdString();
         std::string em = tcEm->GetValue().ToStdString();
         std::string psw = m_passwordText->GetValue().ToStdString();
@@ -132,10 +147,10 @@ void RegisterFrame::Register(wxCommandEvent &event) {
             Users *user;
 
             if (numResult == 0) {
-                user = new Users(t, b_n, c, a, em, psw, u);
+                user = new Users(t, b_n, a, em, psw, u, id_city);
                 table.add(*user);
                 Close();
-                SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+                SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
                 home->Show(TRUE);
             } else {
                 wxLogMessage("There is already an account with this email");
@@ -148,7 +163,7 @@ void RegisterFrame::Register(wxCommandEvent &event) {
 }
 void RegisterFrame::ComeBack(wxCommandEvent &event) {
     Close();
-    SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+    SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
     home->Show(TRUE);
 }
 

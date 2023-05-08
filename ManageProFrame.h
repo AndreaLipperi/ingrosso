@@ -28,10 +28,10 @@ private:
     wxButton *Confirm;
     std::string username;
     wxBoxSizer *sizer;
+    wxChoice* choiceC;
     std::string type;
     string** data_user;
     wxTextCtrl *tcA;
-    wxTextCtrl *tcC;
     wxTextCtrl *tcU;
     wxTextCtrl *tcEm;
     wxTextCtrl *m_passwordText;

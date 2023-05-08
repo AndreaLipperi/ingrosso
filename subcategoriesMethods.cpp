@@ -13,18 +13,20 @@
 using namespace std;
 
 TableProducts::TableProducts()  {
+
     //funzione che crea la tablella che conterra i prodotti
     //nel database in caso non esista
-
     string query ="CREATE TABLE IF NOT EXISTS subcategories (id INTEGER PRIMARY KEY autoincrement, name VARCHAR NOT NULL, id_cat INT NOT NULL, FOREIGN KEY(id_cat) REFERENCES categories (id));";
     db.exec(query);
 
 }
 
 std::vector<std::string> TableProducts::select(const string &categories_name) {
+
     //funzione che seleziona i dati di tutte le sottocategorie
     //appartenenti a una categoria specifica
 
+    //creo un vettore di stringhe che conterrà i valori
     std::vector<std::string> subcategories;
     string subcategory;
     int id;
@@ -38,8 +40,9 @@ std::vector<std::string> TableProducts::select(const string &categories_name) {
     }
     query_cat.reset();
 
-    //query per prendere le sottocategorie
-
+    //lancio la query per prendere le sottocategorie
+    //popolo i vettore che conterrà i dati
+    //restituisco il vettore
     SQLite::Statement query(db, "SELECT name FROM subcategories WHERE id_cat="+ to_string(id)+"");
     while (query.executeStep()) {
         subcategory = query.getColumn(0).getString();

@@ -90,7 +90,6 @@ void Enter::Access(wxCommandEvent &event) {
     if (tc1->IsEmpty() || m_passwordText->IsEmpty()){
         wxMessageBox("Insert every value", "Error", wxICON_ERROR);
     } else {
-        Close();
 
         std::string e = tc1->GetValue().ToStdString();
         std::string p = m_passwordText->GetValue().ToStdString();
@@ -100,6 +99,7 @@ void Enter::Access(wxCommandEvent &event) {
         if (result == 0) {
             wxLogMessage("Incorrect email or password");
         } else {
+            Close();
             std::string TypeUser;
             TypeUser = table.select_type(e);
             std::string username=table.select_username(e);
@@ -118,11 +118,11 @@ void Enter::Access(wxCommandEvent &event) {
 
 void Enter::ComeBack(wxCommandEvent &event) {
     Close();
-    SelectFrame *home = new SelectFrame(_T("Ingrosso"), wxPoint(50, 20), wxSize(500, 300));
+    SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
     home->Show(TRUE);
 }
 void Enter::ForgotPassword(wxCommandEvent &event) {
     Close();
-    ForgotPasswordFrame *forpsw = new ForgotPasswordFrame(_T("Ingrosso"));
+    ForgotPasswordFrame *forpsw = new ForgotPasswordFrame(_T("FORGOT PASSWORD"));
     forpsw->Show(TRUE);
 }
