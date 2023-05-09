@@ -27,7 +27,7 @@ SelectFrame::SelectFrame(const wxString &title, const wxPoint &pos, const wxSize
     wxBoxSizer *MainBox1=new wxBoxSizer(wxHORIZONTAL);
     Register=new wxButton (this,IdButtonRegister,_T ("Register"),wxDefaultPosition,wxSize(180,40),0);
     HelloWorld=new wxButton(this,IdButtonAccess,_T ("Enter"), wxDefaultPosition,wxSize(180,40),0);
-    MainBox1->Add(Register,0,wxALL,0);
+    MainBox1->Add(Register,0,wxLEFT,210);
     this->SetSizer(MainBox1);
     MainBox->Add(HelloWorld,0,wxLEFT,210);
     this->SetSizer(MainBox);

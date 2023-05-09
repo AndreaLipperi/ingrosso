@@ -120,6 +120,10 @@ void ProdListFrame::IsCart(wxCommandEvent &event)  {
         sizer->Add(spinCtrl, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
         wxButton *insert=new wxButton(this,IdButtonInsert,_T ("Add to cart"),wxDefaultPosition,wxDefaultSize,0);
         sizer->Add(insert, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+        wxSize currentSize = GetSize();
+        int newWidth = currentSize.GetWidth() +1;
+        int newHeight = currentSize.GetHeight() +1;
+        SetSize(newWidth, newHeight);
     }
 }
 void ProdListFrame::IsInsert(wxCommandEvent &event) {

@@ -119,24 +119,25 @@ string** TableStore::select(const string &sub_name, const string &disp, const st
         n_disp=0;
     }
 
-    //controllo i tipo di ordinamento che l'utente cuole usare per vedere i prodotti
+    //controllo i tipo di ordinamento che l'utente
+    //vuole usare per vedere i prodotti
+    string str_order;
+    if (order=="Name Product") {
+        str_order="desc_prod;";
+    } else if (order=="Price") {
+        str_order="price_product;";
+    } else if (order=="Provider Name"){
+        str_order="username;";
+    } else {
+        str_order=order;
+    }
+
     //lancio la query
     //popolo la matrice
     //restituisco la matrice
-    string select;
-    if (order=="Name Product") {
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END,store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
-                                   to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY desc_prod;";
-    } else if (order=="Price") {
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END,store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
-                                   to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY price_product;";
-    } else if (order=="Provider Name"){
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not Available' END, store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
-                                   to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY username;";
-    } else {
-        select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available' ELSE 'Not DispoAvailablenibile' END,store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
-                                   to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY '"+order+"';";
-    }
+    string select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available ('||available_quantity||')' ELSE 'Not Available' END,store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
+                                   to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY "+str_order+";";
+    cout<< select;
     SQLite::Statement query(db,select);
     int m=0;
     int n=0;
@@ -198,24 +199,23 @@ string** TableStore::select_for_prov(const string &username, const string &order
     }
 
     //controllo i tipo di ordinamento che l'utente
-    //vuole usare per vedere i prodotti
+    // vuole usare per vedere i prodotti
+    string str_order;
+    if (order=="Name Product") {
+        str_order="desc_prod;";
+    } else if (order=="Price") {
+        str_order="price_product;";
+    } else if (order=="Quantity Available"){
+        str_order="available_quantity;";
+    } else {
+        str_order=order;
+    }
+
     //lancio la query
     //popolo la matrice
     //restituisco la matrice
-    string select;
-    if (order=="Name Product") {
-        select = "SELECT desc_prod, price_product, available_quantity, id FROM store WHERE id_prov=" +
-                 to_string(id_prov) + " ORDER BY desc_prod;";
-    } else if (order=="Price") {
-        select = "SELECT desc_prod, price_product, available_quantity, id FROM store WHERE id_prov=" +
-                 to_string(id_prov) + " ORDER BY price_product;";
-    } else if (order=="Quantity Available") {
-        select = "SELECT desc_prod, price_product, available_quantity, id FROM store WHERE id_prov=" +
-                 to_string(id_prov) + " ORDER BY available_quantity;";
-    } else {
-        select = "SELECT desc_prod, price_product, available_quantity, id FROM store WHERE id_prov=" +
-                 to_string(id_prov) + ";";
-    }
+    string select = "SELECT desc_prod, price_product, available_quantity, id FROM store WHERE id_prov=" +
+                 to_string(id_prov) + " ORDER BY "+str_order+";";
     SQLite::Statement query(db,select);
 
     int m=0;

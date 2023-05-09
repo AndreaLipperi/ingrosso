@@ -19,7 +19,7 @@ public :
     string** select_data(const string &username);
     string select_type(const string &email);
     string select_username(const string &email);
-    string** select_data_all_users(const string &type, const string &city);
+    string** select_data_all_users(const string &type, const string &city, const string &control="users.id");
     int select_count_users(const string &type, const string &city);
 private:
     Users data;

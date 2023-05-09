@@ -61,10 +61,7 @@ void ForgotPasswordFrame::Insert(wxCommandEvent &event){
         if (result == 0) {
             wxLogMessage("There is no account with this email");
         } else {
-            sizer->Hide(txt_email);
-            sizer->Hide(tc1);
-            sizer->Hide(Confirm);
-            sizer->Hide(Back);
+            sizer->DeleteWindows();
             txt_psw = new wxStaticText(this, -1, wxT("New Password"));
             ChangeButton=new wxButton (this,IdButtonChange,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
             m_passwordText = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
@@ -74,7 +71,10 @@ void ForgotPasswordFrame::Insert(wxCommandEvent &event){
             sizer->Add(m_passwordText,0, wxEXPAND);
             sizer->Add(ChangeButton,0);
             sizer->Add(Back,0);
-
+            wxSize currentSize = GetSize();
+            int newWidth = currentSize.GetWidth() +1;
+            int newHeight = currentSize.GetHeight() +1;
+            SetSize(newWidth, newHeight);
 
         }
     }

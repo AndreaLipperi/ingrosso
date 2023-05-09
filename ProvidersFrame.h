@@ -17,6 +17,7 @@ public:
     static const long IdButtonProfile;
     static const long IdButtonStore;
     static const long IdButtonInsProd;
+    static const long IdButtonClients;
     static const long IdButtonRemove;
     static const long IdButtonBack;
 
@@ -26,11 +27,13 @@ private:
     void OpenRequests(wxCommandEvent& event);
     void OpenProfile(wxCommandEvent& event);
     void OpenStore(wxCommandEvent& event);
+    void ViewClients(wxCommandEvent& event);
     void OpenInsProd(wxCommandEvent& event);
     void RemoveUser(wxCommandEvent& event);
     void ComeBack(wxCommandEvent& event);
     wxButton *Requests;
     wxButton *Profile;
+    wxButton *Clients;
     wxButton *Store;
     wxButton *InsProd;
     wxButton *Remove;

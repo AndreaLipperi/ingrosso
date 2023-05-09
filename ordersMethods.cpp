@@ -120,6 +120,18 @@ string** TableOrders::select(const string &username, int control, const string &
     string** mat=new string *[select_count(username, control)];
     string select;
 
+    //controllo il tipo di ordinamento richiesto
+    string str_order;
+    if (order == "Code Order") {
+        str_order ="id_single_order";
+    } else if (order == "Customer Name") {
+        str_order ="username";
+    } else if (order == "Date Order") {
+        str_order ="date_order";
+    } else {
+        str_order =order;
+    }
+
     //controllo di quali tipo di ordini si vuole sapere i dati
     //only_pending=0 solo in sospeso
     //poi quindi creo le colonne della matrice
@@ -128,23 +140,9 @@ string** TableOrders::select(const string &username, int control, const string &
         for (int k = 0; k < select_count(username, control); k++) {
             mat[k] = new string[3];
         }
-        if (order == "Code Order") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
-                    to_string(id) + " ORDER BY id_single_order";
-        } else if (order == "Customer Name") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
-                    to_string(id) + " ORDER BY username";
-        } else if (order == "Date Order") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
-                    to_string(id) + " ORDER BY date_order";
-        } else {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
-                    to_string(id) + "";
-        }
+        select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_cust=users.id AND status='S' AND id_prov=" +
+                    to_string(id) + " ORDER BY "+str_order+"";
+
         SQLite::Statement query(db, select);
         int m = 0;
         int n = 0;
@@ -160,19 +158,7 @@ string** TableOrders::select(const string &username, int control, const string &
         for (int k = 0; k < select_count(username, control); k++) {
             mat[k] = new string[4];
         }
-        if (order == "Code Order") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_cust=users.id AND id_prov="+to_string(id)+" ORDER BY id_single_order";
-        } else if (order == "Customer Name") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_cust=users.id AND id_prov="+to_string(id)+" ORDER BY username";
-        } else if (order == "Date Order") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_cust=users.id AND id_prov="+to_string(id)+" ORDER BY date_order";
-        } else {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_cust=users.id AND id_prov="+to_string(id)+"";
-        }
+        select ="SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_cust=users.id AND id_prov="+to_string(id)+" ORDER BY "+str_order+"";
         SQLite::Statement query(db, select);
         int m = 0;
         int n = 0;
@@ -265,34 +251,30 @@ string **TableOrders::select_for_client(const string &username, int control, con
     //creo la matrice di stringhe che conterrà i valori
     string** mat=new string *[select_count_for_client(username, control)];
 
+    //controllo il tipo di ordinamento richiesto
+    string str_order;
+    if (order == "Code Order") {
+        str_order ="id_single_order";
+    } else if (order == "Provider Name") {
+        str_order ="username";
+    } else if (order == "Date Order") {
+        str_order ="date_order";
+    } else {
+        str_order =order;
+    }
+
     //controllo la tipologia di ordini dei quali si vuole sapere i dati
     //only_pending=0 solo in sospeso
     //setto il numero di colonne della matrice
     //lancio la query
     //popolo la matrice
     //restituisco la matrice
-    string select;
     if (control==only_pending) {
         for (int k = 0; k < select_count_for_client(username, control); k++) {
             mat[k] = new string[3];
         }
-        if (order == "Code Order") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
-                    to_string(id) + " ORDER BY id_single_order";
-        } else if (order == "Provider Name") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
-                    to_string(id) + " ORDER BY username";
-        } else if (order == "Date Order") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
-                    to_string(id) + " ORDER BY date_order";
-        } else {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
-                    to_string(id) + "";
-        }
+        string select ="SELECT DISTINCT id_single_order, username, date_order FROM users, orders WHERE id_prov=users.id AND status='S' AND id_cust=" +
+                    to_string(id) + " ORDER BY "+str_order+"";
         SQLite::Statement query(db, select);
         int m = 0;
         int n = 0;
@@ -308,19 +290,7 @@ string **TableOrders::select_for_client(const string &username, int control, con
         for (int k = 0; k < select_count_for_client(username, control); k++) {
             mat[k] = new string[4];
         }
-        if (order == "Code Order") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_prov=users.id AND id_cust="+to_string(id)+" ORDER BY id_single_order";
-        } else if (order == "Customer Name") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_prov=users.id AND id_cust="+to_string(id)+" ORDER BY username";
-        } else if (order == "Date Order") {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_prov=users.id AND id_cust="+to_string(id)+" ORDER BY date_order";
-        } else {
-            select =
-                    "SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_prov=users.id AND id_cust="+to_string(id)+"";
-        }
+        string select ="SELECT DISTINCT id_single_order, username, date_order, CASE WHEN (status='S') THEN 'Pending' WHEN (status='D') THEN 'Denied' ELSE 'Accepted' END FROM users, orders WHERE id_prov=users.id AND id_cust="+to_string(id)+" ORDER BY "+str_order+"";
         SQLite::Statement query(db, select);
         int m = 0;
         int n = 0;

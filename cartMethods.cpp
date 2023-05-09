@@ -32,7 +32,7 @@ void TableCart::add(const Cart& cart) {
 
     //inserisco i dati nel db
     string query_insert="INSERT INTO cart (quantity, id_store,id_user, id_prov) VALUES (" + to_string(data.get_quantity()) + ", " + to_string(id) + ","+ to_string(id_user)+","+to_string(id_prov)+")";
-    cout << query_insert;
+
     db.exec(query_insert);
 
 }

@@ -5,6 +5,7 @@
 #include "ProvidersFrame.h"
 #include "ChooseStatusFrame.h"
 #include "StoreFrame.h"
+#include "SelectCityFrame.h"
 #include "UsernameGlobal.h"
 #include "ManageProFrame.h"
 #include "SelectFrame.h"
@@ -13,6 +14,7 @@ const long ProvidersFrame::IdButtonStore =::wxNewId();
 const long ProvidersFrame::IdButtonProfile =::wxNewId();
 const long ProvidersFrame::IdButtonInsProd =::wxNewId();
 const long ProvidersFrame::IdButtonRequests =::wxNewId();
+const long ProvidersFrame::IdButtonClients =::wxNewId();
 const long ProvidersFrame::IdButtonRemove =::wxNewId();
 const long ProvidersFrame::IdButtonBack =::wxNewId();
 
@@ -22,6 +24,7 @@ EVT_BUTTON(IdButtonStore, ProvidersFrame::OpenStore)
 EVT_BUTTON(IdButtonProfile, ProvidersFrame::OpenProfile)
 EVT_BUTTON(IdButtonInsProd, ProvidersFrame::OpenInsProd)
 EVT_BUTTON(IdButtonRequests, ProvidersFrame::OpenRequests)
+EVT_BUTTON(IdButtonClients, ProvidersFrame::ViewClients)
 EVT_BUTTON(IdButtonRemove, ProvidersFrame::RemoveUser)
 EVT_BUTTON(IdButtonBack, ProvidersFrame::ComeBack)
 END_EVENT_TABLE()
@@ -42,16 +45,18 @@ ProvidersFrame::ProvidersFrame(const wxString& title, const wxPoint& pos, const 
     Profile=new wxButton(panelHome,IdButtonProfile, _T("Manage profile"), wxDefaultPosition,wxSize(180,40),0 );
     InsProd=new wxButton(panelHome, IdButtonInsProd, _T("Insert products"), wxDefaultPosition, wxSize(180,40), 0);
     Store=new wxButton(panelHome, IdButtonStore, _T("Store"),wxDefaultPosition, wxSize(180,40),0);
+    Clients=new wxButton(panelHome, IdButtonClients, _T("View Clients"),wxDefaultPosition, wxSize(180,40),0);
     Remove=new wxButton(panelHome, IdButtonRemove, _T("Delete Account"),wxDefaultPosition, wxSize(180,40),0);
     Back=new wxButton(panelHome,IdButtonBack,_T ("Logout"),wxDefaultPosition,wxDefaultSize,0);
 
 
-    MainGrid->Add(InsProd,0);
-    MainGrid->Add(Profile,0,wxLEFT, 50);
-    MainGrid->Add(Store,0);
-    MainGrid->Add(Requests,0,wxLEFT, 50);
-    MainGrid->Add(Remove,0,wxLEFT, 50);
-    MainGrid->Add(Back,0,wxLEFT, 50);
+    MainGrid->Add(InsProd,0,wxLEFT, 10);
+    MainGrid->Add(Profile,0,wxLEFT, 10);
+    MainGrid->Add(Store,0, wxLEFT, 10);
+    MainGrid->Add(Requests,0,wxLEFT, 10);
+    MainGrid->Add(Clients,0,wxLEFT, 10);
+    MainGrid->Add(Remove,0,wxLEFT, 10);
+    MainGrid->Add(Back,0,wxLEFT, 90);
 
 
     MainGrid->AddGrowableRow(1, 1);
@@ -91,7 +96,7 @@ void ProvidersFrame::ComeBack(wxCommandEvent &event) {
     UsernameGlobal::GetInstance().SetValueUsername("");
     UsernameGlobal::GetInstance().SetValueType("");
     Close();
-    SelectFrame *home = new SelectFrame(_T("YOUR MARKET"), wxPoint(50, 20), wxSize(500, 300));
+    SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
     home->Show(TRUE);
 }
 void ProvidersFrame::RemoveUser(wxCommandEvent &event)  {
@@ -106,4 +111,9 @@ void ProvidersFrame::RemoveUser(wxCommandEvent &event)  {
         SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
         home->Show(TRUE);
     }
+}
+
+void ProvidersFrame::ViewClients(wxCommandEvent &event) {
+    SelectCityFrame *sel_c = new SelectCityFrame(_T("SELECT CITY"));
+    sel_c->Show(TRUE);
 }

@@ -56,25 +56,25 @@ ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize
     wxFlexGridSizer *MainGrid = new wxFlexGridSizer(3, 2, 25, -60);
 
 
-    Orders=new wxButton (panelHome,IdButtonOrders,_T ("Orders' list"),wxDefaultPosition,wxSize(180,40),0);
-    Profile=new wxButton(panelHome,IdButtonProfile, _T("Manage profile"), wxDefaultPosition,wxSize(180,40),0 );
-    Products=new wxButton(panelHome, IdButtonProducts, _T("Products' list"), wxDefaultPosition, wxSize(180,40), 0);
-    Providers=new wxButton(panelHome, IdButtonProviders, _T("View Providers"), wxDefaultPosition, wxSize(180,40), 0);
-    Cart=new wxButton(panelHome, IdButtonCart, _T("Cart"),wxDefaultPosition, wxSize(180,40),0);
-    Favorites=new wxButton(panelHome, IdButtonFavorites, _T("Favorites"),wxDefaultPosition, wxSize(180,40),0);
-    Remove=new wxButton(panelHome, IdButtonRemove, _T("Delete Account"),wxDefaultPosition, wxSize(180,40),0);
+    Orders=new wxButton (panelHome,IdButtonOrders,_T ("Orders' list"),wxDefaultPosition,wxSize(140,40),0);
+    Profile=new wxButton(panelHome,IdButtonProfile, _T("Manage profile"), wxDefaultPosition,wxSize(140,40),0 );
+    Products=new wxButton(panelHome, IdButtonProducts, _T("Products' list"), wxDefaultPosition, wxSize(140,40), 0);
+    Providers=new wxButton(panelHome, IdButtonProviders, _T("View Providers"), wxDefaultPosition, wxSize(140,40), 0);
+    Cart=new wxButton(panelHome, IdButtonCart, _T("Cart"),wxDefaultPosition, wxSize(140,40),0);
+    Favorites=new wxButton(panelHome, IdButtonFavorites, _T("Favorites"),wxDefaultPosition, wxSize(140,40),0);
+    Remove=new wxButton(panelHome, IdButtonRemove, _T("Delete Account"),wxDefaultPosition, wxDefaultSize,0);
     Back=new wxButton(panelHome,IdButtonComeBack,_T ("Logout"),wxDefaultPosition,wxDefaultSize,0);
 
 
 
 
-    MainGrid->Add(Products,0);
-    MainGrid->Add(Favorites,0,wxLEFT, 10);
-    MainGrid->Add(Orders,0);
-    MainGrid->Add(Cart,0,wxLEFT, 10);
-    MainGrid->Add(Profile,0,wxLEFT,130);
-    MainGrid->Add(Providers,0,wxLEFT,130);
-    MainGrid->Add(Remove,0,wxLEFT,130);
+    MainGrid->Add(Products,0,wxLEFT, 50);
+    MainGrid->Add(Favorites,0,wxLEFT, 50);
+    MainGrid->Add(Orders,0,wxLEFT, 50);
+    MainGrid->Add(Cart,0,wxLEFT, 50);
+    MainGrid->Add(Profile,0,wxLEFT,50);
+    MainGrid->Add(Providers,0,wxLEFT,50);
+    MainGrid->Add(Remove,0,wxLEFT,90);
     MainGrid->Add(Back,0,wxLEFT, 90);
 
     MainGrid->AddGrowableRow(1, 1);

@@ -24,23 +24,20 @@ ViewDataUsersFrame::ViewDataUsersFrame(const wxString &title, const std::string 
     city=var_city;
     type=UsernameGlobal::GetInstance().GetValueType();
 
-    /*wxStaticText *order = new wxStaticText(this, -1, wxT("Order By"));
+    wxStaticText *order = new wxStaticText(this, -1, wxT("Order By"));
     choiceOrder = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-    wxString myString;
     if (city=="All") {
-
-        myString[] = {"Business Name", "Username", "Email", "Address", "City"};
+        wxString myString[] = {"Business Name", "Username", "Email", "Address", "City"};
         choiceOrder->Append("Select");
         choiceOrder->Append(5, myString);
-
     } else {
         wxString myString[] = {"Business Name", "Username", "Email", "Address"};
         choiceOrder->Append("Select");
         choiceOrder->Append(4, myString);
-
     }
+
     choiceOrder->Bind(wxEVT_CHOICE, &ViewDataUsersFrame::OnChoice, this);
-    */
+
     TableUsers users;
     int row = users.select_count_users(type,city);
 
@@ -72,8 +69,8 @@ ViewDataUsersFrame::ViewDataUsersFrame(const wxString &title, const std::string 
 
     sizer = new wxBoxSizer(wxVERTICAL);
 
-    /*sizer->Add(order, 0, wxALL, 5);
-    sizer->Add(choiceOrder, 0, wxALL, 5);*/
+    sizer->Add(order, 0, wxALL, 5);
+    sizer->Add(choiceOrder, 0, wxALL, 5);
     sizer->Add(grid, 1, wxEXPAND | wxALL, 5);
     sizer->Add(Back, 1, wxEXPAND | wxALL, 5);
     SetSizer(sizer);
@@ -83,18 +80,17 @@ ViewDataUsersFrame::ViewDataUsersFrame(const wxString &title, const std::string 
 
 }
 void ViewDataUsersFrame::OnChoice(wxCommandEvent& event) {
-    /*TableStore store;
+    TableUsers users;
     string order=event.GetString().ToStdString();
-    mat_store=store.select(sub_name, disponibility,order);
-    for (int i = 0; i < store.select_count(sub_name, disponibility); i++) {
-        for (int col = 0; col < 4; col++) {
-            grid->SetReadOnly(i, col, true);
-            grid->SetCellValue(i, col,  mat_store[i][col]);
-        }
+    mat_users=users.select_data_all_users(type,city,order);
+    for (int i = 0; i < users.select_count_users(type,city); i++) {
 
+        for (int col = 0; col < 5; col++) {
+            grid->SetReadOnly(i, col, true);
+            grid->SetCellValue(i, col,  mat_users[i][col]);
+        }
     }
-    grid->SetSelectionMode(wxGrid::wxGridSelectRows);
-    grid->AutoSize();*/
+    grid->AutoSize();
 }
 void ViewDataUsersFrame::ComeBack(wxCommandEvent &event) {
    Close();

@@ -234,7 +234,7 @@ void TableUsers::changePsw(const std::string &email, const std::string &new_psw)
 
 }
 
-string** TableUsers::select_data_all_users(const string &type, const string &city) {
+string** TableUsers::select_data_all_users(const string &type, const string &city, const string &control) {
 
     //metodo per prendere i dati di tutti i clienti se fatto da un fornitore
     //o di tutti i fornitore se fatto da un cliente
@@ -245,19 +245,37 @@ string** TableUsers::select_data_all_users(const string &type, const string &cit
         mat[k] = new string[5];
     }
 
+    //controllo il tipo di ordinamento richiesto
+    string order;
+    if (control=="Business Name") {
+        order = "business_name";
+    } else if (control=="Username") {
+        order = "username";
+    } else if (control=="Email") {
+        order = "email";
+    } else if (control=="Address") {
+        order = "address";
+    } else if (control=="City") {
+        order = "name";
+    } else {
+        order = control;
+    }
     //controllo se si vuole sapere tutti gli utenti o di una particolare città
     //lancio la query
     //popolo la matrice
     //restituisco la matrice
     string select;
     if (city=="All") {
-        select = "SELECT business_name, username, email, address, name FROM users, cities WHERE cities.id=id_city AND type!='" + type + "';";
+
+        select = "SELECT business_name, username, email, address, name FROM users, cities WHERE cities.id=id_city AND type!='" + type + "' ORDER BY "+order+";";
+
     } else {
         //prendo il valore dell'id della città scelta
         string select_city="SELECT id FROM cities WHERE name='"+city+"'";
         int id=db.execAndGet(select_city).getInt();
 
-        select = "SELECT business_name, username, email, address, name FROM users, cities WHERE cities.id=id_city AND type!='" + type + "' AND id_city="+to_string(id)+";";
+        select = "SELECT business_name, username, email, address, name FROM users, cities WHERE cities.id=id_city AND type!='" + type + "' AND id_city="+to_string(id)+" ORDER BY "+order+";";
+
     }
     SQLite::Statement query(db, select);
     int m = 0;

@@ -18,8 +18,8 @@ public :
     int select_count_for_client(const string &username, int control);
     int select_count_single_order(const string &username, const string &cod_order);
     int select_count_single_order_for_client(const string &username, const string &cod_order, const string &us_prov);
-    string** select(const string &username, int control,const string &order="id");
-    string** select_for_client(const string &username, int control, const string &order="id");
+    string** select(const string &username, int control,const string &order="users.id");
+    string** select_for_client(const string &username, int control, const string &order="users.id");
     int select_id(const string &username);
     string** select_single_order(const string &username, const string &cod_order);
     string** select_single_order_for_client(const string &username, const string &cod_order, const string &us_prov);
