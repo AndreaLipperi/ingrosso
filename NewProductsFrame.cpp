@@ -3,7 +3,7 @@
 //
 
 #include "NewProductsFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "storeMethods.h"
 #include "subcategories.h"
 #include "categories.h"
@@ -23,7 +23,7 @@ BEGIN_EVENT_TABLE (NewProductsFrame, wxFrame)
 END_EVENT_TABLE()
 
 NewProductsFrame::NewProductsFrame( const wxString &title) :
-        wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)){
+        wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 400)){
 
     TableCategories *table_cat;
 
@@ -46,7 +46,7 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     wxStaticText *SubCategory = new wxStaticText(this, -1, wxT("Subcategory"));
     wxStaticText *Name = new wxStaticText(this, -1, wxT("Product's name"));
     wxStaticText *Qty_avb= new wxStaticText(this, -1, wxT("Quantity available"));
-    wxStaticText *Cost= new wxStaticText(this, -1, wxT("Pirce €"));
+    wxStaticText *Cost= new wxStaticText(this, -1, wxT("Price €"));
 
     Insert=new wxButton (this,IdButtonInsert,_T ("Insert"),wxDefaultPosition,wxDefaultSize,0);
     Back=new wxButton(this,IdButtonComeBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
@@ -72,7 +72,7 @@ NewProductsFrame::NewProductsFrame( const wxString &title) :
     sizer->Add(SubCategory, 1, wxEXPAND | wxALL, 5);
     sizer->Add(choiceSubC, 0, wxALL, 5);
     sizer->Add(Name, 1, wxEXPAND | wxALL, 5);
-    sizer->Add(tcName, 1, wxALL, 5);
+    sizer->Add(tcName, 1, wxEXPAND | wxALL, 5);
     sizer->Add(Qty_avb, 1, wxEXPAND | wxALL, 5);
     sizer->Add(tcQ, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
     sizer->Add(Cost, 1, wxEXPAND | wxALL, 5);
@@ -117,7 +117,7 @@ void NewProductsFrame::InsertProduct(wxCommandEvent &event) {
         std::string Name = tcName->GetValue().ToStdString();
         std::string Quantity = to_string(tcQ->GetValue());
         std::string Price = to_string(tcC->GetValue());
-        std::string username = UsernameGlobal::GetInstance().GetValueUsername();
+        std::string username = GlobalVariables::GetInstance().GetValueUsername();
         Store *store = new Store(Quantity, Sub_category, Price, Name, username);
         TableStore table;
         table.add(*store);

@@ -12,25 +12,25 @@ const long RegisterFrame::IdButtonConfirm =::wxNewId();
 const long RegisterFrame::IdButtonProvider =::wxNewId();
 const long RegisterFrame::IdButtonBack =::wxNewId();
 const long RegisterFrame::IdButtonClient =::wxNewId();
+const long RegisterFrame::IdButtonVP =::wxNewId();
 
-BEGIN_EVENT_TABLE (RegisterFrame, wxDialog)
+BEGIN_EVENT_TABLE (RegisterFrame, wxFrame)
         EVT_BUTTON(IdButtonConfirm, RegisterFrame::Register)
         EVT_BUTTON(IdButtonBack, RegisterFrame::ComeBack)
         EVT_RADIOBUTTON(IdButtonClient, RegisterFrame::IsClient)
         EVT_RADIOBUTTON(IdButtonProvider, RegisterFrame::IsProvider)
+        EVT_BUTTON(IdButtonVP, RegisterFrame::ViewPass)
 END_EVENT_TABLE()
 
 RegisterFrame::RegisterFrame(const wxString &title):
-        wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
-
-
-    wxPanel *panel = new wxPanel(this, -1);
-
+        wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 700)) {
+    messageError="Password Not Equal";
+    messageCorrect="Password Equal";
     wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
     wxFlexGridSizer *fgs1=new wxFlexGridSizer(1,2, 12,-5);
 
-    wxFlexGridSizer *fgs = new wxFlexGridSizer(8, 2, 12, -5);
+    fgs = new wxFlexGridSizer(20, 1, 12, -5);
 
     TableCity table;
     std::vector<std::string> cities;
@@ -47,50 +47,55 @@ RegisterFrame::RegisterFrame(const wxString &title):
     cities.clear();
     choices.clear();
 
-    choiceC=new wxChoice(panel, wxID_ANY,wxDefaultPosition, wxDefaultSize);
+    choiceC=new wxChoice(this, wxID_ANY,wxDefaultPosition, wxDefaultSize);
     choiceC->Append("Select");
     choiceC->Append(table.number_of_city(),myString);
 
-    wxStaticText *type = new wxStaticText(panel, -1, wxT("Type"));
-    wxStaticText *business_name = new wxStaticText(panel, -1, wxT("Business_name"));
-    wxStaticText *address = new wxStaticText(panel, -1, wxT("Address"));
-    wxStaticText *city = new wxStaticText(panel, -1, wxT("City"));
-    wxStaticText *password = new wxStaticText(panel, -1, wxT("Password"));
-    wxStaticText *username = new wxStaticText(panel, -1, wxT("Username"));
-    wxStaticText *email=new wxStaticText(panel, -1, wxT("Email"));
+    wxStaticText *type = new wxStaticText(this, -1, wxT("Type"));
+    wxStaticText *business_name = new wxStaticText(this, -1, wxT("Business name"));
+    wxStaticText *address = new wxStaticText(this, -1, wxT("Address"));
+    wxStaticText *city = new wxStaticText(this, -1, wxT("City"));
+    wxStaticText *password = new wxStaticText(this, -1, wxT("Password"));
+    wxStaticText *username = new wxStaticText(this, -1, wxT("Username"));
+    wxStaticText *email=new wxStaticText(this, -1, wxT("Email"));
 
-    Confirm=new wxButton (panel,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
-    Back=new wxButton (panel,IdButtonBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
-    Provider=new wxRadioButton(panel,IdButtonProvider, _T("Provider"), wxDefaultPosition,wxDefaultSize,0 );
-    Client=new wxRadioButton(panel, IdButtonClient, _T("Client"), wxDefaultPosition, wxDefaultSize, 0);
+    Confirm=new wxButton (this,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
+    Back=new wxButton (this,IdButtonBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
+    Provider=new wxRadioButton(this,IdButtonProvider, _T("Provider"), wxDefaultPosition,wxDefaultSize,0 );
+    ViewP=new wxButton (this,IdButtonVP,_T ("View Password"),wxDefaultPosition,wxDefaultSize,0);
+    Client=new wxRadioButton(this, IdButtonClient, _T("Client"), wxDefaultPosition, wxDefaultSize, 0);
+    m_passwordConf = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(120, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+    m_passwordConf->Bind(wxEVT_TEXT, &RegisterFrame::OnTextChange, this);
+    txt_conf_psw = new wxStaticText(this, -1, wxT("Confirm Password"));
 
 
-
-    tcB_n = new wxTextCtrl(panel, -1);
-    tcA = new wxTextCtrl(panel, -1);
-    tcC = new wxTextCtrl(panel, -1);
-    tcU= new wxTextCtrl(panel, -1);
-    tcEm=new wxTextCtrl(panel, -1);
-    m_passwordText = new wxTextCtrl(panel, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+    tcB_n = new wxTextCtrl(this, -1);
+    tcA = new wxTextCtrl(this, -1);
+    tcU= new wxTextCtrl(this, -1);
+    tcEm=new wxTextCtrl(this, -1);
+    m_passwordText = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
 
     fgs1->Add(Provider,0);
     fgs1->Add(Client,0, wxLEFT, 70);
     fgs->Add(type);
-    fgs->Add(fgs1);
-    fgs->Add(business_name);
-    fgs->Add(tcB_n,1, wxEXPAND);
-    fgs->Add(address);
-    fgs->Add(tcA, 1, wxEXPAND);
-    fgs->Add(city);
-    fgs->Add(choiceC, 1, wxEXPAND);
-    fgs->Add(username);
-    fgs->Add(tcU, 1, wxEXPAND);
-    fgs->Add(email);
-    fgs->Add(tcEm, 1, wxEXPAND);
-    fgs->Add(password);
-    fgs->Add(m_passwordText, 1);
-    fgs->Add(Confirm,0);
-    fgs->Add(Back,0);
+    fgs->Insert(1,fgs1);
+    fgs->Insert(2,business_name);
+    fgs->Insert(3,tcB_n,1, wxEXPAND);
+    fgs->Insert(4,address);
+    fgs->Insert(5,tcA, 1, wxEXPAND);
+    fgs->Insert(6,city);
+    fgs->Insert(7,choiceC, 1, wxEXPAND);
+    fgs->Insert(8,username);
+    fgs->Insert(9,tcU, 1, wxEXPAND);
+    fgs->Insert(10,email);
+    fgs->Insert(11,tcEm, 1, wxEXPAND);
+    fgs->Insert(12,password);
+    fgs->Insert(13,m_passwordText, 1);
+    fgs->Insert(14,txt_conf_psw);
+    fgs->Insert(15,m_passwordConf, 1);
+    fgs->Insert(16,ViewP,0);
+    fgs->Insert(17,Confirm,0);
+    fgs->Insert(18,Back,0);
 
 
     fgs->AddGrowableRow(1, 1);
@@ -99,9 +104,7 @@ RegisterFrame::RegisterFrame(const wxString &title):
 
     hbox->Add(fgs, 1, wxALL, 10);
 
-
-
-    panel->SetSizer(hbox);
+    SetSizer(hbox);
 
     Centre();
 }
@@ -120,7 +123,7 @@ void RegisterFrame::IsClient(wxCommandEvent& event) {
 
 
 void RegisterFrame::Register(wxCommandEvent &event) {
-    if (t=="" || tcB_n->IsEmpty() || tcA->IsEmpty() || choiceC->GetSelection() == wxNOT_FOUND || tcU->IsEmpty() || tcEm->IsEmpty() || m_passwordText->IsEmpty()){
+    if (t=="" || tcB_n->IsEmpty() || tcA->IsEmpty() || choiceC->GetSelection() == wxNOT_FOUND || tcU->IsEmpty() || tcEm->IsEmpty() || m_passwordText->IsEmpty() || m_passwordConf->IsEmpty()){
         wxMessageBox("Insert every data.", "Error", wxICON_ERROR);
     } else {
 
@@ -130,6 +133,7 @@ void RegisterFrame::Register(wxCommandEvent &event) {
         std::string u = tcU->GetValue().ToStdString();
         std::string em = tcEm->GetValue().ToStdString();
         std::string psw = m_passwordText->GetValue().ToStdString();
+        std::string psw_conf = m_passwordConf->GetValue().ToStdString();
         int control_digit=0;
         int control_upper=0;
         for(int i=0; i<psw.length();i++){
@@ -140,7 +144,7 @@ void RegisterFrame::Register(wxCommandEvent &event) {
                 control_upper=control_upper+1;
             }
         }
-        if (control_digit>0 && psw.length()>=8 && control_upper>0) {
+        if (control_digit>0 && psw.length()>=8 && control_upper>0 && psw==psw_conf) {
             TableUsers table;
             int numResult;
             numResult = table.access_reg(em, psw, 1);
@@ -155,6 +159,8 @@ void RegisterFrame::Register(wxCommandEvent &event) {
             } else {
                 wxLogMessage("There is already an account with this email");
             }
+        } else if(psw!=psw_conf) {
+            wxLogMessage("The password and the confirm password must be equal");
         } else {
             wxLogMessage("The password should contain a number, a capital letter and a lenght >= of 8 characters");
         }
@@ -166,4 +172,60 @@ void RegisterFrame::ComeBack(wxCommandEvent &event) {
     SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
     home->Show(TRUE);
 }
+void RegisterFrame::ViewPass(wxCommandEvent &event) {
+    fgs->Hide(m_passwordText);
+    fgs->Hide(txt_conf_psw);
+    fgs->Hide(txt_message);
+    fgs->Hide(m_passwordConf);
+    fgs->Hide(ViewP);
+    fgs->Hide(Confirm);
+    fgs->Hide(Back);
+    std::string pass = m_passwordText->GetValue().ToStdString();
+    std::string pass_conf = m_passwordConf->GetValue().ToStdString();
+    if (m_passwordText->GetWindowStyle() & wxTE_PASSWORD) {
+        // Impostazione della proprietà wxTE_PROCESS_ENTER per visualizzare il testo
+        m_passwordText=new wxTextCtrl(this, wxID_ANY, pass, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PROCESS_ENTER);
+        m_passwordConf = new wxTextCtrl(this, wxID_ANY, pass_conf, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PROCESS_ENTER);
+        ViewP=new wxButton (this,IdButtonVP,_T ("Hide Password"),wxDefaultPosition,wxDefaultSize,0);
+    } else {
+        // Impostazione della proprietà wxTE_PASSWORD per nascondere il testo
+        m_passwordText=new wxTextCtrl(this, wxID_ANY, pass, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+        m_passwordConf = new wxTextCtrl(this, wxID_ANY, pass_conf, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+        ViewP=new wxButton (this,IdButtonVP,_T ("View Password"),wxDefaultPosition,wxDefaultSize,0);
+    }
+    m_passwordConf->Bind(wxEVT_TEXT, &RegisterFrame::OnTextChange, this);
+    txt_conf_psw = new wxStaticText(this, -1, wxT("Confirm Password"));
+    Confirm=new wxButton (this,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
+    Back=new wxButton (this,IdButtonBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
+    fgs->Insert(13,m_passwordText, 1);
+    fgs->Insert(14,txt_conf_psw);
+    fgs->Insert(15,m_passwordConf, 1);
+    fgs->Insert(16,ViewP,0);
+    fgs->Insert(17,Confirm,0);
+    fgs->Insert(18,Back,0);
+    wxSize currentSize = GetSize();
+    int newWidth = currentSize.GetWidth() +1;
+    int newHeight = currentSize.GetHeight() +1;
+    SetSize(newWidth, newHeight);
 
+}
+
+
+void RegisterFrame::OnTextChange(wxCommandEvent &event) {
+    fgs->Hide(txt_message);
+    std::string pass = m_passwordText->GetValue().ToStdString();
+    txt_message = new wxStaticText(this, -1, wxT(""));
+    std::string passConf = m_passwordConf->GetValue().ToStdString();
+    if (pass==passConf) {
+        txt_message->SetLabel(messageCorrect);
+        txt_message->SetOwnForegroundColour(wxColour(0,200,0));
+    } else {
+        txt_message->SetLabel(messageError);
+        txt_message->SetOwnForegroundColour(wxColour(200,0,0));
+    }
+    fgs->Insert(16,txt_message);
+    wxSize currentSize = GetSize();
+    int newWidth = currentSize.GetWidth() +1;
+    int newHeight = currentSize.GetHeight() +4;
+    SetSize(newWidth, newHeight);
+}

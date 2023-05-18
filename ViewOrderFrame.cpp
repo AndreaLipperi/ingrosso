@@ -3,7 +3,7 @@
 //
 
 #include "ViewOrderFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 
 const long ViewOrderFrame::IdButtonBack =::wxNewId();
 
@@ -17,7 +17,7 @@ END_EVENT_TABLE()
 ViewOrderFrame::ViewOrderFrame(const wxString &title,const std::string &code_order):
         wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
     order=code_order;
-    username=UsernameGlobal::GetInstance().GetValueUsername();
+    username=GlobalVariables::GetInstance().GetValueUsername();
 
     TableOrders orders;
     int row = orders.select_count_single_order(username, order);

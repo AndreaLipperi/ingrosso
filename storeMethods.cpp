@@ -14,7 +14,7 @@ TableStore::TableStore() {
 
     //metodo che crea in caso non esista
     //la tabella che contiene il magazzino di tutti i fornitori nel db
-    string query = "CREATE TABLE IF NOT EXISTS store (id INTEGER PRIMARY KEY autoincrement, available_quantity INT NOT NULL,price_product DOUBLE NOT NULL, desc_prod VARCHAR NOT NULL, id_sub INT NOT NULL, id_prov INT NOT NULL,FOREIGN KEY(id_sub) REFERENCES subcategories (id), FOREIGN KEY (id_prov) REFERENCES users (id))";
+    string query = "CREATE TABLE IF NOT EXISTS store (id INTEGER PRIMARY KEY autoincrement, available_quantity INT NOT NULL,price_product DOUBLE NOT NULL, desc_prod VARCHAR NOT NULL, id_sub INT NOT NULL, id_prov INT NOT NULL, id_intern INT NOT NULL,FOREIGN KEY(id_sub) REFERENCES subcategories (id), FOREIGN KEY (id_prov) REFERENCES users (id))";
     db.exec(query);
 
 }
@@ -50,6 +50,7 @@ void TableStore::add(const Store &store) {
 
     //lancio la query di inserimento nel db
     string query_insert="INSERT INTO store (available_quantity, price_product, desc_prod,id_sub, id_prov, id_intern) VALUES (" +data.get_quantity() + ", " + data.get_price() + ", '"+data.get_desc()+"', "+to_string(i)+", "+to_string(k)+", "+to_string(id_intern+1)+");";
+
     db.exec(query_insert);
 
 }
@@ -85,6 +86,12 @@ int TableStore::remove(const int &id_store) {
     if (count_cart>0) {
         return 0;
     }
+
+    //se il prodotto non è presente da nessuna parte
+    //lo elimino da tutti gli ordini già accettati o rifiutati
+    //per evitare futuri conflitti tra le tabelle
+    string query_del_from_ord="DELETE FROM orders WHERE id_store = "+ to_string(id_store)+"";
+    db.exec(query_del_from_ord);
 
     //se il prodotto non è presente da nessuna parte
     //lancio la query delete e ritorno 1
@@ -137,7 +144,7 @@ string** TableStore::select(const string &sub_name, const string &disp, const st
     //restituisco la matrice
     string select="SELECT desc_prod, price_product, username, CASE WHEN (available_quantity>0) THEN 'Available ('||available_quantity||')' ELSE 'Not Available' END,store.id FROM users,store WHERE id_prov=users.id AND id_sub="+
                                    to_string(i)+" AND available_quantity>="+ to_string(n_disp)+" ORDER BY "+str_order+";";
-    cout<< select;
+
     SQLite::Statement query(db,select);
     int m=0;
     int n=0;

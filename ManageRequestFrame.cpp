@@ -2,7 +2,7 @@
 // Created by Andrea Lipperi on 21/04/23.
 //
 #include "ManageRequestFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "ViewOrderFrame.h"
 
 
@@ -20,7 +20,7 @@ END_EVENT_TABLE()
 ManageRequestFrame::ManageRequestFrame(const wxString &title, int control):
         wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
     ctrl=control;
-    username=UsernameGlobal::GetInstance().GetValueUsername();
+    username=GlobalVariables::GetInstance().GetValueUsername();
     wxStaticText *order_txt = new wxStaticText(this, -1, wxT("Order By"));
     wxString myString[]={"Code Order", "Customer Name", "Date Order"};
     choiceOrder=new wxChoice(this, wxID_ANY,wxDefaultPosition, wxDefaultSize);
@@ -107,7 +107,11 @@ void ManageRequestFrame::OnConfirm(wxCommandEvent &event) {
         string new_status;
         new_status="A";
         table.changeStatus(username,mat_order[row][0],new_status);
-        grid->DeleteRows(row);
+        if (ctrl==0) {
+            grid->DeleteRows(row);
+        } else {
+            grid->SetCellValue(row, 3, "Accepted");
+        }
     }
 }
 void ManageRequestFrame::OnDeny(wxCommandEvent &event) {
@@ -125,7 +129,11 @@ void ManageRequestFrame::OnDeny(wxCommandEvent &event) {
         string new_status;
         new_status="D";
         table.changeStatus(username,mat_order[row][0],new_status);
-        grid->DeleteRows(row);
+        if (ctrl==0) {
+            grid->DeleteRows(row);
+        } else {
+            grid->SetCellValue(row, 3, "Denied");
+        }
     }
 }
 void ManageRequestFrame::ViewOrder(wxCommandEvent &event) {

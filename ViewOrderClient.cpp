@@ -3,7 +3,7 @@
 //
 
 #include "ViewOrderClient.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 
 const long ViewOrderClient::IdButtonBack =::wxNewId();
 
@@ -18,7 +18,7 @@ ViewOrderClient::ViewOrderClient(const wxString &title,const std::string &code_o
         wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
     order=code_order;
     prov=us_prov;
-    username=UsernameGlobal::GetInstance().GetValueUsername();
+    username=GlobalVariables::GetInstance().GetValueUsername();
 
     TableOrders orders;
     int row = orders.select_count_single_order_for_client(username, order, prov);

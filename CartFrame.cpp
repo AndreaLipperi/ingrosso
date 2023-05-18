@@ -4,7 +4,7 @@
 
 #include "CartFrame.h"
 #include "ordersMethods.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "orders.h"
 #include "cartMethods.h"
 #include "wx/grid.h"
@@ -26,7 +26,7 @@ END_EVENT_TABLE()
 CartFrame::CartFrame(const wxString &title):
         wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
 
-    username=UsernameGlobal::GetInstance().GetValueUsername();
+    username=GlobalVariables::GetInstance().GetValueUsername();
     TableCart cart;
     int row = cart.select_count(username);
     mat_cart=new string *[row];
@@ -99,7 +99,7 @@ void CartFrame::IsOrder(wxCommandEvent &event) {
     int year = now->tm_year + 1900; // anno attuale (tm_year contiene l'anno dal 1900)
     int month = now->tm_mon + 1; // mese attuale (tm_mon contiene il mese da 0 a 11)
     int day = now->tm_mday; // giorno attuale del mese
-    string data = ""+to_string(year)+"/"+ to_string(month)+"/"+ to_string(day)+"";
+    string data = ""+to_string(day)+"/"+ to_string(month)+"/"+ to_string(year)+"";
     int i=0;
     int j=0;
     int id_order[row];

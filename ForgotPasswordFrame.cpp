@@ -5,7 +5,7 @@
 #include "ForgotPasswordFrame.h"
 #include "SelectFrame.h"
 #include <wx/hyperlink.h>
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "Enter.h"
 #include "wx/wx.h"
 #include "MyApp.h"
@@ -18,11 +18,13 @@
 const long ForgotPasswordFrame::IdButtonConfirm =::wxNewId();
 const long ForgotPasswordFrame::IdButtonChange =::wxNewId();
 const long ForgotPasswordFrame::IdButtonBack =::wxNewId();
+const long ForgotPasswordFrame::IdButtonVP =::wxNewId();
 
 BEGIN_EVENT_TABLE (ForgotPasswordFrame, wxFrame)
                 EVT_BUTTON(IdButtonConfirm, ForgotPasswordFrame::Insert)
                 EVT_BUTTON(IdButtonChange, ForgotPasswordFrame::Change)
                 EVT_BUTTON(IdButtonBack, ForgotPasswordFrame::ComeBack)
+                EVT_BUTTON(IdButtonVP, ForgotPasswordFrame::ViewPass)
 
 END_EVENT_TABLE() // The button is pressed
 
@@ -30,23 +32,34 @@ END_EVENT_TABLE() // The button is pressed
 ForgotPasswordFrame::ForgotPasswordFrame(const wxString &title)
         : wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)){
 
+       wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
-    txt_email = new wxStaticText(this, -1, wxT("Email"));
-    Confirm=new wxButton (this,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
-    Back=new wxButton (this,IdButtonBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
+       fgs2 = new wxFlexGridSizer(3, 2, 12, 5);
+        fgs = new wxFlexGridSizer(9, 1, 12, -5);
 
-    tc1 = new wxTextCtrl(this, -1);
+        messageError="Password Not Equal";
+        messageCorrect="Password Equal";
+        txt_email = new wxStaticText(this, -1, wxT("Email"));
+        Confirm=new wxButton (this,IdButtonConfirm,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
+        Back=new wxButton (this,IdButtonBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
 
-    sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(txt_email);
-    sizer->Add(tc1, 0, wxEXPAND, 5);
-    sizer->Add(Confirm,0);
-    sizer->Add(Back,0);
-
-    SetSizer(sizer);
-    Centre();
+        tc1 = new wxTextCtrl(this, -1, wxT(""), wxDefaultPosition, wxSize(200, wxDefaultSize.GetHeight()));
 
 
+        fgs->Add(txt_email);
+        fgs->Add(tc1, 0, wxEXPAND, 5);
+        fgs->Add(Confirm,0);
+        fgs->Add(Back,0);
+
+        fgs->AddGrowableRow(1, 1);
+        fgs->AddGrowableCol(1, 1);
+
+
+        hbox->Add(fgs, 1, wxALL, 5);
+
+        SetSizer(hbox);
+
+        Centre();
 
 }
 
@@ -61,16 +74,26 @@ void ForgotPasswordFrame::Insert(wxCommandEvent &event){
         if (result == 0) {
             wxLogMessage("There is no account with this email");
         } else {
-            sizer->DeleteWindows();
+
+            fgs->DeleteWindows();
             txt_psw = new wxStaticText(this, -1, wxT("New Password"));
+            txt_conf_psw = new wxStaticText(this, -1, wxT("Confirm Password"));
             ChangeButton=new wxButton (this,IdButtonChange,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
-            m_passwordText = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+            ViewP=new wxButton (this,IdButtonVP,_T ("View Password"),wxDefaultPosition,wxDefaultSize,0);
+            m_passwordText = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(120, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+            m_passwordConf = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(120, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+            m_passwordConf->Bind(wxEVT_TEXT, &ForgotPasswordFrame::OnTextChange, this);
             Back=new wxButton (this,IdButtonBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
 
-            sizer->Add(txt_psw);
-            sizer->Add(m_passwordText,0, wxEXPAND);
-            sizer->Add(ChangeButton,0);
-            sizer->Add(Back,0);
+            fgs->Add(fgs2);
+            fgs2->Add(txt_psw);
+            fgs2->Add(m_passwordText,0, wxEXPAND);
+            fgs2->Add(txt_conf_psw);
+            fgs2->Add(m_passwordConf,0,wxEXPAND);
+            fgs->Add(ViewP,0);
+            fgs->Add(ChangeButton,0);
+            fgs->Add(Back,0);
+            fgs->Layout();
             wxSize currentSize = GetSize();
             int newWidth = currentSize.GetWidth() +1;
             int newHeight = currentSize.GetHeight() +1;
@@ -85,6 +108,7 @@ void ForgotPasswordFrame::Change(wxCommandEvent &event) {
         wxMessageBox("Insert Password.", "Error", wxICON_ERROR);
     } else {
         std::string psw = m_passwordText->GetValue().ToStdString();
+        std::string psw_conf = m_passwordConf->GetValue().ToStdString();
         int control_digit=0;
         int control_upper=0;
         for(int i=0; i<psw.length();i++){
@@ -95,13 +119,13 @@ void ForgotPasswordFrame::Change(wxCommandEvent &event) {
                 control_upper=control_upper+1;
             }
         }
-        if (control_digit>0 && psw.length()>=8 && control_upper>0) {
+        if (control_digit>0 && psw.length()>=8 && control_upper>0 && psw==psw_conf) {
             TableUsers table;
             table.changePsw(tc1->GetValue().ToStdString(), psw);
             Close();
             wxLogMessage("Password Changed");
             Enter *MainWin2 = new Enter(_T("ACCESS"));
-            MainWin2->ShowModal();
+            MainWin2->Show(TRUE);
         } else {
             wxLogMessage("The password should contain a number, a capital letter and a lenght >= of 8 characters");
         }
@@ -111,5 +135,64 @@ void ForgotPasswordFrame::Change(wxCommandEvent &event) {
 void ForgotPasswordFrame::ComeBack(wxCommandEvent &event) {
     Close();
     Enter *MainWin2 = new Enter(_T("ACCESS"));
-    MainWin2->ShowModal();
+    MainWin2->Show(TRUE);
+}
+void ForgotPasswordFrame::ViewPass(wxCommandEvent &event) {
+    std::string pass = m_passwordText->GetValue().ToStdString();
+    std::string passConf = m_passwordConf->GetValue().ToStdString();
+    int control;
+    string txt_button;
+    if (m_passwordText->GetWindowStyle() & wxTE_PASSWORD) {
+        control = 0;
+        txt_button ="Hide Password";
+        } else {
+        control = 1;
+        txt_button="View Password";
+    }
+    fgs->DeleteWindows();
+    txt_psw = new wxStaticText(this, -1, wxT("New Password"));
+    if (control==0){
+        m_passwordText = new wxTextCtrl(this, wxID_ANY, pass, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PROCESS_ENTER);
+        m_passwordConf = new wxTextCtrl(this, wxID_ANY, passConf, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PROCESS_ENTER);
+    } else {
+        m_passwordText=new wxTextCtrl(this, wxID_ANY, pass, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+        m_passwordConf = new wxTextCtrl(this, wxID_ANY, passConf, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+    }
+    m_passwordConf->Bind(wxEVT_TEXT, &ForgotPasswordFrame::OnTextChange, this);
+    txt_conf_psw = new wxStaticText(this, -1, wxT("Confirm Password"));
+    ViewP=new wxButton (this,IdButtonVP,txt_button,wxDefaultPosition,wxDefaultSize,0);
+    ChangeButton=new wxButton (this,IdButtonChange,_T ("Ok"),wxDefaultPosition,wxDefaultSize,0);
+    Back=new wxButton (this,IdButtonBack,_T ("Back"),wxDefaultPosition,wxDefaultSize,0);
+
+    fgs2->Insert(0,txt_psw);
+    fgs2->Insert(1,m_passwordText,0, wxEXPAND);
+    fgs2->Insert(2,txt_conf_psw);
+    fgs2->Insert(3,m_passwordConf,0,wxEXPAND);
+    fgs->Insert(5,ViewP,0);
+    fgs->Insert(6,ChangeButton,0);
+    fgs->Insert(7,Back,0);
+    wxSize currentSize = GetSize();
+    int newWidth = currentSize.GetWidth() +1;
+    int newHeight = currentSize.GetHeight() +1;
+    SetSize(newWidth, newHeight);
+
+}
+
+void ForgotPasswordFrame::OnTextChange(wxCommandEvent &event) {
+    fgs2->Hide(txt_message);
+    std::string pass = m_passwordText->GetValue().ToStdString();
+    txt_message = new wxStaticText(this, -1, wxT(""));
+    std::string passConf = m_passwordConf->GetValue().ToStdString();
+    if (pass==passConf) {
+        txt_message->SetLabel(messageCorrect);
+        txt_message->SetOwnForegroundColour(wxColour(0,200,0));
+    } else {
+        txt_message->SetLabel(messageError);
+        txt_message->SetOwnForegroundColour(wxColour(200,0,0));
+    }
+    fgs2->Insert(4,txt_message);
+    wxSize currentSize = GetSize();
+    int newWidth = currentSize.GetWidth() +1;
+    int newHeight = currentSize.GetHeight() +1;
+    SetSize(newWidth, newHeight);
 }

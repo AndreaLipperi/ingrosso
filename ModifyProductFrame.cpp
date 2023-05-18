@@ -3,7 +3,7 @@
 //
 
 #include "ModifyProductFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "storeMethods.h"
 
 

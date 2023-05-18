@@ -40,12 +40,12 @@ void SelectFrame::OnAccess(wxCommandEvent& event )
 {
     Close();
     Enter *MainWin2 = new Enter(_T("ACCESS"));
-    MainWin2->ShowModal(); // show the window
+    MainWin2->Show(TRUE); // show the window
     // and finally, set it as the main window
     // Tells the OS to quit running this process
 }
 void SelectFrame::OnRegister(wxCommandEvent& event){
     Close();
     RegisterFrame *MainWin3 = new RegisterFrame(_T("REGISTRATION"));
-    MainWin3->ShowModal();
+    MainWin3->Show(TRUE);
 }

@@ -6,7 +6,7 @@
 #include "OrderListClient.h"
 #include "ManageRequestFrame.h"
 #include "subcategoriesMethods.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "categoriesMethods.h"
 #include "ProdListFrame.h"
 #include <string>
@@ -27,7 +27,7 @@ END_EVENT_TABLE()
 
 ChooseStatusFrame::ChooseStatusFrame( const wxString &title) :
         wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)){
-    type=UsernameGlobal::GetInstance().GetValueType();
+    type=GlobalVariables::GetInstance().GetValueType();
 
     wxStaticText *txt = new wxStaticText(this, -1, wxT("CHOOSE STATUS OF THE ORDERS YOU WANT TO SEE"));
 
