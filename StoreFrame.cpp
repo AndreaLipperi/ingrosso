@@ -4,7 +4,7 @@
 
 
 #include "StoreFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "ModifyProductFrame.h"
 #define colonne 4
 const long StoreFrame::IdButtonDelete =::wxNewId();
@@ -21,7 +21,7 @@ END_EVENT_TABLE()
 StoreFrame::StoreFrame(const wxString &title):
         wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
 
-    username=UsernameGlobal::GetInstance().GetValueUsername();
+    username=GlobalVariables::GetInstance().GetValueUsername();
 
     wxStaticText *order = new wxStaticText(this, -1, wxT("Order By"));
     wxString myString[]={"Name Product", "Price", "Quantity Available"};

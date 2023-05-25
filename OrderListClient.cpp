@@ -3,7 +3,7 @@
 //
 
 #include "OrderListClient.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "ViewOrderClient.h"
 
 
@@ -19,7 +19,7 @@ END_EVENT_TABLE()
 OrderListClient::OrderListClient(const wxString &title, int control):
         wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
     ctrl=control;
-    username=UsernameGlobal::GetInstance().GetValueUsername();
+    username=GlobalVariables::GetInstance().GetValueUsername();
     wxStaticText *order_txt = new wxStaticText(this, -1, wxT("Order By"));
     wxString myString[]={"Code Order", "Provider Name", "Date Order"};
     choiceOrder=new wxChoice(this, wxID_ANY,wxDefaultPosition, wxDefaultSize);

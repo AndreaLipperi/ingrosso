@@ -6,7 +6,7 @@
 #include "ChooseStatusFrame.h"
 #include "StoreFrame.h"
 #include "SelectCityFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "ManageProFrame.h"
 #include "SelectFrame.h"
 
@@ -35,8 +35,8 @@ ProvidersFrame::ProvidersFrame(const wxString& title, const wxPoint& pos, const 
 
     wxPanel *panelHome = new wxPanel(this, -1);
 
-    username=UsernameGlobal::GetInstance().GetValueUsername();
-    type=UsernameGlobal::GetInstance().GetValueType();
+    username=GlobalVariables::GetInstance().GetValueUsername();
+    type=GlobalVariables::GetInstance().GetValueType();
 
     wxBoxSizer *box = new wxBoxSizer(wxHORIZONTAL);
     wxFlexGridSizer *MainGrid = new wxFlexGridSizer(2, 2, 25, -5);
@@ -93,8 +93,8 @@ void ProvidersFrame::OpenInsProd(wxCommandEvent &event) {
     EnterWin->Show(TRUE);
 }
 void ProvidersFrame::ComeBack(wxCommandEvent &event) {
-    UsernameGlobal::GetInstance().SetValueUsername("");
-    UsernameGlobal::GetInstance().SetValueType("");
+    GlobalVariables::GetInstance().SetValueUsername("");
+    GlobalVariables::GetInstance().SetValueType("");
     Close();
     SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
     home->Show(TRUE);
@@ -105,8 +105,8 @@ void ProvidersFrame::RemoveUser(wxCommandEvent &event)  {
         wxMessageBox("You can't delete your account because you have orders not accepted/denied or some of your product are in someone's favourites or cart", "Error", wxICON_ERROR);
     } else {
         wxMessageBox("Account removed, you'll be sent to registracion page", "Error", wxICON_ERROR);
-        UsernameGlobal::GetInstance().SetValueUsername("");
-        UsernameGlobal::GetInstance().SetValueType("");
+        GlobalVariables::GetInstance().SetValueUsername("");
+        GlobalVariables::GetInstance().SetValueType("");
         Close();
         SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
         home->Show(TRUE);

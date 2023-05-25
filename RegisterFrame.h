@@ -23,13 +23,14 @@
 
 
 
-class RegisterFrame : public wxDialog{
+class RegisterFrame : public wxFrame{
 public:
     RegisterFrame(const wxString& title);
 
     static const long IdButtonConfirm;
     static const long IdButtonBack;
     static const long IdButtonProvider;
+    static const long IdButtonVP;
     static const long IdButtonClient;
 DECLARE_EVENT_TABLE()
 
@@ -38,8 +39,12 @@ private:
     void Register(wxCommandEvent& event);
     void IsProvider(wxCommandEvent& event);
     void IsClient(wxCommandEvent& event);
+    void ViewPass(wxCommandEvent& event);
     void ComeBack(wxCommandEvent& event);
+    void OnTextChange(wxCommandEvent& event);
+    wxFlexGridSizer *fgs;
     wxButton *Confirm;
+    wxButton *ViewP;
     wxButton *Back;
     wxRadioButton *Provider;
     wxRadioButton *Client;
@@ -51,6 +56,12 @@ private:
     wxTextCtrl *tcU;
     wxTextCtrl *tcEm;
     wxTextCtrl *m_passwordText;
+    std::string messageError;
+    std::string messageCorrect;
+    std::string txt_button;
+    wxStaticText *txt_message;
+    wxTextCtrl *m_passwordConf;
+    wxStaticText *txt_conf_psw;
 
 };
 

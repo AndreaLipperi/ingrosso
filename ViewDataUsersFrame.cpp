@@ -4,7 +4,7 @@
 
 #include "ViewDataUsersFrame.h"
 #include "SelectCityFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "favourites.h"
 #include "favouritesMethods.h"
 #include "usersMethods.h"
@@ -22,7 +22,7 @@ END_EVENT_TABLE()
 ViewDataUsersFrame::ViewDataUsersFrame(const wxString &title, const std::string &var_city):
         wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
     city=var_city;
-    type=UsernameGlobal::GetInstance().GetValueType();
+    type=GlobalVariables::GetInstance().GetValueType();
 
     wxStaticText *order = new wxStaticText(this, -1, wxT("Order By"));
     choiceOrder = new wxChoice(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);

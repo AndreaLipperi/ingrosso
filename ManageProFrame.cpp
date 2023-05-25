@@ -3,24 +3,28 @@
 //
 
 #include "ManageProFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "cityMethods.h"
 #include "usersMethods.h"
 #include "users.h"
+#include "wx/textctrl.h"
 
 
 const long ManageProFrame::IdButtonConfirm =::wxNewId();
+const long ManageProFrame::IdButtonVP =::wxNewId();
 
-BEGIN_EVENT_TABLE (ManageProFrame, wxDialog)
+BEGIN_EVENT_TABLE (ManageProFrame, wxFrame)
                 EVT_BUTTON(IdButtonConfirm, ManageProFrame::OnConfirm)
+                EVT_BUTTON(IdButtonVP, ManageProFrame::ViewPass)
 END_EVENT_TABLE()
 
 ManageProFrame::ManageProFrame(const wxString &title):
-        wxDialog(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
-    username=UsernameGlobal::GetInstance().GetValueUsername();
-    type=UsernameGlobal::GetInstance().GetValueType();
+        wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(400, 400)) {
+    username=GlobalVariables::GetInstance().GetValueUsername();
+    type=GlobalVariables::GetInstance().GetValueType();
 
-
+    messageError="Password Not Equal";
+    messageCorrect="Password Equal";
 
     wxStaticText *address = new wxStaticText(this, -1, wxT("Address"));
     wxStaticText *city = new wxStaticText(this, -1, wxT("City"));
@@ -48,7 +52,7 @@ ManageProFrame::ManageProFrame(const wxString &title):
     choiceC->Append(table_city.number_of_city(),myString);
 
     Confirm=new wxButton (this,IdButtonConfirm,_T ("Confirm"),wxDefaultPosition,wxDefaultSize,0);
-
+    ViewP=new wxButton (this,IdButtonVP,_T ("View Password"),wxDefaultPosition,wxDefaultSize,0);
     TableUsers table;
     data_user=new string *[1];
     for (int k = 0; k < 1; k++) {
@@ -58,21 +62,27 @@ ManageProFrame::ManageProFrame(const wxString &title):
     tcA = new wxTextCtrl(this, wxID_ANY,data_user[0][0]);
     tcU= new wxTextCtrl(this, wxID_ANY,username);
     tcEm=new wxTextCtrl(this, wxID_ANY,data_user[0][2]);
+    txt_conf_psw = new wxStaticText(this, -1, wxT("Confirm Password"));
     m_passwordText = new wxTextCtrl(this, wxID_ANY, data_user[0][3], wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+    m_passwordConf = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(120, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+    m_passwordConf->Bind(wxEVT_TEXT, &ManageProFrame::OnTextChange, this);
 
     sizer = new wxBoxSizer(wxVERTICAL);
 
-    sizer->Add(address);
-    sizer->Add(tcA, 1, wxALL, 5);
-    sizer->Add(city);
-    sizer->Add(choiceC,1, wxALL, 5);
-    sizer->Add(usernameText);
-    sizer->Add(tcU, 1, wxALL, 5);
-    sizer->Add(email);
-    sizer->Add(tcEm, 1, wxALL, 5);
-    sizer->Add(password);
-    sizer->Add(m_passwordText,1, wxALL, 5);
-    sizer->Add(Confirm,0);
+    sizer->Insert(0,address);
+    sizer->Insert(1,tcA, 1, wxALL, 5);
+    sizer->Insert(2,city);
+    sizer->Insert(3,choiceC,1, wxALL, 5);
+    sizer->Insert(4,usernameText);
+    sizer->Insert(5,tcU, 1, wxALL, 5);
+    sizer->Insert(6,email);
+    sizer->Insert(7,tcEm, 1, wxALL, 5);
+    sizer->Insert(8,password);
+    sizer->Insert(9,m_passwordText,1, wxALL, 5);
+    sizer->Insert(10,txt_conf_psw);
+    sizer->Insert(11,m_passwordConf,1, wxALL, 5);
+    sizer->Insert(12,ViewP,0, wxALL, 5);
+    sizer->Insert(13,Confirm,0,wxALL, 5);
 
 
     SetSizer(sizer);
@@ -85,19 +95,88 @@ void ManageProFrame::OnConfirm(wxCommandEvent &event) {
     if (choiceC->GetSelection() == wxNOT_FOUND)
     {
         wxMessageBox("Choose a city", "Error", wxICON_ERROR);
+    } else if (m_passwordConf->IsEmpty()) {
+        wxMessageBox("Insert Confirm Password", "Error", wxICON_ERROR);
     } else {
-        Close();
-
         std::string b_n = data_user[0][4];
         std::string new_address = tcA->GetValue().ToStdString();
         int id_city = choiceC->GetSelection();
         std::string new_username = tcU->GetValue().ToStdString();
         std::string new_email = tcEm->GetValue().ToStdString();
-        std:
-        string new_pass = m_passwordText->GetValue().ToStdString();
-        Users *user = new Users(type, b_n, new_address, new_email, new_pass, new_username, id_city);
-        TableUsers table;
-        table.changeData(username, *user);
-        UsernameGlobal::GetInstance().SetValueUsername(user->get_username());
+        std::string new_pass = m_passwordText->GetValue().ToStdString();
+        std::string new_pass_conf = m_passwordConf->GetValue().ToStdString();
+        int control_digit=0;
+        int control_upper=0;
+        for(int i=0; i<new_pass.length();i++){
+            if (isdigit(new_pass[i])){
+                control_digit=control_digit+1;
+            }
+            if (isupper(new_pass[i])) {
+                control_upper=control_upper+1;
+            }
+        }
+        if (control_digit>0 && new_pass.length()>=8 && control_upper>0 && new_pass==new_pass_conf) {
+            Close();
+            Users *user = new Users(type, b_n, new_address, new_email, new_pass, new_username, id_city);
+            TableUsers table;
+            table.changeData(username, *user);
+            GlobalVariables::GetInstance().SetValueUsername(user->get_username());
+        } else if(new_pass!=new_pass_conf) {
+            wxLogMessage("The password and The confirm password must be equal");
+        } else {
+            wxLogMessage("The password should contain a number, a capital letter and a lenght >= of 8 characters");
+        }
     }
+}
+void ManageProFrame::ViewPass(wxCommandEvent &event) {
+    std::string pass = m_passwordText->GetValue().ToStdString();
+    std::string pass_conf = m_passwordConf->GetValue().ToStdString();
+    sizer->Hide(m_passwordText);
+    sizer->Hide(txt_conf_psw);
+    sizer->Hide(m_passwordConf);
+    sizer->Hide(txt_message);
+    sizer->Hide(ViewP);
+    sizer->Hide(Confirm);
+    if (m_passwordText->GetWindowStyle() & wxTE_PASSWORD) {
+        // Impostazione della proprietà wxTE_PROCESS_ENTER per visualizzare il testo
+        m_passwordText=new wxTextCtrl(this, wxID_ANY, pass, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PROCESS_ENTER);
+        m_passwordConf = new wxTextCtrl(this, wxID_ANY, pass_conf, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PROCESS_ENTER);
+        ViewP=new wxButton (this,IdButtonVP,_T ("Hide Password"),wxDefaultPosition,wxDefaultSize,0);
+    } else {
+        // Impostazione della proprietà wxTE_PASSWORD per nascondere il testo
+        m_passwordText=new wxTextCtrl(this, wxID_ANY, pass, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+        m_passwordConf = new wxTextCtrl(this, wxID_ANY, pass_conf, wxDefaultPosition, wxSize(150, wxDefaultSize.GetHeight()), wxTE_PASSWORD);
+        ViewP=new wxButton (this,IdButtonVP,_T ("View Password"),wxDefaultPosition,wxDefaultSize,0);
+    }
+    txt_conf_psw = new wxStaticText(this, -1, wxT("Confirm Password"));
+    m_passwordConf->Bind(wxEVT_TEXT, &ManageProFrame::OnTextChange, this);
+    Confirm=new wxButton (this,IdButtonConfirm,_T ("Confirm"),wxDefaultPosition,wxDefaultSize,0);
+    sizer->Insert(9,m_passwordText,1, wxALL, 5);
+    sizer->Insert(10,txt_conf_psw);
+    sizer->Insert(11,m_passwordConf,1, wxALL, 5);
+    sizer->Insert(12,ViewP,0, wxALL, 5);
+    sizer->Insert(13,Confirm,0, wxALL, 5);
+    wxSize currentSize = GetSize();
+    int newWidth = currentSize.GetWidth() +1;
+    int newHeight = currentSize.GetHeight() +4;
+    SetSize(newWidth, newHeight);
+
+}
+void ManageProFrame::OnTextChange(wxCommandEvent &event) {
+    sizer->Hide(txt_message);
+    std::string pass = m_passwordText->GetValue().ToStdString();
+    txt_message = new wxStaticText(this, -1, wxT(""));
+    std::string passConf = m_passwordConf->GetValue().ToStdString();
+    if (pass==passConf) {
+        txt_message->SetLabel(messageCorrect);
+        txt_message->SetOwnForegroundColour(wxColour(0,200,0));
+    } else {
+        txt_message->SetLabel(messageError);
+        txt_message->SetOwnForegroundColour(wxColour(200,0,0));
+    }
+    sizer->Insert(12,txt_message);
+    wxSize currentSize = GetSize();
+    int newWidth = currentSize.GetWidth() +1;
+    int newHeight = currentSize.GetHeight() +4;
+    SetSize(newWidth, newHeight);
 }

@@ -14,6 +14,7 @@ public:
     static const long IdButtonConfirm;
     static const long IdButtonChange;
     static const long IdButtonBack;
+    static const long IdButtonVP;
 
 DECLARE_EVENT_TABLE()
 
@@ -21,13 +22,24 @@ private:
     void Insert(wxCommandEvent& event);
     void Change(wxCommandEvent& event);
     void ComeBack(wxCommandEvent& event);
+    void ViewPass(wxCommandEvent& event);
+    void OnTextChange(wxCommandEvent& event);
+    wxButton *ViewP;
     wxButton *Confirm;
+    wxFlexGridSizer *fgs1;
+    wxFlexGridSizer *fgs2;
+    wxFlexGridSizer *fgs;
     wxButton *Back;
     wxButton *ChangeButton;
     wxStaticText *txt_email;
     wxStaticText *txt_psw;
-    wxBoxSizer *sizer;
+    wxStaticText *txt_conf_psw;
     wxTextCtrl *m_passwordText;
+    wxTextCtrl *m_passwordConf;
+    std::string messageError;
+    std::string messageCorrect;
+    std::string txt_button;
+    wxStaticText *txt_message;
     wxTextCtrl *tc1;
 };
 

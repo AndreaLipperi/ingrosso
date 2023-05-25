@@ -12,7 +12,7 @@
 #include "SelectCityFrame.h"
 #include "ManageProFrame.h"
 #include "FavouritesFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "CartFrame.h"
 
 
@@ -44,8 +44,8 @@ END_EVENT_TABLE()
 
 ClientFrame::ClientFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
         : wxFrame(NULL, wxID_ANY, title, pos, size){
-    username=UsernameGlobal::GetInstance().GetValueUsername();
-    type=UsernameGlobal::GetInstance().GetValueType();
+    username=GlobalVariables::GetInstance().GetValueUsername();
+    type=GlobalVariables::GetInstance().GetValueType();
 
 
     wxPanel *panelHome = new wxPanel(this, -1);
@@ -118,8 +118,8 @@ void ClientFrame::OpenOrdersList(wxCommandEvent &event) {
 }
 
 void ClientFrame::ComeBack(wxCommandEvent &event) {
-    UsernameGlobal::GetInstance().SetValueUsername("");
-    UsernameGlobal::GetInstance().SetValueType("");
+    GlobalVariables::GetInstance().SetValueUsername("");
+    GlobalVariables::GetInstance().SetValueType("");
     Close();
     SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
     home->Show(TRUE);
@@ -131,8 +131,8 @@ void ClientFrame::RemoveUser(wxCommandEvent &event) {
         wxMessageBox("You can't delete your account because you have orders not accepted/denied", "Error", wxICON_ERROR);
     } else {
         wxMessageBox("Account removed, you'll be sent to registracion page", "Error", wxICON_ERROR);
-        UsernameGlobal::GetInstance().SetValueUsername("");
-        UsernameGlobal::GetInstance().SetValueType("");
+        GlobalVariables::GetInstance().SetValueUsername("");
+        GlobalVariables::GetInstance().SetValueType("");
         Close();
         SelectFrame *home = new SelectFrame(_T("YOUR MARKET RIGHT HERE"), wxPoint(50, 20), wxSize(500, 300));
         home->Show(TRUE);

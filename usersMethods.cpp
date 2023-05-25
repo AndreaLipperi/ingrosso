@@ -6,9 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include "database.h"
-#include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/Statement.h>
-#include <SQLiteCpp/Database.h>
 #include <string>
 #define accesso 0
 #define registrazione 1
@@ -18,7 +16,7 @@ TableUsers::TableUsers() {
 
     //funzione per creare se non dovesse esistere nel database
     // la tabella che terrà gli utenti del programma
-    string query ="CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY autoincrement, type VARCHAR NOT NULL,business_name VARCHAR NOT NULL, address VARCHAR NOT NULL,city VARCHAR NOT NULL,email VARCHAR NOT NULL,password VARCHAR NOT NULL,username VARCHAR NOT NULL);";
+    string query ="CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY autoincrement, type VARCHAR NOT NULL,business_name VARCHAR NOT NULL, address VARCHAR NOT NULL,email VARCHAR NOT NULL,password VARCHAR NOT NULL,username VARCHAR NOT NULL, id_city INT NOT NULL, FOREIGN KEY (id_city) REFERENCES cities (id));";
     db.exec(query);
 
 }
@@ -67,7 +65,6 @@ int TableUsers::access_reg(const string &email, const string &psw, int control) 
 void TableUsers::add(const Users& emp) {
 
     //funzione che aggiunge un nuovo utente al database
-
     data=emp;
 
     //lancio la query di insert
@@ -83,7 +80,7 @@ int TableUsers::remove(const string &username, const string &type) {
     string query_select_id="SELECT id FROM users WHERE username='"+username+"'";
     int id=db.execAndGet(query_select_id).getInt();
 
-    //controllo il ripo di utente
+    //controllo il tipo di utente
     //'F' fornitore, 'C' cliente
     if (type=="F") {
         //controllo che il fornitore non abbia ordini in sospeso
@@ -99,7 +96,7 @@ int TableUsers::remove(const string &username, const string &type) {
         //nella lista dei preferiti di qualcuno
         //se li ha ritorno 0
         //non gli permetto di cancellarsi
-        string query_count_fav="SELECT count(*) FROM favoutites WHERE id_prov="+to_string(id)+"";
+        string query_count_fav="SELECT count(*) FROM favourites WHERE id_prov="+to_string(id)+"";
         int count_fav = db.execAndGet(query_count_fav).getInt();
         if (count_fav > 0) {
             return 0;
@@ -116,12 +113,17 @@ int TableUsers::remove(const string &username, const string &type) {
         }
 
         //se il fornitore non è presente da nessuna
+        //elimino i dati degli ordini di quell'utente
+        string query_del_ord="DELETE FROM orders WHERE id_prov = "+to_string(id)+"";
+        db.exec(query_del_ord);
+
+        //se il fornitore non è presente da nessuna
         //parte elimino tutti i suoi prodotti dal magazzino
         string query_del_store="DELETE FROM store WHERE id_prov = "+to_string(id)+"";
         db.exec(query_del_store);
 
         //infine cancello l'utente stesso
-        string query="DELETE FROM users WHERE username = '"+username+"'";
+        string query="DELETE FROM users WHERE id = "+ to_string(id)+"";
         db.exec(query);
 
         return 1;

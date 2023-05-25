@@ -15,17 +15,21 @@
 
 
 
-class ManageProFrame : public wxDialog{
+class ManageProFrame : public wxFrame{
 public:
     ManageProFrame(const wxString& title);
 
     static const long IdButtonConfirm;
+    static const long IdButtonVP;
 DECLARE_EVENT_TABLE()
 
 
 private:
     void OnConfirm(wxCommandEvent& event);
+    void ViewPass(wxCommandEvent& event);
+    void OnTextChange(wxCommandEvent& event);
     wxButton *Confirm;
+    wxButton *ViewP;
     std::string username;
     wxBoxSizer *sizer;
     wxChoice* choiceC;
@@ -35,6 +39,12 @@ private:
     wxTextCtrl *tcU;
     wxTextCtrl *tcEm;
     wxTextCtrl *m_passwordText;
+    std::string messageError;
+    std::string messageCorrect;
+    std::string txt_button;
+    wxStaticText *txt_message;
+    wxTextCtrl *m_passwordConf;
+    wxStaticText *txt_conf_psw;
 
 };
 

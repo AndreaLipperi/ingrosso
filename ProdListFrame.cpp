@@ -4,7 +4,7 @@
 
 #include "ProdListFrame.h"
 #include "SelectSubFrame.h"
-#include "UsernameGlobal.h"
+#include "GlobalVariables.h"
 #include "favourites.h"
 #include "favouritesMethods.h"
 #include "cartMethods.h"
@@ -27,7 +27,7 @@ ProdListFrame::ProdListFrame(const wxString &title, const std::string &sub, cons
         wxFrame(NULL, -1, title, wxPoint(-1, -1), wxSize(500, 350)) {
     sub_name=sub;
     disponibility=disp;
-    username=UsernameGlobal::GetInstance().GetValueUsername();
+    username=GlobalVariables::GetInstance().GetValueUsername();
 
     wxStaticText *order = new wxStaticText(this, -1, wxT("Order By"));
     wxString myString[]={"Name Product", "Price", "Provider Name"};
@@ -135,7 +135,7 @@ void ProdListFrame::IsInsert(wxCommandEvent &event) {
         for (size_t i = 0; i < selectedRows.GetCount(); i++) {
             row = selectedRows[i];
         }
-        std::string username_cust=UsernameGlobal::GetInstance().GetValueUsername();
+        std::string username_cust=GlobalVariables::GetInstance().GetValueUsername();
         TableCart table;
         int quantity = spinCtrl->GetValue();
         Cart *cart = new Cart(quantity,mat_store[row][4], username_cust, mat_store[row][2]);
