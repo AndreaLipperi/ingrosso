@@ -60,7 +60,7 @@ int TableUsers::access_reg(const string &email, const string &psw, int control) 
             return 1;
         }
     }
-    return 0;
+    //return 0;
 }
 void TableUsers::add(const Users& emp) {
 
