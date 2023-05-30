@@ -25,7 +25,7 @@ protected:
 TEST_F(UsersSuite, TestFindUser) {
     TableUsers user;
     string e = email;
-    string p = "ciao";
+    string p = "Ciaociao02";
     EXPECT_EQ(0,user.access_reg(e,p,0));
     EXPECT_EQ(0,user.access_reg(e,p,1));
 }
