@@ -385,5 +385,4 @@ void TableOrders::cancel_order(const std::string &username, const std::string &c
     int order=stoi(cod_order);
     string cancel="DELETE FROM orders WHERE id_single_order="+ to_string(order)+ " AND id_cust="+ to_string(id) +" AND id_prov="+to_string(id_prov)+"";
     db.exec(cancel);
-
 }
