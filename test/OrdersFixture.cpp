@@ -30,7 +30,7 @@ protected:
     TableOrders o1;
 };
 
-/*TEST_F(OrdersSuite, TestFindOrder) {
+TEST_F(OrdersSuite, TestFindOrder) {
 
     string query_id="SELECT id FROM users WHERE username = '" + username + "'";
     int id = db.execAndGet(query_id).getInt();
@@ -40,7 +40,7 @@ protected:
 
 
     EXPECT_EQ(1, o1.select_count_for_client(username, 0));
-}*/
+}
 
 TEST_F(OrdersSuite, TestChangeStatus) {
 
