@@ -40,10 +40,7 @@ protected:
 
     TEST_F(ProductsSuite, TestAddProduct) {
 
-        string query_id="SELECT id FROM users WHERE username = '" + username + "'";
-        int id = db.execAndGet(query_id).getInt();
-        Store product("10", "2", "1,02", "ciao", to_string(id));
-
+        Store product("10", "Pasta", "1.02", "ciao", username);
         TableStore p1;
         p1.add(product);
         EXPECT_EQ(1, p1.select_count_for_prov(username));

@@ -20,10 +20,7 @@
 class OrdersSuite : public ::testing::Test {
 
 protected:
-    virtual void SetUp() {
 
-
-    }
 
     string username = "andrea";
     string email = "andrealippe@gmail.com";
@@ -31,11 +28,10 @@ protected:
 };
 
 TEST_F(OrdersSuite, TestFindOrder) {
+    string query="DELETE FROM orders WHERE id_cust = 85";
+    db.exec(query);
 
-    string query_id="SELECT id FROM users WHERE username = '" + username + "'";
-    int id = db.execAndGet(query_id).getInt();
-
-    Orders order(10, 2, "S", "15/05/18", to_string(id), "114", ' ');
+    Orders order(10, 2, "S", "15/05/18", username, "dario", 1);
     o1.add(order);
 
 
@@ -45,14 +41,9 @@ TEST_F(OrdersSuite, TestFindOrder) {
 TEST_F(OrdersSuite, TestChangeStatus) {
 
 
-    string query_id_cust="SELECT id FROM users WHERE username = '" + username + "'";
-    int idc = db.execAndGet(query_id_cust).getInt();
-    string query_id_order="SELECT id FROM orders WHERE id_cust = '" + to_string(idc) + "'";
-    int id = db.execAndGet(query_id_order).getInt();
+    o1.changeStatus("dario", "1", "A");
 
-    o1.changeStatus(username, to_string(id), "A");
-
-    EXPECT_EQ(0, o1.select_count(username, 1));
+    EXPECT_EQ(0, o1.select_count("dario", 0));
 }
 TEST_F(OrdersSuite, TestDeleteOrder) {
 
@@ -63,7 +54,7 @@ TEST_F(OrdersSuite, TestDeleteOrder) {
     int id2 = db.execAndGet(query_id_prov).getInt();
 
     TableOrders o1;
-    o1.cancel_order(username, "5",to_string(id2));
+    o1.cancel_order(username, "1","dario");
 
-    EXPECT_EQ(0, o1.select_count(username, 0));
+    EXPECT_EQ(0, o1.select_count("dario", 0));
 }

@@ -50,7 +50,6 @@ void TableStore::add(const Store &store) {
 
     //lancio la query di inserimento nel db
     string query_insert="INSERT INTO store (available_quantity, price_product, desc_prod,id_sub, id_prov, id_intern) VALUES (" +data.get_quantity() + ", " + data.get_price() + ", '"+data.get_desc()+"', "+to_string(i)+", "+to_string(k)+", "+to_string(id_intern+1)+");";
-
     db.exec(query_insert);
 
 }
